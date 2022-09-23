@@ -53,7 +53,9 @@ public class CharacterInputController : MonoBehaviour {
 		
         //GetAxisRaw() so we can do filtering here instead of the InputManager
         float h = Input.GetAxisRaw("Horizontal");// setup h variable as our horizontal input axis
-        float v = Input.GetAxisRaw("Vertical"); // setup v variables as our vertical input axis
+		float v = Input.GetAxisRaw("Vertical"); // setup v variables as our vertical input axis
+        
+		Debug.Log($"Horizontal Turn: {h:0.00##}");
 
 
         if (InputMapToCircular)
@@ -66,11 +68,11 @@ public class CharacterInputController : MonoBehaviour {
         }
 
 
-        //BEGIN ANALOG ON KEYBOARD DEMO CODE
-        if (Input.GetKey(KeyCode.Q))
-            h = -0.5f;
-        else if (Input.GetKey(KeyCode.E))
-            h = 0.5f;
+        ////BEGIN ANALOG ON KEYBOARD DEMO CODE
+        //if (Input.GetKey(KeyCode.Q))
+        //    h = -0.5f;
+        //else if (Input.GetKey(KeyCode.E))
+        //    h = 0.5f;
 
         if (Input.GetKeyUp(KeyCode.Alpha1))
             forwardSpeedLimit = 0.1f;

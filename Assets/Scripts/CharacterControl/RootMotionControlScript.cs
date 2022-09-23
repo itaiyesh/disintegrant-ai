@@ -41,7 +41,9 @@ public class RootMotionControlScript : MonoBehaviour
     public float rootMovementSpeed = 1f;
     public float rootTurnSpeed = 1f;
 
-    private int groundContactCount = 0;
+	private int groundContactCount = 0;
+    
+	private Plane plane;
 
     public bool IsGrounded
     {
@@ -76,6 +78,7 @@ public class RootMotionControlScript : MonoBehaviour
 		//example of how to get access to certain limbs
 	    leftFoot = this.transform.Find("Root/Hips/UpperLeg_L/LowerLeg_L/Ankle_L");
 	    rightFoot = this.transform.Find("Root/Hips/UpperLeg_R/LowerLeg_R/Ankle_R");
+	    plane = new Plane(Vector3.up, Vector3.zero);
 
         if (leftFoot == null || rightFoot == null)
             Debug.Log("One of the feet could not be found");
@@ -97,23 +100,44 @@ public class RootMotionControlScript : MonoBehaviour
 
         }
         
-	    Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-	    RaycastHit hit;
+	    //Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+	    //RaycastHit hit;
  
-	    if(Physics.Raycast(ray, out hit))
-	    {
-	    	Vector3 newPos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-		    transform.LookAt(newPos); //instant look
+	    //if(Physics.Raycast(ray, out hit))
+	    //{
+	    //	Vector3 newPos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+		//    transform.LookAt(newPos); //instant look
 		    
-		    // time delayed look
-		    //Vector3 direction = newPos - transform.position;
+		//    // time delayed look
+		//    //Vector3 direction = newPos - transform.position;
 
-		    //if(direction == Vector3.zero) {
-		    //	return;
-		    //}
+		//    //if(direction == Vector3.zero) {
+		//    //	return;
+		//    //}
 
-		    //Quaternion rotation = Quaternion.LookRotation(direction);
-		    //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 10f * Time.deltaTime);
+		//    //Quaternion rotation = Quaternion.LookRotation(direction);
+		//    //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 10f * Time.deltaTime);
+	    //}
+	    
+	    //Create a ray from the Mouse position into the scene
+	    var ray = camera.ScreenPointToRay(Input.mousePosition);
+
+	    // Use this ray to Raycast against the mathematical floor plane
+	    // "enter" will be a float holding the distance from the camera 
+	    // to the point where the ray hit the plane
+	    if (plane.Raycast(ray, out var enter))
+	    {
+		    //Get the 3D world point where the ray hit the plane
+		    var hitPoint = ray.GetPoint(enter);
+
+		    // project the player position onto the plane so you get the position
+		    // only in XZ and can directly compare it to the mouse ray hit
+		    // without any difference in the Y axis
+		    var playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
+
+		    // now there are multiple options but you could simply rotate the player so it faces 
+		    // the same direction as the one from the playerPositionOnPlane -> hitPoint 
+		    transform.rotation = Quaternion.LookRotation(hitPoint-playerPositionOnPlane);
 	    }
         
     }
