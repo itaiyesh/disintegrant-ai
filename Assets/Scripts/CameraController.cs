@@ -13,10 +13,22 @@ public class CameraController : MonoBehaviour
 		offset = transform.position - player.transform.position;
 	}
 	
+	void Update()
+	{
+		if(Input.GetKey (KeyCode.E))
+		{
+			transform.RotateAround(transform.position, Vector3.up, 30 * Time.deltaTime);
+		}
+
+		if(Input.GetKey (KeyCode.Q))
+		{
+			transform.RotateAround(transform.position, -Vector3.up, 30 * Time.deltaTime);
+		}
+	}
 
 	// Update is called once per frame
-	void LateUpdate()
-	{
-		transform.position = player.transform.position + offset;
-	}
+	//void LateUpdate()
+	//{
+	//	transform.position = player.transform.position + offset;
+	//}
 }
