@@ -100,25 +100,7 @@ public class RootMotionControlScript : MonoBehaviour
 
         }
         
-	    //Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-	    //RaycastHit hit;
- 
-	    //if(Physics.Raycast(ray, out hit))
-	    //{
-	    //	Vector3 newPos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-		//    transform.LookAt(newPos); //instant look
-		    
-		//    // time delayed look
-		//    //Vector3 direction = newPos - transform.position;
-
-		//    //if(direction == Vector3.zero) {
-		//    //	return;
-		//    //}
-
-		//    //Quaternion rotation = Quaternion.LookRotation(direction);
-		//    //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 10f * Time.deltaTime);
-	    //}
-	    
+	    // Derived stack overflow post: https://stackoverflow.com/questions/61864195/how-do-i-rotate-my-player-based-on-my-current-world-mouse-position-3d-isometric
 	    //Create a ray from the Mouse position into the scene
 	    var ray = camera.ScreenPointToRay(Input.mousePosition);
 
@@ -135,8 +117,7 @@ public class RootMotionControlScript : MonoBehaviour
 		    // without any difference in the Y axis
 		    var playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
 
-		    // now there are multiple options but you could simply rotate the player so it faces 
-		    // the same direction as the one from the playerPositionOnPlane -> hitPoint 
+		    // rotate the player so it face the same direction as the one from the playerPositionOnPlane -> hitPoint 
 		    transform.rotation = Quaternion.LookRotation(hitPoint-playerPositionOnPlane);
 	    }
         
