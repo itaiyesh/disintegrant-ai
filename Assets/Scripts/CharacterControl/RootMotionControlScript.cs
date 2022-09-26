@@ -120,7 +120,16 @@ public class RootMotionControlScript : MonoBehaviour
 		    // rotate the player so it face the same direction as the one from the playerPositionOnPlane -> hitPoint 
 		    transform.rotation = Quaternion.LookRotation(hitPoint-playerPositionOnPlane);
 	    }
-        
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Vector3 mousePos = Input.mousePosition;
+            {
+                Debug.Log(mousePos.x);
+                Debug.Log(mousePos.y);
+            }
+        }
+
     }
      
 
