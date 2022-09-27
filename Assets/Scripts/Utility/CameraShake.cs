@@ -1,41 +1,39 @@
-//using System.Collections;
-//using System.Collections.Generic;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 // adapted from https://gamedevsolutions.com/camera-shake-effect-in-unity3d/ to simulated gun fire recoil
 // need to set up camera shake and camera that follows player independent:
 //https://forum.unity.com/threads/camera-shake-effect-when-camera-following-player.781820/
-
+//https://www.youtube.com/watch?v=BQGTdRhGmE4
 public class CameraShake : MonoBehaviour
 {
-    // Camera Information
-    public Transform cameraTransform;
-    private Vector3 orignalCameraPos;
-
-    // Shake Parameters
-    public float shakeAmount = 0.7f;
-
-
-
-    // Start is called before the first frame update
-    void Start()
+    public Transform CamTransform;
+    public AnimationCurve curve;
+    public bool start = false;
+    public float dur = 0.001f;
+    private void Update()
     {
-        orignalCameraPos = cameraTransform.localPosition;
+        if (Input.GetButtonDown("Fire1"))
+        {
+            StartCoroutine(Shaking());
+        }
+     
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator Shaking()
     {
-        //orignalCameraPos = cameraTransform.localPosition;
-        while (Input.GetButtonDown("Fire1"))
+        Vector3 startPosition = CamTransform.position;
+        float elap = 0f; 
+
+        while (elap < dur)//Input.GetButtonDown("Fire1"))
         {
-
-            Debug.Log("Mouse button hit!");
-            cameraTransform.localPosition = orignalCameraPos + Random.insideUnitSphere * shakeAmount;
+            Debug.Log("Pressed primary button.");
+            elap += Time.deltaTime;
+            CamTransform.position = startPosition + Random.insideUnitSphere;
+            yield return null;
         }
-
-        cameraTransform.localPosition = orignalCameraPos;
-        
+        transform.position = startPosition;
     }
 
 }
