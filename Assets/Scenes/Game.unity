@@ -3165,6 +3165,7 @@ GameObject:
   m_Component:
   - component: {fileID: 886876604}
   - component: {fileID: 886876605}
+  - component: {fileID: 886876606}
   m_Layer: 0
   m_Name: PlayerCamera
   m_TagString: Untagged
@@ -3201,6 +3202,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1939721587}
   smoothSpeed: 0.1
+--- !u!114 &886876606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886876603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc637328973bd44bf9d7da5261e73092, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 1141047611}
+  shakeAmount: 0.7
 --- !u!4 &897369496 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4718072007889550, guid: 8e0cbd5c9eb5cb445a4a8e7bb1c66ffb, type: 3}

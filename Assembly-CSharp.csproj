@@ -95,12 +95,13 @@
     <Compile Include="Assets/Scripts/MinionSupport/MinionAudioCancelOnDeath.cs" />
     <Compile Include="Assets/Scripts/CharacterControl/BasicControlScript.cs" />
     <Compile Include="Assets/Scripts/MinionSupport/MinionFootstepEvent.cs" />
+    <Compile Include="Assets/Scripts/Utility/setCursor.cs" />
     <Compile Include="Assets/Scripts/MinionSupport/MinionJabberEvent.cs" />
     <Compile Include="Assets/Scripts/AppEvents/DeathEvent.cs" />
     <Compile Include="Assets/Scripts/AppEvents/DemoEventListener.cs" />
     <Compile Include="Assets/Scripts/MinionSupport/MinionDeathEvent.cs" />
     <Compile Include="Assets/Scripts/AppEvents/NoParamEvent.cs" />
-    <Compile Include="Assets/Scripts/Utility/setCursor.cs" />
+    <Compile Include="Assets/Scripts/Utility/CameraShake.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets/PolygonSciFiSpace/Shaders/SyntyStudios_Asteroid.shader" />
