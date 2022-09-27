@@ -9,10 +9,9 @@ using UnityEngine;
 public class CameraShake : MonoBehaviour
 {
     public Transform CamTransform;
-    public AnimationCurve curve;
-    public bool start = false;
-    public float dur = 0.001f;
+    public float scale = 0.03f;
     private void Update()
+    
     {
         if (Input.GetButtonDown("Fire1"))
         {
@@ -24,16 +23,13 @@ public class CameraShake : MonoBehaviour
     IEnumerator Shaking()
     {
         Vector3 startPosition = CamTransform.position;
-        float elap = 0f; 
-
-        while (elap < dur)//Input.GetButtonDown("Fire1"))
+        
+        while (Input.GetMouseButton(0))
         {
-            Debug.Log("Pressed primary button.");
-            elap += Time.deltaTime;
-            CamTransform.position = startPosition + Random.insideUnitSphere;
+            CamTransform.position = startPosition + Random.insideUnitSphere * scale;
             yield return null;
         }
-        transform.position = startPosition;
+        CamTransform.position = startPosition;
     }
 
 }
