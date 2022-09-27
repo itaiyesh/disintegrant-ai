@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -11,6 +12,11 @@ using UnityEditor;
 [RequireComponent(typeof(CharacterInputController))]
 public class RootMotionControlScript : MonoBehaviour
 {
+    public Transform aimTarget;
+    public Rig aimLayer; 
+    public float enterAimModeSpeed = 0.1f;
+    public float exitAimModeSpeed = 0.5f;
+
     private Animator anim;	
     private Rigidbody rbody;
     private CharacterInputController cinput;
@@ -119,7 +125,18 @@ public class RootMotionControlScript : MonoBehaviour
 
 		    // rotate the player so it face the same direction as the one from the playerPositionOnPlane -> hitPoint 
 		    transform.rotation = Quaternion.LookRotation(hitPoint-playerPositionOnPlane);
+
+            aimTarget.transform.position = hitPoint;
 	    }
+
+        //TODO: Implement an "aim" mode.
+        if(Input.GetMouseButton(0)) 
+        {
+            aimLayer.weight += Time.deltaTime / enterAimModeSpeed;
+        } else 
+        {
+            aimLayer.weight -= Time.deltaTime / exitAimModeSpeed;
+        }
 
     }
      
