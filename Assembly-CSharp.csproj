@@ -57,7 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets/Scripts/CharacterControl/CharacterCommon.cs" />
-    <Compile Include="Assets/Scripts/Door.cs" />
+    <Compile Include="Assets/Door Prefab/Door.cs" />
     <Compile Include="Assets/Scripts/Utility/Auditor.cs" />
     <Compile Include="Assets/Scripts/EventSystem/EventManager.cs" />
     <Compile Include="Assets/Scripts/Utility/RigidbodyCenterOfMassHandleEditor.cs" />
@@ -90,9 +90,9 @@
     <Compile Include="Assets/Scripts/AppEvents/GauntletCompleteEvent.cs" />
     <Compile Include="Assets/Scripts/MinionSupport/MinionDeathAnimation.cs" />
     <Compile Include="Assets/Scripts/MinionSupport/MinionLandsEvent.cs" />
-    <Compile Include="Assets/SmoothDamp.cs" />
     <Compile Include="Assets/Scripts/CharacterControl/CharacterInputController.cs" />
     <Compile Include="Assets/Scripts/MinionSupport/MinionAudioCancelOnDeath.cs" />
+    <Compile Include="Assets/Scripts/Utility/CameraShake.cs" />
     <Compile Include="Assets/Scripts/CharacterControl/BasicControlScript.cs" />
     <Compile Include="Assets/Scripts/MinionSupport/MinionFootstepEvent.cs" />
     <Compile Include="Assets/Scripts/Utility/setCursor.cs" />
@@ -101,7 +101,6 @@
     <Compile Include="Assets/Scripts/AppEvents/DemoEventListener.cs" />
     <Compile Include="Assets/Scripts/MinionSupport/MinionDeathEvent.cs" />
     <Compile Include="Assets/Scripts/AppEvents/NoParamEvent.cs" />
-    <Compile Include="Assets/Scripts/Utility/CameraShake.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets/PolygonSciFiSpace/Shaders/SyntyStudios_Asteroid.shader" />
