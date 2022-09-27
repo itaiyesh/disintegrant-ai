@@ -8369,6 +8369,9 @@ MonoBehaviour:
   aimLayer: {fileID: 1920741793}
   enterAimModeSpeed: 0.1
   exitAimModeSpeed: 0.5
+  aimColliderLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
   initialMatchTargetsAnimTime: 0.25
   exitMatchTargetsAnimTime: 0.75
   camera: {fileID: 1141047613}

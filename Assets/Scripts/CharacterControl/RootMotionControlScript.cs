@@ -16,6 +16,7 @@ public class RootMotionControlScript : MonoBehaviour
     public Rig aimLayer; 
     public float enterAimModeSpeed = 0.1f;
     public float exitAimModeSpeed = 0.5f;
+    public LayerMask aimLayerMask = new LayerMask();
 
     private Animator anim;	
     private Rigidbody rbody;
@@ -125,11 +126,14 @@ public class RootMotionControlScript : MonoBehaviour
 
 		    // rotate the player so it face the same direction as the one from the playerPositionOnPlane -> hitPoint 
 		    transform.rotation = Quaternion.LookRotation(hitPoint-playerPositionOnPlane);
-
-            aimTarget.transform.position = hitPoint;
 	    }
 
-        //TODO: Implement an "aim" mode.
+        // Aim target
+	    if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimLayerMask))
+        {
+            aimTarget.position = raycastHit.point;
+	    }
+        //TODO: Implement a proper "aim" mode.
         if(Input.GetMouseButton(0)) 
         {
             aimLayer.weight += Time.deltaTime / enterAimModeSpeed;
