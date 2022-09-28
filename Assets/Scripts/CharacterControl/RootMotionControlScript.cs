@@ -14,9 +14,13 @@ public class RootMotionControlScript : MonoBehaviour
 {
     public Transform aimTarget;
     public Rig aimLayer; 
-    public float enterAimModeSpeed = 0.1f;
-    public float exitAimModeSpeed = 0.5f;
+    public float aimInSpeed = 20f;
+    public float aimOutSpeed = 5f;
+    public float aimDuration = 1f; //seconds
     public LayerMask aimLayerMask = new LayerMask();
+    public Transform projectile;
+    public Transform bulletSpawnPosition;
+    private float lastAimInTime;
 
     private Animator anim;	
     private Rigidbody rbody;
@@ -136,10 +140,22 @@ public class RootMotionControlScript : MonoBehaviour
         //TODO: Implement a proper "aim" mode.
         if(Input.GetMouseButton(0)) 
         {
-            aimLayer.weight += Time.deltaTime / enterAimModeSpeed;
+            lastAimInTime = Time.fixedTime;
+            aimLayer.weight = Mathf.Lerp(aimLayer.weight, 1f, Time.deltaTime*aimInSpeed);
+
         } else 
         {
-            aimLayer.weight -= Time.deltaTime / exitAimModeSpeed;
+            if(Time.fixedTime > lastAimInTime + aimDuration) 
+            {
+                aimLayer.weight = Mathf.Lerp(aimLayer.weight, 0f, Time.deltaTime*aimOutSpeed);
+            }
+        }
+
+        //Shooting
+        if(Input.GetMouseButtonDown(0))
+        {
+            Vector3 aimDirection = (aimTarget.position - bulletSpawnPosition.position).normalized;
+            Instantiate(projectile, bulletSpawnPosition.position, Quaternion.LookRotation(aimDirection, Vector3.up));
         }
 
     }
