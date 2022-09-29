@@ -43,3 +43,5 @@ ExportedObj/
 *.user
 *.userprefs
 *.pidb
+
+**/.DS_Store
