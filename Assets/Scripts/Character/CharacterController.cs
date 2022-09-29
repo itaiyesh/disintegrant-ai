@@ -160,7 +160,7 @@ public class CharacterController : MonoBehaviour
         if(Input.GetMouseButtonDown(0))
         {
             Vector3 aimDirection = (aimTarget.position - bulletSpawnPosition.position).normalized;
-            Instantiate(projectile, bulletSpawnPosition.position, Quaternion.LookRotation(aimDirection, Vector3.up));
+            //Instantiate(projectile, bulletSpawnPosition.position, Quaternion.LookRotation(aimDirection, Vector3.up));
         }
 
     }
