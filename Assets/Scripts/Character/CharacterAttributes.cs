@@ -33,9 +33,9 @@ public class CharacterAttributes : MonoBehaviour
 		{
 			if (modifier.DurationRemaining <= 0) { // Attribute duration finished, remove attribute
 				RemoveModifier(modifier);
-			} else {
+			} else if (modifier.State != ModifierState.REMOVED) {
 				modifier.DurationRemaining -= Time.deltaTime; // Decrement duration
-				modifier.OnUpdate(this.characterAttributes);
+				modifier.OnUpdateModifier(this.characterAttributes);
 			}
 		}
         

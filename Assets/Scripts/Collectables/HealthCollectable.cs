@@ -18,8 +18,7 @@ public class HealthCollectable : MonoBehaviour
 		{
 			isTriggered = true;
 			Destroy(this.gameObject); // Remove health pack
-			HealthModifier pickup = new HealthModifier(50); // Create health pickup that adds 30 health to player
-			this.player.GetComponent<CharacterAttributes>().AddModifier(pickup); // Add the modifier to the player
+			this.player.GetComponent<CharacterAttributes>().AddModifier(new HealthModifier(healthAmount: 50, trigger: ModifierTrigger.ON_ADD)); // Add a +50 health modifier to the player
 		}
 	}
 }
