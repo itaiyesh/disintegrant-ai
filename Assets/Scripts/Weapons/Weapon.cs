@@ -28,8 +28,8 @@ public class Weapon {
 	{
 		Type = type;
 		
-		WeaponPrefab = (GameObject) AssetDatabase.LoadAssetAtPath(weaponPrefabPath, typeof(GameObject)); // Load weapon prefab
-		ProjectilePrefab = (GameObject) AssetDatabase.LoadAssetAtPath(projectilePrefabPath, typeof(GameObject)); // Load projectile prefab
+		//WeaponPrefab = (GameObject) AssetDatabase.LoadAssetAtPath(weaponPrefabPath, typeof(GameObject)); // Load weapon prefab
+		//ProjectilePrefab = (GameObject) AssetDatabase.LoadAssetAtPath(projectilePrefabPath, typeof(GameObject)); // Load projectile prefab
 		
 		ProjectileDamageMultiplier = projectileDamageMultiplier;
 		ProjectileSpeedMultiplier = projectileSpeedMultiplier;
