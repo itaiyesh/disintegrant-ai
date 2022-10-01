@@ -1823,6 +1823,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!4 &1425512856 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3728002026892562267, guid: 244d7d726ab87e943be794f09d5af6fd, type: 3}
+  m_PrefabInstance: {fileID: 59318934}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1425710286
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2357,7 +2362,7 @@ MonoBehaviour:
   aimLayerMask:
     serializedVersion: 2
     m_Bits: 1
-  projectile: {fileID: 2814975722846135679, guid: 8e842ffd8b99c2d44b111a8817d0d92b, type: 3}
+  projectile: {fileID: 1425512856}
   bulletSpawnPosition: {fileID: 1855989891}
   initialMatchTargetsAnimTime: 0.25
   exitMatchTargetsAnimTime: 0.75
@@ -2381,9 +2386,11 @@ MonoBehaviour:
   characterAttributes:
     Health: 100
     MovementSpeedMultiplier: 1
-    WeaponDamageMultiplier: 1
     CurrentWeaponType: 0
-    CameraShakeEnabled: 0
+    WeaponProjectileDamageMultiplier: 1
+    WeaponProjectileSpeedMultiplier: 1
+    WeaponProjectileAccelerationMultiplier: 1
+    ExplosionShakeEnabled: 0
     TimeDilationEnabled: 0
     SkillHasGrenade: 0
 --- !u!1001 &1966601091

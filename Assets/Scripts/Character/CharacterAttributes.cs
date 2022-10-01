@@ -7,13 +7,23 @@ using UnityEngine;
 [System.Serializable]
 public class CharacterAttributeItems
 {
+	// Basics
 	public float Health = 100f;
+	
+	// Movement
 	public float MovementSpeedMultiplier = 1.0f;
-	public float WeaponDamageMultiplier = 1.0f;
+	
+	// Weapons
 	public WeaponType CurrentWeaponType = WeaponType.MACHINE_GUN;
-	public bool CameraShakeEnabled = false;
+	public float WeaponProjectileDamageMultiplier = 1.0f;
+	public float WeaponProjectileSpeedMultiplier = 1.0f;
+	public float WeaponProjectileAccelerationMultiplier = 1.0f;
+	
+	// Camera effects
+	public bool ExplosionShakeEnabled = false;
 	public bool TimeDilationEnabled = false;
 	
+	// Skills
 	public bool SkillHasGrenade = false;
 }
 
