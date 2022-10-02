@@ -1,12 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Events;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class AudioEventManager : MonoBehaviour
 {
-
     public EventSound3D eventSound3DPrefab;
+
+    public AudioClip[] gameMenuAudios;
 
     // public AudioClip[] minionJabberAudio = null;
     // public AudioClip[] boxAudio = null;
@@ -46,9 +47,11 @@ public class AudioEventManager : MonoBehaviour
     //
     // private UnityAction<Vector3> minionOuchEventListener;
 
+    private UnityAction<bool> backgroundAudioEventListener;
+
     void Awake()
     {
-
+        backgroundAudioEventListener = new UnityAction<bool>(BackgroundAudioEventHandler);
         // boxCollisionEventListener = new UnityAction<Vector3,float>(boxCollisionEventHandler);
         //
         // playerLandsEventListener = new UnityAction<Vector3, float>(playerLandsEventHandler);
@@ -78,14 +81,12 @@ public class AudioEventManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
-
-        			
     }
 
 
     void OnEnable()
     {
+        EventManager.StartListening<GameMenuAudioEvent, bool>(backgroundAudioEventListener);
 
         // EventManager.StartListening<BoxCollisionEvent, Vector3,float>(boxCollisionEventListener);
         // EventManager.StartListening<PlayerLandsEvent, Vector3, float>(playerLandsEventListener);
@@ -99,11 +100,11 @@ public class AudioEventManager : MonoBehaviour
         //EventManager.StartListening<MinionSpawnEvent, MinionScript>(minionSpawnEventListener);
         //EventManager.StartListening<MinionFootstepEvent, Vector3>(minionFootstepEventListener);
         //EventManager.StartListening<MinionOuchEvent, Vector3>(minionOuchEventListener);
-
     }
 
     void OnDisable()
     {
+        EventManager.StopListening<GameMenuAudioEvent, bool>(backgroundAudioEventListener);
 
         // EventManager.StopListening<BoxCollisionEvent, Vector3,float>(boxCollisionEventListener);
         // EventManager.StopListening<PlayerLandsEvent, Vector3, float>(playerLandsEventListener);
@@ -119,6 +120,23 @@ public class AudioEventManager : MonoBehaviour
         //EventManager.StopListening<MinionOuchEvent, Vector3>(minionOuchEventListener);
     }
 
+    private void BackgroundAudioEventHandler(bool enableBackgroundAudio)
+    {
+        var sound = Instantiate(eventSound3DPrefab);
+        Debug.Log("BackgroundAudioEventHandler enable sound: " + enableBackgroundAudio);
+        if (enableBackgroundAudio)
+        {
+            var index = 0; // randomly pick one now.
+            if (index >= gameMenuAudios.Length) return;
+            
+            sound.audioSrc.clip = gameMenuAudios[index];
+            sound.audioSrc.Play();
+        }
+        else
+        {
+            sound.audioSrc.Pause();
+        }
+    }
     // void boxCollisionEventHandler(Vector3 worldPos, float impactForce)
     // {
     //     //AudioSource.PlayClipAtPoint(this.boxAudio, worldPos);
@@ -303,7 +321,7 @@ public class AudioEventManager : MonoBehaviour
 
     //void minionDeathEventHandler(Vector3 pos, MinionScript ms)
     //{
-  
+
     //    if (minionDeathAudio)
     //    {
 
@@ -337,7 +355,7 @@ public class AudioEventManager : MonoBehaviour
     //        snd.audioSrc.Play();
     //    }
 
-  
+
     //    if (minionOuchAudio)
     //    {
 
