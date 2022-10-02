@@ -115,54 +115,6 @@ public class CharacterController : MonoBehaviour
             _inputActionFired = _inputActionFired || cinput.Action;
 
         }
-        
-	    // Derived stack overflow post: https://stackoverflow.com/questions/61864195/how-do-i-rotate-my-player-based-on-my-current-world-mouse-position-3d-isometric
-	    //Create a ray from the Mouse position into the scene
-	    var ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-
-	    // Use this ray to Raycast against the mathematical floor plane
-	    // "enter" will be a float holding the distance from the camera 
-	    // to the point where the ray hit the plane
-	    if (plane.Raycast(ray, out var enter))
-	    {
-		    //Get the 3D world point where the ray hit the plane
-		    var hitPoint = ray.GetPoint(enter);
-
-		    // project the player position onto the plane so you get the position
-		    // only in XZ and can directly compare it to the mouse ray hit
-		    // without any difference in the Y axis
-		    var playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
-
-		    // rotate the player so it face the same direction as the one from the playerPositionOnPlane -> hitPoint 
-		    transform.rotation = Quaternion.LookRotation(hitPoint-playerPositionOnPlane);
-	    }
-
-        // Aim target
-	    if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimLayerMask))
-        {
-            aimTarget.position = raycastHit.point;
-	    }
-        //TODO: Implement a proper "aim" mode.
-        if(Input.GetMouseButton(0)) 
-        {
-            lastAimInTime = Time.fixedTime;
-            aimLayer.weight = Mathf.Lerp(aimLayer.weight, 1f, Time.deltaTime*aimInSpeed);
-
-        } else 
-        {
-            if(Time.fixedTime > lastAimInTime + aimDuration) 
-            {
-                aimLayer.weight = Mathf.Lerp(aimLayer.weight, 0f, Time.deltaTime*aimOutSpeed);
-            }
-        }
-
-        //Shooting
-        if(Input.GetMouseButtonDown(0))
-        {
-            Vector3 aimDirection = (aimTarget.position - bulletSpawnPosition.position).normalized;
-            //Instantiate(projectile, bulletSpawnPosition.position, Quaternion.LookRotation(aimDirection, Vector3.up));
-        }
-
     }
      
 
@@ -190,7 +142,54 @@ public class CharacterController : MonoBehaviour
         // TODO HANDLE BUTTON MATCH TARGET HERE
         // get info about current animation
 	    var animState = anim.GetCurrentAnimatorStateInfo(0);
+	    
+	    
+	    // Derived stack overflow post: https://stackoverflow.com/questions/61864195/how-do-i-rotate-my-player-based-on-my-current-world-mouse-position-3d-isometric
+	    //Create a ray from the Mouse position into the scene
+	    var ray = playerCamera.ScreenPointToRay(Input.mousePosition);
 
+	    // Use this ray to Raycast against the mathematical floor plane
+	    // "enter" will be a float holding the distance from the camera 
+	    // to the point where the ray hit the plane
+	    if (plane.Raycast(ray, out var enter))
+	    {
+		    //Get the 3D world point where the ray hit the plane
+		    var hitPoint = ray.GetPoint(enter);
+
+		    // project the player position onto the plane so you get the position
+		    // only in XZ and can directly compare it to the mouse ray hit
+		    // without any difference in the Y axis
+		    var playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
+
+		    // rotate the player so it face the same direction as the one from the playerPositionOnPlane -> hitPoint 
+		    transform.rotation = Quaternion.LookRotation(hitPoint-playerPositionOnPlane);
+	    }
+
+	    // Aim target
+	    if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimLayerMask))
+	    {
+		    aimTarget.position = raycastHit.point;
+	    }
+	    //TODO: Implement a proper "aim" mode.
+	    if(Input.GetMouseButton(0)) 
+	    {
+		    lastAimInTime = Time.fixedTime;
+		    aimLayer.weight = Mathf.Lerp(aimLayer.weight, 1f, Time.deltaTime*aimInSpeed);
+
+	    } else 
+	    {
+		    if(Time.fixedTime > lastAimInTime + aimDuration) 
+		    {
+			    aimLayer.weight = Mathf.Lerp(aimLayer.weight, 0f, Time.deltaTime*aimOutSpeed);
+		    }
+	    }
+
+	    //Shooting
+	    if(Input.GetMouseButtonDown(0))
+	    {
+		    Vector3 aimDirection = (aimTarget.position - bulletSpawnPosition.position).normalized;
+		    //Instantiate(projectile, bulletSpawnPosition.position, Quaternion.LookRotation(aimDirection, Vector3.up));
+	    }
 
 	    anim.speed = animationSpeed;
         anim.SetFloat("velx", _inputTurn);
