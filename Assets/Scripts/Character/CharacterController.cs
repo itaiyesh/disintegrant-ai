@@ -12,7 +12,11 @@ using UnityEditor;
 [RequireComponent(typeof(CharacterInputController))]
 public class CharacterController : MonoBehaviour
 {
+    //This is the actual aiming position where projectiles/shots will be aimed at
     public Transform aimTarget;
+    //This is the aiming target of the body, separated from the above to allow smoother/non-snappy body aiming
+    public Transform bodyAimTarget;
+    public float bodyAimSpeed = 1f;
     public Rig aimLayer; 
     public float aimInSpeed = 20f;
     public float aimOutSpeed = 5f;
@@ -115,6 +119,19 @@ public class CharacterController : MonoBehaviour
             _inputActionFired = _inputActionFired || cinput.Action;
 
         }
+
+        var ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+        // Aim target
+	    if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimLayerMask))
+	    {
+		    aimTarget.position = raycastHit.point;
+            bodyAimTarget.position = Vector3.Lerp(bodyAimTarget.position, raycastHit.point, Time.deltaTime*bodyAimSpeed);
+	    }
+	    if(Input.GetMouseButtonDown(0))
+	    {
+		    Vector3 aimDirection = (aimTarget.position - bulletSpawnPosition.position).normalized;
+		    Instantiate(projectile, bulletSpawnPosition.position, Quaternion.LookRotation(aimDirection, Vector3.up));
+	    }
     }
      
 
@@ -165,11 +182,6 @@ public class CharacterController : MonoBehaviour
 		    transform.rotation = Quaternion.LookRotation(hitPoint-playerPositionOnPlane);
 	    }
 
-	    // Aim target
-	    if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimLayerMask))
-	    {
-		    aimTarget.position = raycastHit.point;
-	    }
 	    //TODO: Implement a proper "aim" mode.
 	    if(Input.GetMouseButton(0)) 
 	    {
@@ -182,13 +194,6 @@ public class CharacterController : MonoBehaviour
 		    {
 			    aimLayer.weight = Mathf.Lerp(aimLayer.weight, 0f, Time.deltaTime*aimOutSpeed);
 		    }
-	    }
-
-	    //Shooting
-	    if(Input.GetMouseButtonDown(0))
-	    {
-		    Vector3 aimDirection = (aimTarget.position - bulletSpawnPosition.position).normalized;
-		    //Instantiate(projectile, bulletSpawnPosition.position, Quaternion.LookRotation(aimDirection, Vector3.up));
 	    }
 
 	    anim.speed = animationSpeed;
