@@ -129,8 +129,9 @@ public class CharacterController : MonoBehaviour
 	    }
 	    if(Input.GetMouseButtonDown(0))
 	    {
+            //ToDo: Itai, can you fix the projectile/get rid of it if not needed?
 		    Vector3 aimDirection = (aimTarget.position - bulletSpawnPosition.position).normalized;
-		    Instantiate(projectile, bulletSpawnPosition.position, Quaternion.LookRotation(aimDirection, Vector3.up));
+		    //Instantiate(projectile, bulletSpawnPosition.position, Quaternion.LookRotation(aimDirection, Vector3.up));
 	    }
     }
      
