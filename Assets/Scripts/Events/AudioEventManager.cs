@@ -47,11 +47,11 @@ public class AudioEventManager : MonoBehaviour
     //
     // private UnityAction<Vector3> minionOuchEventListener;
 
-    private UnityAction<bool> backgroundAudioEventListener;
+    private UnityAction<bool> menuBackgroundAudioEventListener;
 
     void Awake()
     {
-        backgroundAudioEventListener = new UnityAction<bool>(BackgroundAudioEventHandler);
+        menuBackgroundAudioEventListener = new UnityAction<bool>(MenuBackgroundAudioEventHandler);
         // boxCollisionEventListener = new UnityAction<Vector3,float>(boxCollisionEventHandler);
         //
         // playerLandsEventListener = new UnityAction<Vector3, float>(playerLandsEventHandler);
@@ -86,7 +86,7 @@ public class AudioEventManager : MonoBehaviour
 
     void OnEnable()
     {
-        EventManager.StartListening<GameMenuAudioEvent, bool>(backgroundAudioEventListener);
+        EventManager.StartListening<GameMenuBackgroundAudioEvent, bool>(menuBackgroundAudioEventListener);
 
         // EventManager.StartListening<BoxCollisionEvent, Vector3,float>(boxCollisionEventListener);
         // EventManager.StartListening<PlayerLandsEvent, Vector3, float>(playerLandsEventListener);
@@ -104,7 +104,7 @@ public class AudioEventManager : MonoBehaviour
 
     void OnDisable()
     {
-        EventManager.StopListening<GameMenuAudioEvent, bool>(backgroundAudioEventListener);
+        EventManager.StopListening<GameMenuBackgroundAudioEvent, bool>(menuBackgroundAudioEventListener);
 
         // EventManager.StopListening<BoxCollisionEvent, Vector3,float>(boxCollisionEventListener);
         // EventManager.StopListening<PlayerLandsEvent, Vector3, float>(playerLandsEventListener);
@@ -120,15 +120,14 @@ public class AudioEventManager : MonoBehaviour
         //EventManager.StopListening<MinionOuchEvent, Vector3>(minionOuchEventListener);
     }
 
-    private void BackgroundAudioEventHandler(bool enableBackgroundAudio)
+    private void MenuBackgroundAudioEventHandler(bool enableBackgroundAudio)
     {
         var sound = Instantiate(eventSound3DPrefab);
-        Debug.Log("BackgroundAudioEventHandler enable sound: " + enableBackgroundAudio);
         if (enableBackgroundAudio)
         {
             var index = 0; // randomly pick one now.
             if (index >= gameMenuAudios.Length) return;
-            
+
             sound.audioSrc.clip = gameMenuAudios[index];
             sound.audioSrc.Play();
         }
