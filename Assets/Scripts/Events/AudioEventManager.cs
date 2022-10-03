@@ -140,6 +140,7 @@ public class AudioEventManager : MonoBehaviour
             if (index >= gameMenuAudios.Length) return;
 
             sound.audioSrc.clip = gameMenuAudios[index];
+            sound.audioSrc.loop = true;
             sound.audioSrc.Play();
         }
         else
