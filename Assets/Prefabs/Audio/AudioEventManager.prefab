@@ -45,6 +45,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventSound3DPrefab: {fileID: 8425458689726505173, guid: 660d58f3fc7ab4cd3ab895009ca4eac7, type: 3}
   gameMenuAudios:
-  - {fileID: 8300000, guid: dc1a160c74c0f134c95d17146411b49f, type: 3}
-  menuButtonHighlightedAudio: {fileID: 8300000, guid: 1eed2aa07452dd84d9ccb0655b0171f9, type: 3}
-  menuButtonClickedAudio: {fileID: 8300000, guid: 156685e9de7866c438f25c3e062909ab, type: 3}
+  - {fileID: 8300000, guid: 847e127c6d755cd4191a41bac80490ae, type: 3}
+  menuButtonHighlightedAudio: {fileID: 8300000, guid: 23f874a7a17728341a3b5a06f79824aa, type: 3}
+  menuButtonClickedAudio: {fileID: 8300000, guid: 54793823f76e3a2489a81df960f9f254, type: 3}
