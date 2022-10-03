@@ -1,13 +1,16 @@
 ﻿using Events;
+using Menu;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 public class AudioEventManager : MonoBehaviour
 {
     public EventSound3D eventSound3DPrefab;
 
     public AudioClip[] gameMenuAudios;
+
+    public AudioClip menuButtonHighlightedAudio;
+    public AudioClip menuButtonClickedAudio;
 
     // public AudioClip[] minionJabberAudio = null;
     // public AudioClip[] boxAudio = null;
@@ -49,9 +52,13 @@ public class AudioEventManager : MonoBehaviour
 
     private UnityAction<bool> menuBackgroundAudioEventListener;
 
+    private UnityAction<MenuButtonEventListener.ButtonEvent> menuButtonEventListener;
+
     void Awake()
     {
         menuBackgroundAudioEventListener = new UnityAction<bool>(MenuBackgroundAudioEventHandler);
+        menuButtonEventListener = new UnityAction<MenuButtonEventListener.ButtonEvent>(MenuButtonAudioEventHandler);
+        
         // boxCollisionEventListener = new UnityAction<Vector3,float>(boxCollisionEventHandler);
         //
         // playerLandsEventListener = new UnityAction<Vector3, float>(playerLandsEventHandler);
@@ -87,6 +94,8 @@ public class AudioEventManager : MonoBehaviour
     void OnEnable()
     {
         EventManager.StartListening<GameMenuBackgroundAudioEvent, bool>(menuBackgroundAudioEventListener);
+        EventManager.StartListening<GameMenuButtonAudioEvent, MenuButtonEventListener.ButtonEvent>(
+            menuButtonEventListener);
 
         // EventManager.StartListening<BoxCollisionEvent, Vector3,float>(boxCollisionEventListener);
         // EventManager.StartListening<PlayerLandsEvent, Vector3, float>(playerLandsEventListener);
@@ -105,6 +114,8 @@ public class AudioEventManager : MonoBehaviour
     void OnDisable()
     {
         EventManager.StopListening<GameMenuBackgroundAudioEvent, bool>(menuBackgroundAudioEventListener);
+        EventManager.StopListening<GameMenuButtonAudioEvent, MenuButtonEventListener.ButtonEvent>(
+            menuButtonEventListener);
 
         // EventManager.StopListening<BoxCollisionEvent, Vector3,float>(boxCollisionEventListener);
         // EventManager.StopListening<PlayerLandsEvent, Vector3, float>(playerLandsEventListener);
@@ -136,6 +147,25 @@ public class AudioEventManager : MonoBehaviour
             sound.audioSrc.Pause();
         }
     }
+
+    private void MenuButtonAudioEventHandler(MenuButtonEventListener.ButtonEvent buttonEvent)
+    {
+        var sound = Instantiate(eventSound3DPrefab);
+        AudioClip audioClip;
+        switch (buttonEvent)
+        {
+            case MenuButtonEventListener.ButtonEvent.ButtonClick:
+                audioClip = menuButtonClickedAudio;
+                break;
+            default:
+                audioClip = menuButtonHighlightedAudio;
+                break;
+        }
+
+        sound.audioSrc.clip = audioClip;
+        sound.audioSrc.Play();
+    }
+
     // void boxCollisionEventHandler(Vector3 worldPos, float impactForce)
     // {
     //     //AudioSource.PlayClipAtPoint(this.boxAudio, worldPos);
