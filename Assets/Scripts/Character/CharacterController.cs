@@ -9,22 +9,13 @@ using UnityEditor;
 
 //require some things the bot control needs
 [RequireComponent(typeof(Animator), typeof(Rigidbody), typeof(CapsuleCollider))]
-[RequireComponent(typeof(CharacterInputController))]
+[RequireComponent(typeof(CharacterInputController)), RequireComponent(typeof(WeaponController))]
 public class CharacterController : MonoBehaviour
 {
-    //This is the actual aiming position where projectiles/shots will be aimed at
+    private WeaponController weaponController;
     public Transform aimTarget;
-    //This is the aiming target of the body, separated from the above to allow smoother/non-snappy body aiming
-    public Transform bodyAimTarget;
-    public float bodyAimSpeed = 1f;
     public Rig aimLayer; 
-    public float aimInSpeed = 20f;
-    public float aimOutSpeed = 5f;
-    public float aimDuration = 1f; //seconds
     public LayerMask aimLayerMask = new LayerMask();
-    public Transform projectile;
-    public Transform bulletSpawnPosition;
-    private float lastAimInTime;
 
     private Animator anim;	
     private Rigidbody rbody;
@@ -89,6 +80,8 @@ public class CharacterController : MonoBehaviour
 	    
 	    if (playerCamera == null)
 		    Debug.Log("Camera could not be found");
+
+        weaponController = GetComponent<WeaponController>();
     }
 
 
@@ -125,14 +118,29 @@ public class CharacterController : MonoBehaviour
 	    if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimLayerMask))
 	    {
 		    aimTarget.position = raycastHit.point;
-            bodyAimTarget.position = Vector3.Lerp(bodyAimTarget.position, raycastHit.point, Time.deltaTime*bodyAimSpeed);
 	    }
 	    if(Input.GetMouseButtonDown(0))
 	    {
-            //ToDo: Itai, can you fix the projectile/get rid of it if not needed?
-		    Vector3 aimDirection = (aimTarget.position - bulletSpawnPosition.position).normalized;
+            weaponController.Attack(aimTarget);
+            // Vector3 aimDirection = (aimTarget.position - bulletSpawnPosition.position).normalized;
 		    //Instantiate(projectile, bulletSpawnPosition.position, Quaternion.LookRotation(aimDirection, Vector3.up));
 	    }
+
+        //test
+        // if(Input.GetKeyDown("x"))
+        // {
+        //     Debug.Log("Next weapon");
+        //     weaponController.NextWeapon();
+        // }
+        if(Input.GetAxis("Mouse ScrollWheel") > 0f)
+        {
+            weaponController.NextWeapon();
+        }
+        if(Input.GetAxis("Mouse ScrollWheel") < 0f)
+        {
+            weaponController.PreviousWeapon();
+        }
+        
     }
      
 
@@ -184,18 +192,18 @@ public class CharacterController : MonoBehaviour
 	    }
 
 	    //TODO: Implement a proper "aim" mode.
-	    if(Input.GetMouseButton(0)) 
-	    {
-		    lastAimInTime = Time.fixedTime;
-		    aimLayer.weight = Mathf.Lerp(aimLayer.weight, 1f, Time.deltaTime*aimInSpeed);
+	    // if(Input.GetMouseButton(0)) 
+	    // {
+		//     // lastAimInTime = Time.fixedTime;
+		//     // aimLayer.weight = Mathf.Lerp(aimLayer.weight, 1f, Time.deltaTime*aimInSpeed);
 
-	    } else 
-	    {
-		    if(Time.fixedTime > lastAimInTime + aimDuration) 
-		    {
-			    aimLayer.weight = Mathf.Lerp(aimLayer.weight, 0f, Time.deltaTime*aimOutSpeed);
-		    }
-	    }
+	    // } else 
+	    // {
+		//     if(Time.fixedTime > lastAimInTime + aimDuration) 
+		//     {
+		// 	    aimLayer.weight = Mathf.Lerp(aimLayer.weight, 0f, Time.deltaTime*aimOutSpeed);
+		//     }
+	    // }
 
 	    anim.speed = animationSpeed;
         anim.SetFloat("velx", _inputTurn);
