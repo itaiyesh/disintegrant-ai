@@ -1,4 +1,5 @@
 using System;
+using Events;
 using UnityEngine;
 
 public enum WeaponCategory {
@@ -34,6 +35,11 @@ public class WeaponConfig {
                 Debug.LogError("Unsupported weapon type");
                 break;
         }
+        PlaySound(sound, bulletSpawnPosition.position);
     }
 
+    private void PlaySound(AudioClip audioClip, Vector3 position)
+    {
+        EventManager.TriggerEvent<WeaponFiredEvent, AudioClip, Vector3>(audioClip, position);
+    }
 }
