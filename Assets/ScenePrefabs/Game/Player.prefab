@@ -5167,14 +5167,17 @@ MonoBehaviour:
     projectile: {fileID: 8708175371260511287, guid: 8e842ffd8b99c2d44b111a8817d0d92b, type: 3}
     weaponType: 0
     bulletSpawnPosition: {fileID: 960071039384545631}
+    sound: {fileID: 8300000, guid: 227f2b05e45ee4003aa4bca234af6da0, type: 3}
   - tag: rifle
     projectile: {fileID: 8708175371260511287, guid: 8e842ffd8b99c2d44b111a8817d0d92b, type: 3}
     weaponType: 0
     bulletSpawnPosition: {fileID: 6792266989312475735}
+    sound: {fileID: 8300000, guid: 73597ce806353e8499ffc3ab9a90c3b5, type: 3}
   - tag: shotgun
     projectile: {fileID: 8708175371260511287, guid: 8e842ffd8b99c2d44b111a8817d0d92b, type: 3}
     weaponType: 0
     bulletSpawnPosition: {fileID: 414891846377176613}
+    sound: {fileID: 8300000, guid: 7bd4708fd9bbd40f1a36ed98f40d9aa4, type: 3}
   equippedWeapons: []
   activeWeaponIndex: 0
   rigLayers: {fileID: 5693860195521227373}

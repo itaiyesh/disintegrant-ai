@@ -48,3 +48,4 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 847e127c6d755cd4191a41bac80490ae, type: 3}
   menuButtonHighlightedAudio: {fileID: 8300000, guid: 23f874a7a17728341a3b5a06f79824aa, type: 3}
   menuButtonClickedAudio: {fileID: 8300000, guid: 54793823f76e3a2489a81df960f9f254, type: 3}
+  weaponSwapAudio: {fileID: 8300000, guid: 319afa99d68dd924580fb4914e806117, type: 3}
