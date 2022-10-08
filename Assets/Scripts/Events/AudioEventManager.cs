@@ -58,11 +58,14 @@ public class AudioEventManager : MonoBehaviour
 
     private UnityAction<Vector3> weaponSwapEventListener;
 
+    private UnityAction<AudioClip, Vector3> weaponFiredEventListener;
+
     void Awake()
     {
         menuBackgroundAudioEventListener = new UnityAction<bool>(MenuBackgroundAudioEventHandler);
         menuButtonEventListener = new UnityAction<MenuButtonEventListener.ButtonEvent>(MenuButtonAudioEventHandler);
         weaponSwapEventListener = new UnityAction<Vector3>(WeaponSwapEventHandler);
+        weaponFiredEventListener = new UnityAction<AudioClip, Vector3>(WeaponFiredEventHandler);
 
         // boxCollisionEventListener = new UnityAction<Vector3,float>(boxCollisionEventHandler);
         //
@@ -102,6 +105,7 @@ public class AudioEventManager : MonoBehaviour
         EventManager.StartListening<GameMenuButtonAudioEvent, MenuButtonEventListener.ButtonEvent>(
             menuButtonEventListener);
         EventManager.StartListening<WeaponSwapEvent, Vector3>(weaponSwapEventListener);
+        EventManager.StartListening<WeaponFiredEvent, AudioClip, Vector3>(weaponFiredEventListener);
         // EventManager.StartListening<BoxCollisionEvent, Vector3,float>(boxCollisionEventListener);
         // EventManager.StartListening<PlayerLandsEvent, Vector3, float>(playerLandsEventListener);
         //EventManager.StartListening<MinionLandsEvent, Vector3, float>(minionLandsEventListener);
@@ -122,6 +126,7 @@ public class AudioEventManager : MonoBehaviour
         EventManager.StopListening<GameMenuButtonAudioEvent, MenuButtonEventListener.ButtonEvent>(
             menuButtonEventListener);
         EventManager.StopListening<WeaponSwapEvent, Vector3>(weaponSwapEventListener);
+        EventManager.StopListening<WeaponFiredEvent, AudioClip, Vector3>(weaponFiredEventListener);
 
         // EventManager.StopListening<BoxCollisionEvent, Vector3,float>(boxCollisionEventListener);
         // EventManager.StopListening<PlayerLandsEvent, Vector3, float>(playerLandsEventListener);
@@ -135,6 +140,18 @@ public class AudioEventManager : MonoBehaviour
         //EventManager.StopListening<MinionSpawnEvent, MinionScript>(minionSpawnEventListener);
         //EventManager.StopListening<MinionFootstepEvent, Vector3>(minionFootstepEventListener);
         //EventManager.StopListening<MinionOuchEvent, Vector3>(minionOuchEventListener);
+    }
+
+    private void WeaponFiredEventHandler(AudioClip audioClip, Vector3 position)
+    {
+        var sound = Instantiate(eventSound3DPrefab, position, Quaternion.identity, null);
+        if (audioClip)
+        {
+            sound.audioSrc.clip = audioClip;
+            sound.audioSrc.minDistance = 5f;
+            sound.audioSrc.maxDistance = 100f;
+            sound.audioSrc.Play();
+        }
     }
 
     private void WeaponSwapEventHandler(Vector3 position)
