@@ -15,6 +15,8 @@ public class WeaponConfig {
 
     public Transform bulletSpawnPosition;
 
+    public AudioClip sound;
+
     public virtual void Attack(Transform target){
         //TODO: For better performance, move switch to init
         switch(weaponType) 
