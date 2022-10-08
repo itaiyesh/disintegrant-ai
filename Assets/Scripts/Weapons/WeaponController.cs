@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Events;
 using UnityEngine;
 
 public class WeaponController : MonoBehaviour
@@ -45,13 +46,16 @@ public class WeaponController : MonoBehaviour
     {
         Swap(equippedWeapons[mod(activeWeaponIndex - 1, equippedWeapons.Count)]);
     }
-    public void Swap(WeaponConfig weapon) 
+    private void Swap(WeaponConfig weapon) 
     {
         if(weapon != equippedWeapons[activeWeaponIndex] && equippedWeapons.Contains(weapon)) 
         {
             animator.SetTrigger("pull_in");
             animator.SetTrigger("pull_out_" + weapon.tag);
             activeWeaponIndex = equippedWeapons.IndexOf(weapon);
+            
+            // send a weapon change sound event.
+            EventManager.TriggerEvent<WeaponSwapEvent, Vector3>(gameObject.transform.position);
         }
     }
 
