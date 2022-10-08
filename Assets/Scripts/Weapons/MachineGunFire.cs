@@ -6,6 +6,11 @@ public class MachineGunFire : MonoBehaviour
 {
     public ParticleSystem system;
 
+    private void Start()
+    {
+        system.enableEmission = false;
+ 
+    }
     private void Update()
     {
         if (Input.GetButtonDown("Fire1"))
@@ -19,6 +24,7 @@ public class MachineGunFire : MonoBehaviour
     {
         while (Input.GetMouseButton(0))
         {
+            system.enableEmission = true;
             system.Play();
             yield return null;
         }
