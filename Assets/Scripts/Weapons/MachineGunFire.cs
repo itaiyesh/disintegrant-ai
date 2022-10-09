@@ -7,11 +7,15 @@ public class MachineGunFire : MonoBehaviour
 {
     public ParticleSystem system;
 
+    public GameObject gun;
+
+    // trail implementation adapted from https://youtu.be/cI3E7_f74MA
     [SerializeField]
     private bool bulletSpread = true;
     [SerializeField]
     private Vector3 bulletSpreadVariance = new Vector3(0.05f, 0.05f, 0.05f);
     [SerializeField]
+    // shootingSystem may take the muzzle fire, impactParticleSystem takes impact FX
     //private ParticleSystem shootingSystem;
     //[SerializeField]
     //private ParticleSystem impactParticleSystem;
@@ -19,6 +23,10 @@ public class MachineGunFire : MonoBehaviour
     private TrailRenderer bulletTrail;
     [SerializeField]
     private Transform bulletSpawnPoint;
+    private float shootDelay = 0.05f;
+    private float lastShootTime;
+
+    private LayerMask mask;
 
     private void Start()
     {
@@ -38,23 +46,28 @@ public class MachineGunFire : MonoBehaviour
     {
         while (Input.GetMouseButton(0))
         {
+            
             system.enableEmission = true;
             system.Play();
-
-            Vector3 direction = GetDirection();
-            if (Physics.Raycast(bulletSpawnPoint.position, direction, out RaycastHit hit, float.MaxValue))
-            {
-                TrailRenderer trail = Instantiate(bulletTrail, bulletSpawnPoint.position, Quaternion.identity);
-                StartCoroutine(SpawnTrail(trail, hit));
+            if ((lastShootTime + shootDelay) < Time.time) { 
+                Vector3 direction = GetDirection();
+                if (Physics.Raycast(bulletSpawnPoint.position, direction, out RaycastHit hit, float.MaxValue))
+                {
+                    TrailRenderer trail = Instantiate(bulletTrail, bulletSpawnPoint.position, Quaternion.identity);
+                    StartCoroutine(SpawnTrail(trail, hit));
+                    lastShootTime = Time.time;
+                }
             }
             yield return null;
-        }
+            //}
         system.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        }
     }
 
     private Vector3 GetDirection()
     {
-        Vector3 direction = transform.forward;
+
+        Vector3 direction = gun.transform.forward;
         if (bulletSpread)
         {
             direction += new Vector3(
