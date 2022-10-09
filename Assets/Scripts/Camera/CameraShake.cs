@@ -9,6 +9,7 @@ using UnityEngine;
 public class CameraShake : MonoBehaviour
 {
     public Transform CamTransform;
+    //public Transform agent;
     public float scale = 0.03f;
     private void Update()
     
@@ -23,13 +24,15 @@ public class CameraShake : MonoBehaviour
     IEnumerator Shaking()
     {
         Vector3 startPosition = CamTransform.position;
+        //Vector3 agentStartPosition = agent.transform.position
         
         while (Input.GetMouseButton(0))
         {
-            CamTransform.position = startPosition + Random.insideUnitSphere * scale;
+            //CamTransform.position = startPosition + Random.insideUnitSphere * scale;
+            CamTransform.position = CamTransform.position + Random.insideUnitSphere * scale;
             yield return null;
         }
-        CamTransform.position = startPosition;
+        CamTransform.position = CamTransform.position;
     }
 
 }
