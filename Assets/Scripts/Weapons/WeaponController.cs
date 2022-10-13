@@ -55,12 +55,12 @@ public class WeaponController : MonoBehaviour
 	public void RemoveWeapon(GameObject weapon, bool dropAsCollectable = false) 
 	{
 		// If this is the default weapon, prevent removal
-		if (characterAttributes.equippedWeapons.IndexOf(weapon) != 0)
+		if (characterAttributes.equippedWeapons.IndexOf(weapon) == 0)
 			return;
 		
 		// If this is the currently equipped weapon, swap weapons first 
 		if (characterAttributes.equippedWeapons.IndexOf(weapon) == characterAttributes.activeWeaponIndex)
-			NextWeapon();
+			PreviousWeapon();
 		
 		characterAttributes.equippedWeapons.Remove(weapon);
 		

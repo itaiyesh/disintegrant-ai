@@ -120,14 +120,9 @@ public class CharacterController : MonoBehaviour
 		    aimTarget.position = raycastHit.point;
 	    }
 	    
-	    if (Input.GetMouseButton(0))
+	    if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0))
 	    {
-		    weaponController.Attack(aimTarget, WeaponFireType.RAPID);
-	    }
-	    
-	    if (Input.GetMouseButtonDown(0))
-	    {
-		    weaponController.Attack(aimTarget, WeaponFireType.SINGLE);
+		    weaponController.Attack(aimTarget, Input.GetMouseButtonDown(0) ? WeaponFireType.SINGLE :  WeaponFireType.RAPID);
 	    }
 
         //test
