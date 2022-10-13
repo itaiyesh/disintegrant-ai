@@ -7,8 +7,10 @@ using System;
 public class HealthbarUI : MonoBehaviour
 {
 	public Transform TransformToFollow;
+	private Vector3 lastTransformToFollow;
 	private VisualElement healthBar;
 	private Camera mainCamera;
+	
 	
 	private VisualElement[] bars;
 	private int healthBars = 10;
@@ -27,6 +29,7 @@ public class HealthbarUI : MonoBehaviour
 		{
 			AnimateBar();
 			SetPosition();
+			lastTransformToFollow = TransformToFollow.position;
 		}
 	}
 	
@@ -54,9 +57,23 @@ public class HealthbarUI : MonoBehaviour
 	
 	public void SetPosition()
 	{
+		Vector3 lerpedTransformToFollow;
+		
+		if (lastTransformToFollow != null) 
+		{
+			lerpedTransformToFollow = Vector3.Lerp(
+				lastTransformToFollow,
+				TransformToFollow.position,
+				Time.deltaTime * 0.5f);
+		} else 
+		{
+			 lerpedTransformToFollow = TransformToFollow.position;
+		}
+		
+			
 		Vector2 newPosition = RuntimePanelUtils.CameraTransformWorldToPanel(
 			healthBar.panel,
-			TransformToFollow.position,
+			lerpedTransformToFollow,
 			mainCamera
 		);
 		

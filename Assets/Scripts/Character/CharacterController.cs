@@ -119,11 +119,15 @@ public class CharacterController : MonoBehaviour
 	    {
 		    aimTarget.position = raycastHit.point;
 	    }
+	    
+	    if (Input.GetMouseButton(0))
+	    {
+		    weaponController.Attack(aimTarget, WeaponFireType.RAPID);
+	    }
+	    
 	    if (Input.GetMouseButtonDown(0))
 	    {
-            weaponController.Attack(aimTarget);
-            // Vector3 aimDirection = (aimTarget.position - bulletSpawnPosition.position).normalized;
-		    //Instantiate(projectile, bulletSpawnPosition.position, Quaternion.LookRotation(aimDirection, Vector3.up));
+		    weaponController.Attack(aimTarget, WeaponFireType.SINGLE);
 	    }
 
         //test

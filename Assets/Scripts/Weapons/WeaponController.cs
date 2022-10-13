@@ -54,11 +54,13 @@ public class WeaponController : MonoBehaviour
 	
 	public void RemoveWeapon(GameObject weapon, bool dropAsCollectable = false) 
 	{
-		// If this is the currently equipped weapon, swap weapons first
+		// If this is the default weapon, prevent removal
+		if (characterAttributes.equippedWeapons.IndexOf(weapon) != 0)
+			return;
+		
+		// If this is the currently equipped weapon, swap weapons first 
 		if (characterAttributes.equippedWeapons.IndexOf(weapon) == characterAttributes.activeWeaponIndex)
-		{
 			NextWeapon();
-		}
 		
 		characterAttributes.equippedWeapons.Remove(weapon);
 		
@@ -103,18 +105,22 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    public void Attack(Transform target)
+	public void Attack(Transform target, WeaponFireType fireType)
     {
 	    GameObject equippedWeaponObject = characterAttributes.equippedWeapons[characterAttributes.activeWeaponIndex];
 	    Weapon equippedWeapon = equippedWeaponObject.GetComponent<Weapon>();
-	    equippedWeapon.Attack(target);
-	    animator.SetTrigger("attack");
-        
-	    // If we should remove weapon when it runs out of ammo
-	    if (equippedWeapon.RemoveGunOnZeroAmmo && equippedWeapon.Ammo <= 0) 
+	    
+	    if (equippedWeapon.FireType == fireType) 
 	    {
-	    	RemoveWeapon(equippedWeaponObject);
-	    }
+		    equippedWeapon.Attack(target);
+		    animator.SetTrigger("attack");
+	        
+		    // If we should remove weapon when it runs out of ammo
+		    if (equippedWeapon.RemoveGunOnZeroAmmo && equippedWeapon.Ammo <= 0) 
+		    {
+		    	RemoveWeapon(equippedWeaponObject);
+		    }
+    	}
     }
     
     //Mod function support for negative numbers
