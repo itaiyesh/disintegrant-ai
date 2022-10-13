@@ -8,7 +8,7 @@ public class WeaponCollectable : MonoBehaviour
 	
 	Weapon weapon;
 	
-	void OnTriggerEnter(Collider c)
+	public void OnTriggerEnter(Collider c)
 	{
 		if (c.gameObject.GetComponent<CharacterAttributes>() != null && !isTriggered)
 		{

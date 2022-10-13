@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 1403076166164808125}
   - component: {fileID: 3230933810562948646}
   - component: {fileID: 7986782792976953737}
+  - component: {fileID: 5791171880295529358}
+  - component: {fileID: 720337511757785622}
   m_Layer: 0
   m_Name: PistolCollectable
   m_TagString: Untagged
@@ -59,6 +61,35 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.3, z: 0.43}
   m_Center: {x: 0, y: 0, z: 0.1}
+--- !u!114 &5791171880295529358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7357103534998013877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de39f4a6feb80754689646952cf3ff63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  x: 0
+  y: 50
+  z: 0
+--- !u!114 &720337511757785622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7357103534998013877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b158c0db46d7b4148a0362754de55f6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  height: 0.2
 --- !u!1001 &339880675978517419
 PrefabInstance:
   m_ObjectHideFlags: 0

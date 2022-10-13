@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6858401117810428704}
   - component: {fileID: 3995082785531454657}
   - component: {fileID: 5707985559679450548}
+  - component: {fileID: 5540244336627809972}
+  - component: {fileID: 3615510141964780747}
   m_Layer: 0
   m_Name: ShotgunCollectable
   m_TagString: Untagged
@@ -59,6 +61,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eda292425f8427c40955ab439e735d52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5540244336627809972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3790430343819360389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de39f4a6feb80754689646952cf3ff63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  x: 0
+  y: 50
+  z: 0
+--- !u!114 &3615510141964780747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3790430343819360389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b158c0db46d7b4148a0362754de55f6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  height: 0.2
 --- !u!1001 &1683755835402142581
 PrefabInstance:
   m_ObjectHideFlags: 0
