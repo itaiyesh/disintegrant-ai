@@ -51,7 +51,7 @@ MonoBehaviour:
   FireSound: {fileID: 8300000, guid: 227f2b05e45ee4003aa4bca234af6da0, type: 3}
   Collectable: {fileID: 7357103534998013877, guid: f641a169069a3304e9fd25c1cdbf92f5, type: 3}
   AnimationTag: pistol
-  FireRate: 0.3
+  FireRate: 0.4
   Ammo: Infinity
   Damage: 8
   InitialSpeed: 0
