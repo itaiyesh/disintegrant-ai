@@ -4,9 +4,16 @@ using UnityEngine;
 using UnityEditor;
 using Events;
 
+public enum WeaponFireType {
+	SINGLE,
+	RAPID
+}
+
 // Weapon class, contains all details relevant to a weapon implementation
 public class Weapon : MonoBehaviour {
 	public string Name;
+	
+	public WeaponFireType FireType;
 	
 	private GameObject Player;
 	

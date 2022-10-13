@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Pistol
+  FireType: 0
   Projectile: {fileID: 7061896880637717249, guid: bed1e15994af89a4b83e5dd9bf64ec05, type: 3}
   FireSound: {fileID: 8300000, guid: 227f2b05e45ee4003aa4bca234af6da0, type: 3}
   Collectable: {fileID: 7357103534998013877, guid: f641a169069a3304e9fd25c1cdbf92f5, type: 3}
