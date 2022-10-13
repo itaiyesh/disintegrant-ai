@@ -14,10 +14,8 @@ public class CharacterAttributeItems
 	public float MovementSpeedMultiplier = 1.0f;
 	
 	// Weapons
-	public WeaponType CurrentWeaponType = WeaponType.MACHINE_GUN;
-	public float WeaponProjectileDamageMultiplier = 1.0f;
-	public float WeaponProjectileSpeedMultiplier = 1.0f;
-	public float WeaponProjectileAccelerationMultiplier = 1.0f;
+	public List<GameObject> equippedWeapons = new List<GameObject>();
+	public int activeWeaponIndex = 0;
 	
 	// Camera effects
 	public bool ExplosionShakeEnabled = false;

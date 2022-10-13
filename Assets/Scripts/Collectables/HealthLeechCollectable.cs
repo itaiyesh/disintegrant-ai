@@ -4,17 +4,11 @@ using UnityEngine;
 
 public class HealthLeechCollectable : MonoBehaviour
 {
-	GameObject player;
 	bool isTriggered = false;
-	
-	void Awake()
-	{
-		this.player = GameObject.FindWithTag("Player");
-	}
 	
 	void OnTriggerEnter(Collider c)
 	{
-		if (c.attachedRigidbody != null && !isTriggered)
+		if (c.gameObject.GetComponent<CharacterAttributes>() != null && !isTriggered)
 		{
 			isTriggered = true;
 			Destroy(this.gameObject); // Remove health pack
@@ -22,7 +16,7 @@ public class HealthLeechCollectable : MonoBehaviour
 				healthAmount: -100,
 				duration: 5.0f,
 				trigger: ModifierTrigger.ON_UPDATE); // Create health leech that reduces 100 health over 5 seconds
-			this.player.GetComponent<CharacterAttributes>().AddModifier(pickup); // Add the modifier to the player
+			c.gameObject.GetComponent<CharacterAttributes>().AddModifier(pickup); // Add the modifier to the player
 		}
 	}
 }

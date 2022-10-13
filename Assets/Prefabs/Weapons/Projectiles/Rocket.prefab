@@ -41,11 +41,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2814975722846135679}
-  - component: {fileID: 6791723004588626837}
   - component: {fileID: 898401807668456822}
   - component: {fileID: 2078481966479804768}
+  - component: {fileID: 6453915802620581135}
   m_Layer: 7
-  m_Name: Missile
+  m_Name: Rocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,23 +66,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6791723004588626837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8708175371260511287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9db7ac06b36292a42923d2338eb1ccc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vfxExplosion: {fileID: 7528311140573634780, guid: 8f67490dfc0ee1a4aa738a85081bcb72, type: 3}
-  initialSpeed: 0
-  maxSpeed: 50
-  acceleration: 3
-  maxDuration: 10
 --- !u!54 &898401807668456822
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -113,6 +96,24 @@ CapsuleCollider:
   m_Height: 1.2
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.6}
+--- !u!114 &6453915802620581135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8708175371260511287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c242357d5a62542428f64c7c6eeb07de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 0
+  InitialSpeed: 0
+  MaxSpeed: 0
+  Acceleration: 0
+  MaxDuration: 0
+  vfxExplosion: {fileID: 7528311140573634780, guid: 8f67490dfc0ee1a4aa738a85081bcb72, type: 3}
 --- !u!1001 &339035641912222041
 PrefabInstance:
   m_ObjectHideFlags: 0
