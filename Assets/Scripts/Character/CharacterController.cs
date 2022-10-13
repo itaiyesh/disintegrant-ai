@@ -119,7 +119,7 @@ public class CharacterController : MonoBehaviour
 	    {
 		    aimTarget.position = raycastHit.point;
 	    }
-	    if(Input.GetMouseButtonDown(0))
+	    if (Input.GetMouseButtonDown(0))
 	    {
             weaponController.Attack(aimTarget);
             // Vector3 aimDirection = (aimTarget.position - bulletSpawnPosition.position).normalized;
@@ -160,8 +160,6 @@ public class CharacterController : MonoBehaviour
         if(_inputActionFired)
         {
             _inputActionFired = false; // clear the input event that came from Update()
-
-            Debug.Log("Action pressed");
         }
 
 

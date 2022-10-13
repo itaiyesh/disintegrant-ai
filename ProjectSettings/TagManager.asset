@@ -5,16 +5,17 @@ TagManager:
   serializedVersion: 2
   tags:
   - ground
+  - Weapon
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Character
   - Water
   - UI
-  - weapon
-  - projectile
-  - 
+  - Weapon
+  - Projectile
+  - Character Un-interactable
   - 
   - 
   - 
