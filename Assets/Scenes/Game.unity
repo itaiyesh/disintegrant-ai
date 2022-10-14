@@ -1025,7 +1025,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3325820847757356954, guid: 11c0aefbfb929f544aec83ad7dd23e45, type: 3}
       propertyPath: m_RotationOffsets.Array.data[0].x
-      value: 15.034732
+      value: 15.034736
       objectReference: {fileID: 0}
     - target: {fileID: 3325820847757356954, guid: 11c0aefbfb929f544aec83ad7dd23e45, type: 3}
       propertyPath: m_RotationOffsets.Array.data[0].y
@@ -1848,7 +1848,7 @@ PrefabInstance:
       objectReference: {fileID: 1015850033}
     - target: {fileID: 3081428010671974232, guid: 885486a747d15e04fb2095718a0f3b66, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3081428010671974234, guid: 885486a747d15e04fb2095718a0f3b66, type: 3}
       propertyPath: m_RootOrder
