@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -59,7 +59,8 @@ public class MachineGunFire : MonoBehaviour
                 }
             }
             yield return null;
-            //}
+	        //}
+          
         system.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         }
     }
