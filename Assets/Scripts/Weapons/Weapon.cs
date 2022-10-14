@@ -36,7 +36,7 @@ public class Weapon : MonoBehaviour {
 	public float LastShootTime;
 	public bool RemoveGunOnZeroAmmo = false;
 	
-	public void Awake()
+	public virtual void Awake()
 	{
 		LastShootTime = Time.time;
 	}
