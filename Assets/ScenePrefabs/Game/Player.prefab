@@ -998,7 +998,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6898294005098720129}
-  m_RootOrder: 21
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1555658815672047176
 GameObject:
@@ -1865,7 +1865,7 @@ ParentConstraint:
   m_TranslationOffsets:
   - {x: -0.22284412, y: -0.07776332, z: -0.3150251}
   m_RotationOffsets:
-  - {x: 12.450523, y: -174.09146, z: -179.37904}
+  - {x: 12.45052, y: -174.09146, z: -179.37904}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -3884,7 +3884,7 @@ Transform:
   - {fileID: 7610979060192930448}
   - {fileID: 7370359759563034756}
   m_Father: {fileID: 6898294005098720129}
-  m_RootOrder: 22
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &4653365954251165139
 Animator:
@@ -4444,7 +4444,7 @@ Transform:
   m_Children:
   - {fileID: 8135589785469060615}
   m_Father: {fileID: 6898294005098720129}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6582053786885658286
 GameObject:
@@ -4915,9 +4915,9 @@ Transform:
   - {fileID: 4725321033034934239}
   - {fileID: 6782391736419604984}
   - {fileID: 1125556303958680265}
+  - {fileID: 6733287500573829279}
   - {fileID: 848156073560308702}
   - {fileID: 6767431596996083773}
-  - {fileID: 6733287500573829279}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
