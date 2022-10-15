@@ -30,13 +30,12 @@ public class WeaponController : MonoBehaviour
 	public void AddWeapon(GameObject weapon, bool equip = false)
 	{
 		weapon.SetActive(false);
-		weapon.transform.position = transform.Find("RigLayers/Weapon").transform.position;
-		weapon.transform.rotation = transform.Find("RigLayers/Weapon").transform.rotation;
-		weapon.transform.parent = transform.Find("RigLayers/Weapon");
+		weapon.transform.position = transform.Find("RigLayers/Weapon/WeaponPlaceholder").transform.position;
+		weapon.transform.rotation = transform.Find("RigLayers/Weapon/WeaponPlaceholder").transform.rotation;
+		weapon.transform.parent = transform.Find("RigLayers/Weapon/WeaponPlaceholder");
 		
 		if (equip)
 		{
-			//animator.SetTrigger("pull_in");
 			animator.SetTrigger("pull_out_" + weapon.GetComponent<Weapon>().AnimationTag);
 			weapon.SetActive(true);
 		}
@@ -95,8 +94,8 @@ public class WeaponController : MonoBehaviour
         {
 			animator.SetTrigger("pull_in");
 			characterAttributes.equippedWeapons[characterAttributes.activeWeaponIndex].SetActive(false);
-			animator.SetTrigger("pull_out_" + weapon.GetComponent<Weapon>().AnimationTag);
 			weapon.SetActive(true);
+			animator.SetTrigger("pull_out_" + weapon.GetComponent<Weapon>().AnimationTag);
 			
 			characterAttributes.activeWeaponIndex = characterAttributes.equippedWeapons.IndexOf(weapon);
 
