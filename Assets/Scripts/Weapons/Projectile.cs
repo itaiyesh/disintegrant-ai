@@ -51,6 +51,9 @@ public class Projectile : MonoBehaviour
 				trigger: ModifierTrigger.ON_ADD);
 			c.gameObject.GetComponent<CharacterAttributes>().AddModifier(pickup); // Add the modifier to the player
 
+            //Trigger hit animation based on type of weapon/projectile
+            c.gameObject.GetComponent<Animator>().SetTrigger("takeDamage");
+            
 			Destroy(gameObject);
 		}
     }
