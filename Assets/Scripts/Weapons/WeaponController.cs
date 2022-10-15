@@ -30,12 +30,13 @@ public class WeaponController : MonoBehaviour
 	public void AddWeapon(GameObject weapon, bool equip = false)
 	{
 		weapon.SetActive(false);
-		weapon.transform.position = transform.Find("RigLayers/Weapon/WeaponPlaceholder").transform.position;
-		weapon.transform.rotation = transform.Find("RigLayers/Weapon/WeaponPlaceholder").transform.rotation;
-		weapon.transform.parent = transform.Find("RigLayers/Weapon/WeaponPlaceholder");
+		weapon.transform.position = transform.Find("RigLayers/Weapon").transform.position;
+		weapon.transform.rotation = transform.Find("RigLayers/Weapon").transform.rotation;
+		weapon.transform.parent = transform.Find("RigLayers/Weapon");
 		
 		if (equip)
 		{
+			//animator.SetTrigger("pull_in");
 			animator.SetTrigger("pull_out_" + weapon.GetComponent<Weapon>().AnimationTag);
 			weapon.SetActive(true);
 		}
