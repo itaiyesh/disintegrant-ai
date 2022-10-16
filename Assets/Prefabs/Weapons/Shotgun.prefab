@@ -77,17 +77,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Shotgun
   FireType: 0
-  Projectile: {fileID: 8708175371260511287, guid: 8e842ffd8b99c2d44b111a8817d0d92b, type: 3}
-  FireSound: {fileID: 8300000, guid: 00205aef1a8c91541a2faadd3b399b36, type: 3}
+  Projectile: {fileID: 742195543451709728, guid: f7f154528e46dca48a93576913a867e9, type: 3}
+  FireSound: {fileID: 8300000, guid: 7bd4708fd9bbd40f1a36ed98f40d9aa4, type: 3}
   Collectable: {fileID: 3790430343819360389, guid: 2195d7c928b57134ab34d0e763cc3d7e, type: 3}
   AnimationTag: shotgun
   FireRate: 1
-  Ammo: 5
+  Ammo: 10
   Damage: 50
-  InitialSpeed: 0
-  MaxSpeed: 50
-  Acceleration: 3
-  MaxDuration: 10
+  InitialSpeed: 100
+  MaxSpeed: 100
+  Acceleration: 0
+  MaxDuration: 1
   LastShootTime: 0
   RemoveGunOnZeroAmmo: 1
 --- !u!1001 &7778956537929419516

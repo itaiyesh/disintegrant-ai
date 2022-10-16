@@ -52,6 +52,7 @@ MonoBehaviour:
   MaxSpeed: 0
   Acceleration: 0
   MaxDuration: 0
+  vfxExplosion: {fileID: 1485626432833870, guid: b510fe24f925ddd4bbf696284d146f51, type: 3}
 --- !u!54 &7562150781984316488
 Rigidbody:
   m_ObjectHideFlags: 0

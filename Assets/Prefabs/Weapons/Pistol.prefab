@@ -54,9 +54,9 @@ MonoBehaviour:
   FireRate: 0.4
   Ammo: Infinity
   Damage: 8
-  InitialSpeed: 0
-  MaxSpeed: 50
-  Acceleration: 3
+  InitialSpeed: 100
+  MaxSpeed: 100
+  Acceleration: 0
   MaxDuration: 10
   LastShootTime: 0
   RemoveGunOnZeroAmmo: 0

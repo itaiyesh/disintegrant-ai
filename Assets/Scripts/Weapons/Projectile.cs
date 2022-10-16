@@ -14,7 +14,7 @@ public class Projectile : MonoBehaviour
 	[HideInInspector] public float MaxDuration; //seconds
     
     private Vector3 direction;
-	private float startTime;
+	protected float startTime;
     
 	private bool isTriggered = false;
 
@@ -32,7 +32,10 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
-        bulletRigidbody.velocity = Vector3.Slerp(bulletRigidbody.velocity, direction * MaxSpeed, Time.deltaTime * Acceleration);
+        if(Acceleration > 0) 
+        {
+            bulletRigidbody.velocity = Vector3.Slerp(bulletRigidbody.velocity, direction * MaxSpeed, Time.deltaTime * Acceleration);
+        }
         if(Time.fixedTime - startTime > MaxDuration)
         {
             Destroy(gameObject);
