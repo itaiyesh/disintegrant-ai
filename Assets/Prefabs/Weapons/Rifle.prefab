@@ -49,7 +49,7 @@ MonoBehaviour:
   Name: Rifle
   FireType: 1
   Projectile: {fileID: 7061896880637717249, guid: bed1e15994af89a4b83e5dd9bf64ec05, type: 3}
-  FireSound: {fileID: 8300000, guid: 227f2b05e45ee4003aa4bca234af6da0, type: 3}
+  FireSound: {fileID: 8300000, guid: 1e34685f11949724babac37ec931387a, type: 3}
   Collectable: {fileID: 7274299059721956844, guid: a3eb7e6420e2b5d4ba4e69b05654636d, type: 3}
   AnimationTag: rifle
   FireRate: 0.1
