@@ -9,7 +9,7 @@ public class EnemyAI : MonoBehaviour
     {
         Idle,
         Attack,
-        CollectGuns,
+        CollectGun,
         CollectHealth,
         SeekCover
     };
@@ -112,19 +112,26 @@ public class EnemyAI : MonoBehaviour
         //////State arbitration below////////////
         // if player far away, health good and got gun: idle
 
-        if (!PlayerIsClose && agentAttribs.Health >= mediumHealth && armed )
+        if (!PlayerIsClose && agentAttribs.Health > mediumHealth && armed )
         {
             aiState = AIState.Idle;
         }
 
         // if player far away, health bad and got gun/ got no gun: go to next health
+        // if player close and health bad and got gun/ got no gun: go to next health
+        if (!PlayerIsClose && (agentAttribs.Health < mediumHealth) && (armed || !armed))
+        {
+            aiState = AIState.CollectHealth;
+        }
 
         // if player far away, health good / medium and got no gun: go to next gun
-
-
         // if player close and health good and got no gun: go to next gun
+        if ((!PlayerIsClose && (agentAttribs.Health > mediumHealth) && (armed || !armed)) ||
+            (PlayerIsClose && (agentAttribs.Health > mediumHealth) && (!armed)))
+        {
+            aiState = AIState.CollectGun;
+        }
 
-        // if player close and health bad and got gun/ got no gun: go to next health
 
         // if player close and health good and got gun: attack
         else if (PlayerIsClose && agentAttribs.Health >= mediumHealth && armed)
@@ -133,7 +140,11 @@ public class EnemyAI : MonoBehaviour
         }
 
         // if player close and health medium and got gun: seekCover
-
+        else if (PlayerIsClose && agentAttribs.Health >= mediumHealth &&
+            agentAttribs.Health < goodHealth && armed)
+        {
+            aiState = AIState.Attack;
+        }
 
         Debug.Log("Agent is in state " + aiState + ".");
 
