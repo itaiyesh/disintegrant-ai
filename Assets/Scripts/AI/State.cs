@@ -30,7 +30,7 @@ public sealed class Attack : State
 
     public override void Execute(FSM fsm, StateParams stateParams)
     {
-        if (stateParams.Target != null && stateParams.Attributes.equippedWeapons[stateParams.Attributes.activeWeaponIndex].GetComponent<Weapon>().Ammo > 0)
+        if (stateParams.Target != null &&  stateParams.IsTargetClose && stateParams.Attributes.equippedWeapons[stateParams.Attributes.activeWeaponIndex].GetComponent<Weapon>().Ammo > 0)
         {
             Vector3 targetDirection = stateParams.Target.transform.position - stateParams.Agent.transform.position;
             stateParams.Agent.transform.rotation = Quaternion.Lerp(stateParams.Agent.transform.rotation, Quaternion.LookRotation(targetDirection), Time.deltaTime * 10f);
