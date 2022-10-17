@@ -2,163 +2,150 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
+using System.Linq;
+
 
 public class EnemyAI : MonoBehaviour
 {
-    public enum AIState
-    {
-        Idle,
-        Attack,
-        CollectGun,
-        CollectHealth,
-        SeekCover
-    };
-
-    public AIState aiState;
-
-
+    public FSM fsm = new FSM();
     public NavMeshAgent agent;
-    public GameObject player;
-
-    public Animator anim;
-
-    //get the agent attributes
-    //var agentAttribs = agent.GetComponent<CharacterAttributeItems>();
+    private Animator animator;
 
     //State Machine variables:
-    public float PlayerDist = 5.0f; // value to determine if player is close to agent
+    public float PlayerDist = 10.0f; // value to determine if player is close to agent
     public float goodHealth = 0.66f; // threshold between medium and good agent health
     public float mediumHealth = 0.33f; // threshold between bad and medium agent health
+    private StateParams stateParams;
 
-
-    public int noWaypoints = 5;
-    public double reachDist = 0.5;
-    public GameObject[] waypoints;
-    int currWaypoint = -1;
-
-    private Vector3 agentPos;
-    private Vector3 wpPos;
-    private Vector3 relVec;
-    private float displacement;
-    private Vector3 prevWpLoc;
-
-    public GameObject _Sphere;
-
-    private NavMeshHit hit;
-    private bool blocked = false;
-
-    private void setNextWayPoint(int currWP, GameObject[] waypoints)
+    private bool IsTargetClose(Vector3 agentPos, Vector3 AIPos)
     {
-        if ((currWP + 1) == waypoints.Length)
+        return Vector3.Distance(agentPos, AIPos) < PlayerDist;
+    }
+
+    private bool IsArmed(CharacterAttributeItems attribs)
+    {
+        return attribs.equippedWeapons.Count > 1;
+    }
+
+    void Awake()
+    {
+        animator = GetComponent<Animator>();
+        if (!animator)
         {
-            currWaypoint = -1;
-            currWP = -1;
+            Debug.LogError("No Animator set on gameobject");
         }
-        currWP++;
-        agent.SetDestination(waypoints[currWP].transform.position);
-        currWaypoint++;
-    }
-
-    private void setPredictionPoint(Vector3 WaypointPosition)
-    {
-
-        //_Sphere.transform.localScale = WaypointPosition;
-        _Sphere.transform.position = WaypointPosition;
-    }
-
-    // returns a boolean if player is close or not
-    private bool isPlayerClose(Vector3 agentPos, Vector3 AIPos)
-    {
-        if ((agentPos - AIPos).magnitude < PlayerDist)
+        agent = GetComponent<NavMeshAgent>();
+        if (!agent)
         {
-            return true;
+            Debug.LogError("No agent set on gameobject");
         }
-        return false;
-    }
-
-    private bool isArmed(CharacterAttributeItems attribs)
-    {
-        if (attribs.equippedWeapons.Count == 1)
-            { return false; }
-        return true;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        agent.speed = 9.5f;
-        aiState = AIState.Idle;
-
-        setNextWayPoint(-1, waypoints);
-
-        prevWpLoc = waypoints[5].transform.position;
+        stateParams = new StateParams();
+        stateParams.Agent = agent;
+        stateParams.Attributes = GetComponent<CharacterAttributes>().characterAttributes;
+        stateParams.WeaponController = GetComponent<WeaponController>();
+        //Initial State:
+        fsm.Switch(Idle.Instance);
     }
 
     // Update is called once per frame
     void Update()
     {
-        ////////////////////
-        //state parameters:
-        // got gun: true, false -> Would need to get more complicated to choose which gun to attack with based on ammo and available gun
-        // health: bad (< 33 %), medium (33-66 %), good (>66 %)
-        // player closeness: close, far -> needs decision how to implement, e.g. player in a specific room//triggered a trigger, or actual distance
-        ////////////////////
-
-        //var agentAttribs = agent.GetComponent<CharacterAttributeItems>();
-        var agentAttribs = player.gameObject.GetComponent<CharacterAttributes>().characterAttributes;
-        bool PlayerIsClose = isPlayerClose(player.transform.position, agent.transform.position);
-        bool armed = isArmed(agentAttribs);
-
-        //////State arbitration below////////////
-        // if player far away, health good and got gun: idle
-
-        if (!PlayerIsClose && agentAttribs.Health > mediumHealth && armed )
+        //Collect common FSM variables
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        int minIndex = -1;
+        float minDistance = Mathf.Infinity;
+        for (int i = 0; i < players.Length; i++)
         {
-            aiState = AIState.Idle;
+            if (players[i] == gameObject) { continue; }
+            float distance = Vector3.Distance(players[i].transform.position, transform.position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                minIndex = i;
+            }
         }
+        stateParams.Target = minIndex > -1 ? players[minIndex] : null;
+        stateParams.IsTargetClose = stateParams.Target != null && IsTargetClose(stateParams.Target.transform.position, agent.transform.position);
+        stateParams.IsArmed = IsArmed(stateParams.Attributes);
+        stateParams.IsGoodHealth = stateParams.Attributes.Health > goodHealth;
+        stateParams.IsMediumHealth = stateParams.Attributes.Health > mediumHealth;
 
-        // if player far away, health bad and got gun/ got no gun: go to next health
-        // if player close and health bad and got gun/ got no gun: go to next health
-        if (!PlayerIsClose && (agentAttribs.Health < mediumHealth) && (armed || !armed))
-        {
-            aiState = AIState.CollectHealth;
-        }
+        //Execute current state
+        fsm.Execute(stateParams);
 
-        // if player far away, health good / medium and got no gun: go to next gun
-        // if player close and health good and got no gun: go to next gun
-        if ((!PlayerIsClose && (agentAttribs.Health > mediumHealth) && (armed || !armed)) ||
-            (PlayerIsClose && (agentAttribs.Health > mediumHealth) && (!armed)))
-        {
-            aiState = AIState.CollectGun;
-        }
-
-
-        // if player close and health good and got gun: attack
-        else if (PlayerIsClose && agentAttribs.Health >= mediumHealth && armed)
-        {
-            aiState = AIState.Attack;
-        }
-
-        // if player close and health medium and got gun: seekCover
-        else if (PlayerIsClose && agentAttribs.Health >= mediumHealth &&
-            agentAttribs.Health < goodHealth && armed)
-        {
-            aiState = AIState.Attack;
-        }
-
-        Debug.Log("Agent is in state " + aiState + ".");
-
-
-        switch (aiState)
-        {
-            case AIState.Idle:
-                // select some random points in agents vincinity, check that they are on the NavMesh and let him roam around
-                break;
-
-            case AIState.Attack:
-                // let agent approach player up to some distance, open fire
-                break;
-
-        }
+        //Update animator
+        animator.SetFloat("vely", agent.velocity.magnitude / agent.speed);
     }
+    // public enum AIState
+    // {
+    //     Wander,
+    //     Attack,
+    //     CollectGun,
+    //     CollectHealth,
+    //     SeekCover
+    // };
+    ////////////////////
+    //state parameters:
+    // got gun: true, false -> Would need to get more complicated to choose which gun to attack with based on ammo and available gun
+    // health: bad (< 33 %), medium (33-66 %), good (>66 %)
+    // player closeness: close, far -> needs decision how to implement, e.g. player in a specific room//triggered a trigger, or actual distance
+    ////////////////////
+
+    //////State arbitration below////////////
+    // if player far away, health good and got gun: idle
+
+    // if (!isTargetClose && agentAttribs.Health > mediumHealth && isArmed)
+    // {
+    //     // aiState = AIState.Idle;
+    // }
+
+    // // if player far away, health bad and got gun/ got no gun: go to next health
+    // // if player close and health bad and got gun/ got no gun: go to next health
+    // if (!isTargetClose && (agentAttribs.Health < mediumHealth) && (isArmed || !isArmed))
+    // {
+    //     // aiState = AIState.CollectHealth;
+    // }
+
+    // // if player far away, health good / medium and got no gun: go to next gun
+    // // if player close and health good and got no gun: go to next gun
+    // if ((!isTargetClose && (agentAttribs.Health > mediumHealth) && (isArmed || !isArmed)) ||
+    //     (isTargetClose && (agentAttribs.Health > mediumHealth) && (!isArmed)))
+    // {
+    //     // aiState = AIState.CollectGun;
+    // }
+
+
+    // // if player close and health good and got gun: attack
+    // else if (isTargetClose && agentAttribs.Health >= mediumHealth && isArmed)
+    // {
+    //     // aiState = AIState.Attack;
+    // }
+
+    // // if player close and health medium and got gun: seekCover
+    // else if (isTargetClose && agentAttribs.Health >= mediumHealth &&
+    //     agentAttribs.Health < goodHealth && isArmed)
+    // {
+    //     // aiState = AIState.Attack;
+    // }
+
+    // Debug.Log("Agent is in state " + aiState + ".");
+
+
+    // switch (aiState)
+    // {
+    //     case AIState.Idle:
+    //         // select some random points in agents vincinity, check that they are on the NavMesh and let him roam around
+    //         break;
+
+    //     case AIState.Attack:
+    //         // let agent approach player up to some distance, open fire
+    //         break;
+
+    // }
 }
