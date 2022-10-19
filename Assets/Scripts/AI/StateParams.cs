@@ -9,6 +9,7 @@ public class StateParams {
     public Vector3 Waypoint; 
     public bool IsArmed;
     public bool IsTargetClose;
+    public bool IsTargetinRange;
 
     public bool IsGoodHealth;
 

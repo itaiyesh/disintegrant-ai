@@ -12,11 +12,11 @@ public sealed class Idle : State
 
     public override void Execute(FSM fsm, StateParams stateParams)
     {
-        if (stateParams.Target != null && stateParams.IsTargetClose && stateParams.IsGoodHealth)
+        if (stateParams.Target != null && stateParams.IsTargetinRange && stateParams.IsGoodHealth)
         {
             fsm.Switch(Attack.Instance);
         }
-        else if (stateParams.Target != null && stateParams.IsGoodHealth && false)
+        else if (stateParams.Target != null && stateParams.IsGoodHealth && stateParams.IsTargetClose)
         {
             fsm.Switch(Chase.Instance);
         }
@@ -74,7 +74,7 @@ public sealed class Chase : State
 
     public override void Execute(FSM fsm, StateParams stateParams)
     {
-        if (stateParams.Target != null && stateParams.IsTargetClose)
+        if (stateParams.Target != null && stateParams.IsTargetinRange)
         {
             //Target is close enough, stop and switch to attack mode
             stateParams.Agent.SetDestination(stateParams.Agent.transform.position);

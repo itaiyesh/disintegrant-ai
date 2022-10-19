@@ -13,7 +13,7 @@ public class EnemyAI : MonoBehaviour
     private Animator animator;
 
     //State Machine variables:
-    public float PlayerDist = 10.0f; // value to determine if player is close to agent
+    public float PlayerDist = 150.0f; // value to determine if player is close to agent
     public float goodHealth = 0.66f; // threshold between medium and good agent health
     public float mediumHealth = 0.33f; // threshold between bad and medium agent health
     private StateParams stateParams;
@@ -21,6 +21,12 @@ public class EnemyAI : MonoBehaviour
     private bool IsTargetClose(Vector3 agentPos, Vector3 AIPos)
     {
         return Vector3.Distance(agentPos, AIPos) < PlayerDist;
+    }
+
+    private bool IsTargetinRange(Vector3 agentPos, Vector3 AIPos)
+    {
+        // target is in shooting range
+        return Vector3.Distance(agentPos, AIPos) < PlayerDist*0.6;
     }
 
     private bool IsArmed(CharacterAttributeItems attribs)
@@ -72,6 +78,7 @@ public class EnemyAI : MonoBehaviour
         }
         stateParams.Target = minIndex > -1 ? players[minIndex] : null;
         stateParams.IsTargetClose = stateParams.Target != null && IsTargetClose(stateParams.Target.transform.position, agent.transform.position);
+        stateParams.IsTargetinRange = stateParams.Target != null && IsTargetinRange(stateParams.Target.transform.position, agent.transform.position);
         stateParams.IsArmed = IsArmed(stateParams.Attributes);
         stateParams.IsGoodHealth = stateParams.Attributes.Health > goodHealth;
         stateParams.IsMediumHealth = stateParams.Attributes.Health > mediumHealth;
