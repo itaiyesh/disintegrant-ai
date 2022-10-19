@@ -6,6 +6,7 @@ public class StateParams {
     public WeaponController WeaponController;
     public CharacterAttributeItems Attributes;
     public GameObject Target;
+    public Vector3 Waypoint; 
     public bool IsArmed;
     public bool IsTargetClose;
 

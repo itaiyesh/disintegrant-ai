@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.AI;
+
 
 //State classes
 public sealed class Idle : State
@@ -6,19 +8,41 @@ public sealed class Idle : State
 
     public static readonly Idle Instance = new Idle();
 
+    bool isWayPointvalid = false;
+
     public override void Execute(FSM fsm, StateParams stateParams)
     {
         if (stateParams.Target != null && stateParams.IsTargetClose && stateParams.IsGoodHealth)
         {
             fsm.Switch(Attack.Instance);
         }
-        else if (stateParams.Target != null && stateParams.IsGoodHealth)
+        else if (stateParams.Target != null && stateParams.IsGoodHealth && false)
         {
             fsm.Switch(Chase.Instance);
         }
         else
         {
-            //Collect health or do some wandering
+            //Select a nearby accessible waypoint to wander towards
+            while (!isWayPointvalid && stateParams.Agent.remainingDistance < 0.5)
+            {
+                var offset = Random.insideUnitCircle * 20;
+                var newWaypoint = stateParams.Agent.transform.position + new Vector3(offset.x, 0.0f, offset.y);
+                NavMeshHit hit;
+                if (NavMesh.SamplePosition(newWaypoint, out hit, 1f, NavMesh.AllAreas))
+                {
+                    stateParams.Agent.SetDestination(hit.position);
+                    stateParams.Waypoint = stateParams.Agent.transform.position + new Vector3(offset.x, 0.0f, offset.y);
+                    isWayPointvalid = true;
+                    Debug.Log(hit.position);
+                }
+                
+            }
+            
+            if (stateParams.Agent.remainingDistance < 0.5)
+            {
+                isWayPointvalid = false;
+            }
+            
         }
     }
 }
