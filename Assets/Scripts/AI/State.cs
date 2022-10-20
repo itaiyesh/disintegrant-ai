@@ -96,12 +96,26 @@ abstract public class State
 {
     abstract public void Execute(FSM fsm, StateParams stateParams);
 }
+
+public interface StateChangeListener
+{
+    void OnStateChange(State oldState, State newState);
+}
+
 public class FSM
 {
     State state;
+    
+    private StateChangeListener listener;
+
+    public void SetStateChangeListener(StateChangeListener stateChangeListener)
+    {
+        listener = stateChangeListener;
+    }
+
     public void Switch(State newState)
     {
-        //TODO: Add Text in HUD above player (for debug mode)
+        listener?.OnStateChange(state, newState);
         state = newState;
         Debug.Log("State: " + newState);
     }
