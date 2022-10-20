@@ -12,6 +12,12 @@ public sealed class Idle : State
 
     public override void Execute(FSM fsm, StateParams stateParams)
     {
+        Debug.Log("Switch to Attack? = " + (stateParams.Target != null && stateParams.IsTargetinRange && stateParams.IsGoodHealth) + "; Target: " + stateParams.Target
+                + " IsTargetinRange: " + stateParams.IsTargetinRange + "GoodHealth: " + stateParams.IsGoodHealth);
+
+        Debug.Log("Switch to Chase? = " + (stateParams.Target != null && stateParams.IsGoodHealth && stateParams.IsTargetClose) + " Target: " + stateParams.Target
+                + " IsTargetClose: " + stateParams.IsTargetClose + " GoodHealth: " + stateParams.IsGoodHealth);
+
         if (stateParams.Target != null && stateParams.IsTargetinRange && stateParams.IsGoodHealth)
         {
             fsm.Switch(Attack.Instance);
@@ -20,6 +26,12 @@ public sealed class Idle : State
         {
             fsm.Switch(Chase.Instance);
         }
+
+        else if (stateParams.IsGoodHealth && stateParams.Attributes.IsUnderAttack)
+        {
+            fsm.Switch(Chase.Instance);
+        }
+
         else
         {
             //Select a nearby accessible waypoint to wander towards
@@ -32,7 +44,7 @@ public sealed class Idle : State
                 {
                     stateParams.Agent.SetDestination(hit.position);
                     stateParams.Waypoint = stateParams.Agent.transform.position + new Vector3(offset.x, 0.0f, offset.y);
-                    isWayPointvalid = true;
+                    isWayPointvalid = true; 
                     Debug.Log(hit.position);
                 }
                 
@@ -43,6 +55,7 @@ public sealed class Idle : State
                 isWayPointvalid = false;
             }
             
+
         }
     }
 }
@@ -60,6 +73,9 @@ public sealed class Attack : State
             stateParams.Agent.transform.rotation = Quaternion.Lerp(stateParams.Agent.transform.rotation, Quaternion.LookRotation(targetDirection), Time.deltaTime * 10f);
             stateParams.Agent.updateRotation = true;
             stateParams.WeaponController.Attack(stateParams.Target.transform, WeaponFireType.SINGLE);
+
+            stateParams.Agent.transform.position += 2*stateParams.Target.transform.forward * stateParams.Agent.speed * Time.deltaTime;
+            
         }
         else
         {

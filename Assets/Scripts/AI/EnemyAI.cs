@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using System.Linq;
-
+using UnityEngine.Events;
+using Events;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -13,20 +14,41 @@ public class EnemyAI : MonoBehaviour
     private Animator animator;
 
     //State Machine variables:
-    public float PlayerDist = 150.0f; // value to determine if player is close to agent
+    public float PlayerDist = 15.0f; // value to determine if player is close to agent
     public float goodHealth = 0.66f; // threshold between medium and good agent health
     public float mediumHealth = 0.33f; // threshold between bad and medium agent health
+    public float chaseAttackRatio = 0.6f;
     private StateParams stateParams;
+    //private UnityAction<AudioClip, Vector3> weaponFiredEventListener; 
 
     private bool IsTargetClose(Vector3 agentPos, Vector3 AIPos)
     {
+        Debug.Log("Chase - IsTargetClose ?: " + (Vector3.Distance(agentPos, AIPos) < PlayerDist) + "; Distance= " +
+            Vector3.Distance(agentPos, AIPos) + " PlayerDist= " + (PlayerDist));
+
+
         return Vector3.Distance(agentPos, AIPos) < PlayerDist;
     }
 
     private bool IsTargetinRange(Vector3 agentPos, Vector3 AIPos)
     {
         // target is in shooting range
+        Debug.Log("Attack - IsTargetinRange ?: " + (Vector3.Distance(agentPos, AIPos) < PlayerDist * 0.6) + "; Distance= " +
+            Vector3.Distance(agentPos, AIPos) + " PlayerDist*0.6= " + (PlayerDist * chaseAttackRatio));
+
         return Vector3.Distance(agentPos, AIPos) < PlayerDist*0.6;
+    }
+
+    private bool InHearingDistance(Vector3 agentPos, Vector3 AIPos)
+    {
+        // target is in hearing distance when firing a shot
+        return Vector3.Distance(agentPos, AIPos) < PlayerDist * 2;
+    }
+
+    private void IsUnderAttack(Vector3 agentPos, Vector3 AIPos)
+    {
+        // target is in hearing distance when firing a shot
+        stateParams.Attributes.IsUnderAttack = true;
     }
 
     private bool IsArmed(CharacterAttributeItems attribs)
@@ -59,6 +81,7 @@ public class EnemyAI : MonoBehaviour
         fsm.Switch(Idle.Instance);
     }
 
+
     // Update is called once per frame
     void Update()
     {
@@ -82,6 +105,7 @@ public class EnemyAI : MonoBehaviour
         stateParams.IsArmed = IsArmed(stateParams.Attributes);
         stateParams.IsGoodHealth = stateParams.Attributes.Health > goodHealth;
         stateParams.IsMediumHealth = stateParams.Attributes.Health > mediumHealth;
+        //stateParams.InHearingDistance = InHearingDistance(stateParams.Target.transform.position, agent.transform.position);
 
         //Execute current state
         fsm.Execute(stateParams);
