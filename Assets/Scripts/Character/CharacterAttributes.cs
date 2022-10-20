@@ -24,6 +24,9 @@ public class CharacterAttributeItems
 	
 	// Skills
 	public bool SkillHasGrenade = false;
+
+	// UnderAttack
+	public bool IsUnderAttack = false;
 }
 
 // This class implements the character attributes & modifier system
@@ -48,6 +51,12 @@ public class CharacterAttributes : MonoBehaviour
 			}
 		}
         
+	}
+
+	public void Attacked(CharacterModifier modifier)
+    {
+		this.characterAttributes.IsUnderAttack = true;
+
 	}
 	
 	// Adds a modifier to the character
