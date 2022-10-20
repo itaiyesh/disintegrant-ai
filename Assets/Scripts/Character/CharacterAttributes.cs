@@ -8,7 +8,8 @@ using UnityEngine;
 public class CharacterAttributeItems
 {
 	// Basics
-	public float Health = 100f;
+	public const float MAX_HEALTH = 100f;
+	public float Health = MAX_HEALTH;
 	
 	// Movement
 	public float MovementSpeedMultiplier = 1.0f;
