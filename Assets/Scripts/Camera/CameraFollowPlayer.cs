@@ -15,5 +15,9 @@ public class CameraFollowPlayer : MonoBehaviour
 			player.position,
 			ref velocity,
 			smoothSpeed * Time.deltaTime);
+		Debug.Log("Player roation: " + player.rotation);
+		transform.rotation = Quaternion.Slerp(transform.rotation,
+			player.rotation, //Mathf.Deg2Rad30),
+			smoothSpeed * 29 * Time.deltaTime) ;
 	}
 }
