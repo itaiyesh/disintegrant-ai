@@ -18,7 +18,7 @@ public class HealthbarUI : MonoBehaviour
 	private void Start()
 	{
 		mainCamera = Camera.main;
-		healthBar = GetComponent<UIDocument>().rootVisualElement.Q("Container");
+		healthBar = GetComponent<UnityEngine.UIElements.UIDocument>().rootVisualElement.Q("Container");
 
 		SetPosition();
 	}

@@ -47,6 +47,12 @@ public class CharacterInputController : MonoBehaviour {
         private set;
     }
 
+    public bool Speed
+    {
+        get;
+        private set;
+    }
+
         
 
 	void Update () {

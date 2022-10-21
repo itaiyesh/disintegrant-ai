@@ -188,22 +188,29 @@ public class CharacterController : MonoBehaviour
 		    transform.rotation = Quaternion.LookRotation(hitPoint-playerPositionOnPlane);
 	    }
 
-	    //TODO: Implement a proper "aim" mode.
-	    // if(Input.GetMouseButton(0)) 
-	    // {
-		//     // lastAimInTime = Time.fixedTime;
-		//     // aimLayer.weight = Mathf.Lerp(aimLayer.weight, 1f, Time.deltaTime*aimInSpeed);
+        //TODO: Implement a proper "aim" mode.
+        // if(Input.GetMouseButton(0)) 
+        // {
+        //     // lastAimInTime = Time.fixedTime;
+        //     // aimLayer.weight = Mathf.Lerp(aimLayer.weight, 1f, Time.deltaTime*aimInSpeed);
 
-	    // } else 
-	    // {
-		//     if(Time.fixedTime > lastAimInTime + aimDuration) 
-		//     {
-		// 	    aimLayer.weight = Mathf.Lerp(aimLayer.weight, 0f, Time.deltaTime*aimOutSpeed);
-		//     }
-	    // }
-
-	    anim.speed = animationSpeed;
-        anim.SetFloat("velx", _inputTurn);
+        // } else 
+        // {
+        //     if(Time.fixedTime > lastAimInTime + aimDuration) 
+        //     {
+        // 	    aimLayer.weight = Mathf.Lerp(aimLayer.weight, 0f, Time.deltaTime*aimOutSpeed);
+        //     }
+        // }
+        
+        anim.speed = animationSpeed;
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            Debug.Log("Sprint");
+            anim.speed *= 2.0f;
+            _inputForward *= 1.5f;
+            _inputTurn *= 1.5f;
+        }
+            anim.SetFloat("velx", _inputTurn);
         anim.SetFloat("vely", _inputForward);
         anim.SetBool("isFalling", !isGrounded);
 
@@ -259,8 +266,11 @@ public class CharacterController : MonoBehaviour
         newRootRotation = anim.rootRotation;
 
         //TODO Here, you could scale the difference in position and rotation to make the character go faster or slower
+       
         newRootPosition = Vector3.LerpUnclamped(this.transform.position, newRootPosition, rootMovementSpeed);
         newRootRotation = Quaternion.LerpUnclamped(this.transform.rotation, newRootRotation, rootTurnSpeed);
+
+
 
         // old way
         //this.transform.position = newRootPosition;

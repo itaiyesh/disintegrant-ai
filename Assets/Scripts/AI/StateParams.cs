@@ -10,6 +10,8 @@ public class StateParams {
     public bool IsArmed;
     public bool IsTargetClose;
     public bool IsTargetinRange;
+    public bool IsUnderAttack;
+    public bool InHearingDistance;
 
     public bool IsGoodHealth;
 
