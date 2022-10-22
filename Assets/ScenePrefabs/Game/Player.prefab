@@ -4026,6 +4026,36 @@ Transform:
   m_Father: {fileID: 7942087833410702787}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6050948234701783814
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6313740182464657214}
+  m_Layer: 0
+  m_Name: PlayerCameraRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6313740182464657214
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6050948234701783814}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6898294005098720129}
+  m_RootOrder: 23
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6128925408945018924
 GameObject:
   m_ObjectHideFlags: 0
@@ -4920,6 +4950,7 @@ Transform:
   - {fileID: 6733287500573829279}
   - {fileID: 848156073560308702}
   - {fileID: 6767431596996083773}
+  - {fileID: 6313740182464657214}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5040,6 +5071,9 @@ MonoBehaviour:
   animationSpeed: 1
   rootMovementSpeed: 1
   rootTurnSpeed: 1
+  TopClamp: 70
+  BottomClamp: -30
+  CameraAngleOverride: 0
 --- !u!114 &6896395018603564640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5060,6 +5094,7 @@ MonoBehaviour:
     ExplosionShakeEnabled: 0
     TimeDilationEnabled: 0
     SkillHasGrenade: 0
+    IsUnderAttack: 0
 --- !u!114 &6999414407159909089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5080,6 +5115,7 @@ MonoBehaviour:
     ExplosionShakeEnabled: 0
     TimeDilationEnabled: 0
     SkillHasGrenade: 0
+    IsUnderAttack: 0
   rigLayers: {fileID: 5693860195521227373}
   starterWeapon: {fileID: 0}
 --- !u!114 &7720771848554240661

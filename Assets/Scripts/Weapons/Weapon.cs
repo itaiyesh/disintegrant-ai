@@ -51,7 +51,7 @@ public class Weapon : MonoBehaviour {
 		
 			// Calculate aim direction
 			Vector3 aimDirection = (target.position - bulletSpawnPosition.position).normalized;
-			aimDirection.y = 0; // Constraining to horizontal aiming only
+			// aimDirection.y = 0; // Constraining to horizontal aiming only
         
 			// Spawn projectile and set stats
 			SpawnProjectile(bulletSpawnPosition, aimDirection);
