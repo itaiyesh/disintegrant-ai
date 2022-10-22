@@ -14,10 +14,10 @@ public class CharacterController : MonoBehaviour
 {
     private WeaponController weaponController;
     public Transform aimTarget;
-    public Rig aimLayer; 
+    public Rig aimLayer;
     public LayerMask aimLayerMask = new LayerMask();
 
-    private Animator anim;	
+    private Animator anim;
     private Rigidbody rbody;
     private CharacterInputController cinput;
 
@@ -26,7 +26,7 @@ public class CharacterController : MonoBehaviour
 
     public float initialMatchTargetsAnimTime = 0.25f;
     public float exitMatchTargetsAnimTime = 0.75f;
-	private Camera playerCamera;
+    private Camera playerCamera;
 
     // classic input system only polls in Update()
     // so must treat input events like discrete button presses as
@@ -35,7 +35,7 @@ public class CharacterController : MonoBehaviour
 
     // ...however constant input measures like axes can just have most recent value
     // cached.
-	float _inputForward = 0f;
+    float _inputForward = 0f;
     float _inputTurn = 0f;
 
 
@@ -47,9 +47,9 @@ public class CharacterController : MonoBehaviour
     public float rootMovementSpeed = 1f;
     public float rootTurnSpeed = 1f;
 
-	private int groundContactCount = 0;
-    
-	private Plane plane;
+    private int groundContactCount = 0;
+
+    private Plane plane;
 
     public bool IsGrounded
     {
@@ -59,10 +59,12 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+    public Transform playerCameraRoot;
+
     void Awake()
     {
 
-	    anim = GetComponent<Animator>();
+        anim = GetComponent<Animator>();
 
         if (anim == null)
             Debug.Log("Animator could not be found");
@@ -74,38 +76,46 @@ public class CharacterController : MonoBehaviour
 
         cinput = GetComponent<CharacterInputController>();
         if (cinput == null)
-	        Debug.Log("CharacterInput could not be found");
-            
-	    playerCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-	    
-	    if (playerCamera == null)
-		    Debug.Log("Camera could not be found");
+            Debug.Log("CharacterInput could not be found");
+
+        playerCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+
+        if (playerCamera == null)
+            Debug.Log("Camera could not be found");
 
         weaponController = GetComponent<WeaponController>();
     }
 
+    private void ConfineMouse()
+    {
 
+        Cursor.lockState = CursorLockMode.Confined; // keep confined in the game window
+        Cursor.lockState = CursorLockMode.Locked;   // keep confined to center of screen
+        Cursor.lockState = CursorLockMode.None;     // set to default default
+    }
     // Use this for initialization
     void Start()
     {
-		//example of how to get access to certain limbs
-	    leftFoot = this.transform.Find("Root/Hips/UpperLeg_L/LowerLeg_L/Ankle_L");
-	    rightFoot = this.transform.Find("Root/Hips/UpperLeg_R/LowerLeg_R/Ankle_R");
-	    plane = new Plane(Vector3.up, Vector3.zero);
+        //example of how to get access to certain limbs
+        leftFoot = this.transform.Find("Root/Hips/UpperLeg_L/LowerLeg_L/Ankle_L");
+        rightFoot = this.transform.Find("Root/Hips/UpperLeg_R/LowerLeg_R/Ankle_R");
+        plane = new Plane(Vector3.up, Vector3.zero);
 
         if (leftFoot == null || rightFoot == null)
             Debug.Log("One of the feet could not be found");
-            
+
     }
 
 
     private void Update()
     {
+        ConfineMouse();
+        
         if (cinput.enabled)
         {
             _inputForward = cinput.Forward;
-	        _inputTurn = cinput.Turn;
-            
+            _inputTurn = cinput.Turn;
+
             // Note that we don't overwrite a true value already stored
             // Is only cleared to false in FixedUpdate()
             // This makes certain that the action is handled!
@@ -113,36 +123,82 @@ public class CharacterController : MonoBehaviour
 
         }
 
-        var ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-        // Aim target
-	    if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimLayerMask))
-	    {
-		    aimTarget.position = raycastHit.point;
-	    }
-	    
-	    if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0))
-	    {
-		    weaponController.Attack(aimTarget, Input.GetMouseButtonDown(0) ? WeaponFireType.SINGLE :  WeaponFireType.RAPID);
-	    }
+        // var ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+        var ray = playerCamera.ScreenPointToRay(new Vector2(Screen.width / 2f, Screen.height / 2f));
 
-        //test
-        // if(Input.GetKeyDown("x"))
-        // {
-        //     Debug.Log("Next weapon");
-        //     weaponController.NextWeapon();
-        // }
-        if(Input.GetAxis("Mouse ScrollWheel") > 0f)
+        // Aim target
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimLayerMask))
+        {
+            aimTarget.position = raycastHit.point;
+        }
+
+        if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0))
+        {
+            weaponController.Attack(aimTarget, Input.GetMouseButtonDown(0) ? WeaponFireType.SINGLE : WeaponFireType.RAPID);
+        }
+
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
             weaponController.NextWeapon();
         }
-        if(Input.GetAxis("Mouse ScrollWheel") < 0f)
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f)
         {
             weaponController.PreviousWeapon();
         }
-        
-    }
-     
 
+        PlayerRotation();
+
+    }
+    private const float _threshold = 0.01f;
+    private bool IsCurrentDeviceMouse
+    {
+        get
+        {
+#if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
+                return _playerInput.currentControlScheme == "KeyboardMouse";
+#else
+            return false;
+#endif
+        }
+    }
+    // cinemachine
+    private float _cinemachineTargetYaw = 0;
+    private float _cinemachineTargetPitch = 0;
+    private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
+    {
+        if (lfAngle < -360f) lfAngle += 360f;
+        if (lfAngle > 360f) lfAngle -= 360f;
+        return Mathf.Clamp(lfAngle, lfMin, lfMax);
+    }
+    [Tooltip("How far in degrees can you move the camera up")]
+    public float TopClamp = 70.0f;
+
+    [Tooltip("How far in degrees can you move the camera down")]
+    public float BottomClamp = -30.0f;
+    [Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
+    public float CameraAngleOverride = 0.0f;
+    private void PlayerRotation()
+    {
+
+        // if there is an input and camera position is not fixed
+        if (cinput.Look.sqrMagnitude >= _threshold)
+        {
+            //Don't multiply mouse input by Time.deltaTime;
+            float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+            _cinemachineTargetYaw += cinput.Look.x * deltaTimeMultiplier;
+            _cinemachineTargetPitch += cinput.Look.y * deltaTimeMultiplier;
+        }
+
+        // clamp our rotations so our values are limited 360 degrees
+        _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
+        _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+        playerCameraRoot.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
+        _cinemachineTargetYaw, 0.0f);
+        //For actual player rotation, we reset pitch (So player wont rotate downward/upward)
+        transform.rotation = Quaternion.Euler(CameraAngleOverride,
+        _cinemachineTargetYaw, 0.0f);
+
+    }
     void FixedUpdate()
     {
 
@@ -156,52 +212,12 @@ public class CharacterController : MonoBehaviour
 
 
 
-        if(_inputActionFired)
+        if (_inputActionFired)
         {
             _inputActionFired = false; // clear the input event that came from Update()
         }
 
 
-        // TODO HANDLE BUTTON MATCH TARGET HERE
-        // get info about current animation
-	    var animState = anim.GetCurrentAnimatorStateInfo(0);
-	    
-	    
-	    // Derived stack overflow post: https://stackoverflow.com/questions/61864195/how-do-i-rotate-my-player-based-on-my-current-world-mouse-position-3d-isometric
-	    //Create a ray from the Mouse position into the scene
-	    var ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-
-	    // Use this ray to Raycast against the mathematical floor plane
-	    // "enter" will be a float holding the distance from the camera 
-	    // to the point where the ray hit the plane
-	    if (plane.Raycast(ray, out var enter))
-	    {
-		    //Get the 3D world point where the ray hit the plane
-		    var hitPoint = ray.GetPoint(enter);
-
-		    // project the player position onto the plane so you get the position
-		    // only in XZ and can directly compare it to the mouse ray hit
-		    // without any difference in the Y axis
-		    var playerPositionOnPlane = plane.ClosestPointOnPlane(transform.position);
-
-		    // rotate the player so it face the same direction as the one from the playerPositionOnPlane -> hitPoint 
-		    transform.rotation = Quaternion.LookRotation(hitPoint-playerPositionOnPlane);
-	    }
-
-        //TODO: Implement a proper "aim" mode.
-        // if(Input.GetMouseButton(0)) 
-        // {
-        //     // lastAimInTime = Time.fixedTime;
-        //     // aimLayer.weight = Mathf.Lerp(aimLayer.weight, 1f, Time.deltaTime*aimInSpeed);
-
-        // } else 
-        // {
-        //     if(Time.fixedTime > lastAimInTime + aimDuration) 
-        //     {
-        // 	    aimLayer.weight = Mathf.Lerp(aimLayer.weight, 0f, Time.deltaTime*aimOutSpeed);
-        //     }
-        // }
-        
         anim.speed = animationSpeed;
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -210,7 +226,7 @@ public class CharacterController : MonoBehaviour
             _inputForward *= 1.5f;
             _inputTurn *= 1.5f;
         }
-            anim.SetFloat("velx", _inputTurn);
+        anim.SetFloat("velx", _inputTurn);
         anim.SetFloat("vely", _inputForward);
         anim.SetBool("isFalling", !isGrounded);
 
@@ -230,7 +246,7 @@ public class CharacterController : MonoBehaviour
             EventManager.TriggerEvent<PlayerLandsEvent, Vector3, float>(collision.contacts[0].point, collision.impulse.magnitude);
 
         }
-						
+
     }
 
     private void OnCollisionExit(Collision collision)
@@ -253,8 +269,8 @@ public class CharacterController : MonoBehaviour
 
         if (isGrounded)
         {
-         	//use root motion as is if on the ground		
-            newRootPosition = anim.rootPosition;        
+            //use root motion as is if on the ground		
+            newRootPosition = anim.rootPosition;
         }
         else
         {
@@ -266,7 +282,7 @@ public class CharacterController : MonoBehaviour
         newRootRotation = anim.rootRotation;
 
         //TODO Here, you could scale the difference in position and rotation to make the character go faster or slower
-       
+
         newRootPosition = Vector3.LerpUnclamped(this.transform.position, newRootPosition, rootMovementSpeed);
         newRootRotation = Quaternion.LerpUnclamped(this.transform.rotation, newRootRotation, rootTurnSpeed);
 

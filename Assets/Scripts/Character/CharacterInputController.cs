@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterInputController : MonoBehaviour {
+public class CharacterInputController : MonoBehaviour
+{
 
     public string Name = "George P Burdell";
 
@@ -16,7 +17,7 @@ public class CharacterInputController : MonoBehaviour {
 
     private float forwardSpeedLimit = 1f;
 
-    
+
     public float Forward
     {
         get;
@@ -28,12 +29,16 @@ public class CharacterInputController : MonoBehaviour {
         get;
         private set;
     }
-    
-	public float Rotate
-	{
-		get;
-		private set;
-	}
+    public Vector2 Look
+    {
+        get;
+        private set;
+    }
+    public float Rotate
+    {
+        get;
+        private set;
+    }
 
     public bool Action
     {
@@ -47,19 +52,15 @@ public class CharacterInputController : MonoBehaviour {
         private set;
     }
 
-    public bool Speed
+
+
+    void Update()
     {
-        get;
-        private set;
-    }
+        Look = 100 * (new Vector2(Input.GetAxis("Mouse X"), -Input.GetAxis("Mouse Y")) );
 
-        
-
-	void Update () {
-		
         //GetAxisRaw() so we can do filtering here instead of the InputManager
         float h = Input.GetAxisRaw("Horizontal");// setup h variable as our horizontal input axis
-		float v = Input.GetAxisRaw("Vertical"); // setup v variables as our vertical input axis
+        float v = Input.GetAxisRaw("Vertical"); // setup v variables as our vertical input axis
 
         if (InputMapToCircular)
         {
@@ -101,10 +102,10 @@ public class CharacterInputController : MonoBehaviour {
 
 
         //do some filtering of our input as well as clamp to a speed limit
-        filteredForwardInput = Mathf.Clamp(Mathf.Lerp(filteredForwardInput, v, 
+        filteredForwardInput = Mathf.Clamp(Mathf.Lerp(filteredForwardInput, v,
             Time.deltaTime * forwardInputFilter), -forwardSpeedLimit, forwardSpeedLimit);
 
-        filteredTurnInput = Mathf.Lerp(filteredTurnInput, h, 
+        filteredTurnInput = Mathf.Lerp(filteredTurnInput, h,
             Time.deltaTime * turnInputFilter);
 
         Forward = filteredForwardInput;
@@ -116,5 +117,5 @@ public class CharacterInputController : MonoBehaviour {
 
         Jump = Input.GetButtonDown("Jump");
 
-	}
+    }
 }

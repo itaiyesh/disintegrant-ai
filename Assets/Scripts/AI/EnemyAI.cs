@@ -23,18 +23,16 @@ public class EnemyAI : MonoBehaviour
 
     private bool IsTargetClose(Vector3 agentPos, Vector3 AIPos)
     {
-        Debug.Log("Chase - IsTargetClose ?: " + (Vector3.Distance(agentPos, AIPos) < PlayerDist) + "; Distance= " +
-            Vector3.Distance(agentPos, AIPos) + " PlayerDist= " + (PlayerDist));
-
-
+        // Debug.Log("Chase - IsTargetClose ?: " + (Vector3.Distance(agentPos, AIPos) < PlayerDist) + "; Distance= " +
+        //     Vector3.Distance(agentPos, AIPos) + " PlayerDist= " + (PlayerDist));
         return Vector3.Distance(agentPos, AIPos) < PlayerDist;
     }
 
     private bool IsTargetinRange(Vector3 agentPos, Vector3 AIPos)
     {
         // target is in shooting range
-        Debug.Log("Attack - IsTargetinRange ?: " + (Vector3.Distance(agentPos, AIPos) < PlayerDist * 0.6) + "; Distance= " +
-            Vector3.Distance(agentPos, AIPos) + " PlayerDist*0.6= " + (PlayerDist * chaseAttackRatio));
+        // Debug.Log("Attack - IsTargetinRange ?: " + (Vector3.Distance(agentPos, AIPos) < PlayerDist * 0.6) + "; Distance= " +
+        //     Vector3.Distance(agentPos, AIPos) + " PlayerDist*0.6= " + (PlayerDist * chaseAttackRatio));
 
         return Vector3.Distance(agentPos, AIPos) < PlayerDist*0.6;
     }
@@ -113,70 +111,4 @@ public class EnemyAI : MonoBehaviour
         //Update animator
         animator.SetFloat("vely", agent.velocity.magnitude / agent.speed);
     }
-    // public enum AIState
-    // {
-    //     Wander,
-    //     Attack,
-    //     CollectGun,
-    //     CollectHealth,
-    //     SeekCover
-    // };
-    ////////////////////
-    //state parameters:
-    // got gun: true, false -> Would need to get more complicated to choose which gun to attack with based on ammo and available gun
-    // health: bad (< 33 %), medium (33-66 %), good (>66 %)
-    // player closeness: close, far -> needs decision how to implement, e.g. player in a specific room//triggered a trigger, or actual distance
-    ////////////////////
-
-    //////State arbitration below////////////
-    // if player far away, health good and got gun: idle
-
-    // if (!isTargetClose && agentAttribs.Health > mediumHealth && isArmed)
-    // {
-    //     // aiState = AIState.Idle;
-    // }
-
-    // // if player far away, health bad and got gun/ got no gun: go to next health
-    // // if player close and health bad and got gun/ got no gun: go to next health
-    // if (!isTargetClose && (agentAttribs.Health < mediumHealth) && (isArmed || !isArmed))
-    // {
-    //     // aiState = AIState.CollectHealth;
-    // }
-
-    // // if player far away, health good / medium and got no gun: go to next gun
-    // // if player close and health good and got no gun: go to next gun
-    // if ((!isTargetClose && (agentAttribs.Health > mediumHealth) && (isArmed || !isArmed)) ||
-    //     (isTargetClose && (agentAttribs.Health > mediumHealth) && (!isArmed)))
-    // {
-    //     // aiState = AIState.CollectGun;
-    // }
-
-
-    // // if player close and health good and got gun: attack
-    // else if (isTargetClose && agentAttribs.Health >= mediumHealth && isArmed)
-    // {
-    //     // aiState = AIState.Attack;
-    // }
-
-    // // if player close and health medium and got gun: seekCover
-    // else if (isTargetClose && agentAttribs.Health >= mediumHealth &&
-    //     agentAttribs.Health < goodHealth && isArmed)
-    // {
-    //     // aiState = AIState.Attack;
-    // }
-
-    // Debug.Log("Agent is in state " + aiState + ".");
-
-
-    // switch (aiState)
-    // {
-    //     case AIState.Idle:
-    //         // select some random points in agents vincinity, check that they are on the NavMesh and let him roam around
-    //         break;
-
-    //     case AIState.Attack:
-    //         // let agent approach player up to some distance, open fire
-    //         break;
-
-    // }
 }
