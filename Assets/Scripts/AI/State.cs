@@ -18,16 +18,17 @@ public sealed class Idle : State
         // Debug.Log("Switch to Chase? = " + (stateParams.Target != null && stateParams.IsGoodHealth && stateParams.IsTargetClose) + " Target: " + stateParams.Target
         //         + " IsTargetClose: " + stateParams.IsTargetClose + " GoodHealth: " + stateParams.IsGoodHealth);
 
-        if (stateParams.Target != null && stateParams.IsTargetinRange && stateParams.IsGoodHealth)
+        if ((stateParams.Target != null && stateParams.IsTargetinRange && (stateParams.IsGoodHealth ||
+            stateParams.Health == null)))
         {
             fsm.Switch(Attack.Instance);
         }
-        else if (stateParams.Target != null && stateParams.IsGoodHealth && stateParams.IsTargetClose)
+        else if (stateParams.Target != null && (stateParams.IsGoodHealth || stateParams.Health == null) && stateParams.IsTargetClose)
         {
             fsm.Switch(Chase.Instance);
         }
 
-        else if (stateParams.IsGoodHealth && stateParams.Attributes.IsUnderAttack)
+        else if (stateParams.Target != null && (stateParams.IsGoodHealth || stateParams.Health == null) && stateParams.Attributes.IsUnderAttack)
         {
             fsm.Switch(Chase.Instance);
         }
@@ -135,17 +136,17 @@ public sealed class Heal : State
             fsm.Switch(Chase.Instance);
         }
 
-        else if ((stateParams.IsGoodHealth || stateParams.IsMediumHealth) && stateParams.Attributes.IsUnderAttack)
+        else if (stateParams.Target != null && (stateParams.IsGoodHealth || stateParams.IsMediumHealth) && stateParams.Attributes.IsUnderAttack)
         {
             fsm.Switch(Chase.Instance);
         }
 
-        else if ((stateParams.IsGoodHealth || stateParams.IsMediumHealth) && !stateParams.Attributes.IsUnderAttack && !stateParams.IsTargetClose)
+        else if (((stateParams.IsGoodHealth || stateParams.IsMediumHealth) && !stateParams.Attributes.IsUnderAttack && !stateParams.IsTargetClose) || stateParams.Target == null)
         {
             fsm.Switch(Idle.Instance);
         }
 
-        else if (!stateParams.IsMediumHealth)
+        else if (stateParams.Health != null && !stateParams.IsMediumHealth)
         {
             //Vector3 healthDirection = stateParams.Health.transform.position - stateParams.Agent.transform.position;
             //stateParams.Agent.transform.rotation = Quaternion.Lerp(stateParams.Agent.transform.rotation, Quaternion.LookRotation(healthDirection), Time.deltaTime * 10f);
@@ -153,7 +154,21 @@ public sealed class Heal : State
             stateParams.Agent.SetDestination(stateParams.Health.transform.position);
         }
 
-
+        else if (stateParams.Health == null)
+        {
+            if (stateParams.IsTargetinRange || stateParams.IsUnderAttack)
+            {
+                fsm.Switch(Attack.Instance);
+            }
+            else if (stateParams.IsTargetClose || stateParams.IsUnderAttack)
+            {
+                fsm.Switch(Chase.Instance);
+            }
+            else if ((!stateParams.IsTargetClose && !stateParams.IsUnderAttack) || stateParams.Target == null)
+            {
+                fsm.Switch(Idle.Instance);
+            }
+        }
     }
 }
 abstract public class State
