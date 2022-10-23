@@ -84,6 +84,7 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         //Collect common FSM variables
+        //Find closest player to fight
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         int minIndex = -1;
         float minDistance = Mathf.Infinity;
@@ -97,7 +98,24 @@ public class EnemyAI : MonoBehaviour
                 minIndex = i;
             }
         }
+
+        //find closest health pack to pick up
+        GameObject[] health = GameObject.FindGameObjectsWithTag("health");
+        int minIndexHealth = -1;
+        float minDistanceHealth = Mathf.Infinity;
+        for (int i = 0; i < health.Length; i++)
+        {
+            if (health[i] == gameObject) { continue; }
+            float distance = Vector3.Distance(health[i].transform.position, transform.position);
+            if (distance < minDistanceHealth)
+            {
+                minDistanceHealth = distance;
+                minIndexHealth = i;
+            }
+        }
+
         stateParams.Target = minIndex > -1 ? players[minIndex] : null;
+        stateParams.Health = minIndexHealth > -1 ? health[minIndexHealth] : null;
         stateParams.IsTargetClose = stateParams.Target != null && IsTargetClose(stateParams.Target.transform.position, agent.transform.position);
         stateParams.IsTargetinRange = stateParams.Target != null && IsTargetinRange(stateParams.Target.transform.position, agent.transform.position);
         stateParams.IsArmed = IsArmed(stateParams.Attributes);

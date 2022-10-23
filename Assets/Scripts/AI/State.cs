@@ -77,6 +77,11 @@ public sealed class Attack : State
             stateParams.Agent.transform.position += 2*stateParams.Target.transform.forward * stateParams.Agent.speed * Time.deltaTime;
             
         }
+        else if (stateParams.Health != null && !stateParams.IsMediumHealth)
+        {
+            fsm.Switch(Heal.Instance);
+        }
+
         else
         {
             fsm.Switch(Idle.Instance);
@@ -101,11 +106,54 @@ public sealed class Chase : State
             //Target is too far
             stateParams.Agent.SetDestination(stateParams.Target.transform.position);
         }
+
+        else if (stateParams.Health != null && !stateParams.IsMediumHealth)
+        {
+            fsm.Switch(Heal.Instance);
+        }
+
         else
         {
             //No target selected
             fsm.Switch(Idle.Instance);
         }
+    }
+}
+public sealed class Heal : State
+{
+
+    public static readonly Heal Instance = new Heal();
+
+    public override void Execute(FSM fsm, StateParams stateParams)
+    {
+        if (stateParams.Target != null && stateParams.IsTargetinRange && (stateParams.IsGoodHealth || stateParams.IsMediumHealth))
+        {
+            fsm.Switch(Attack.Instance);
+        }
+        else if (stateParams.Target != null && stateParams.IsGoodHealth && stateParams.IsTargetClose)
+        {
+            fsm.Switch(Chase.Instance);
+        }
+
+        else if ((stateParams.IsGoodHealth || stateParams.IsMediumHealth) && stateParams.Attributes.IsUnderAttack)
+        {
+            fsm.Switch(Chase.Instance);
+        }
+
+        else if ((stateParams.IsGoodHealth || stateParams.IsMediumHealth) && !stateParams.Attributes.IsUnderAttack && !stateParams.IsTargetClose)
+        {
+            fsm.Switch(Idle.Instance);
+        }
+
+        else if (!stateParams.IsMediumHealth)
+        {
+            //Vector3 healthDirection = stateParams.Health.transform.position - stateParams.Agent.transform.position;
+            //stateParams.Agent.transform.rotation = Quaternion.Lerp(stateParams.Agent.transform.rotation, Quaternion.LookRotation(healthDirection), Time.deltaTime * 10f);
+            //stateParams.Agent.updateRotation = true;
+            stateParams.Agent.SetDestination(stateParams.Health.transform.position);
+        }
+
+
     }
 }
 abstract public class State
