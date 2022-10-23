@@ -61,6 +61,7 @@ public class CharacterController : MonoBehaviour
 
     public Transform playerCameraRoot;
 
+    private float distanceToGround;
     void Awake()
     {
 
@@ -84,7 +85,11 @@ public class CharacterController : MonoBehaviour
             Debug.Log("Camera could not be found");
 
         weaponController = GetComponent<WeaponController>();
+
+        distanceToGround = GetComponent<CapsuleCollider>().bounds.extents.y;
+
     }
+
 
     private void ConfineMouse()
     {
@@ -106,11 +111,10 @@ public class CharacterController : MonoBehaviour
 
     }
 
-
     private void Update()
     {
         ConfineMouse();
-        
+
         if (cinput.enabled)
         {
             _inputForward = cinput.Forward;
@@ -147,6 +151,33 @@ public class CharacterController : MonoBehaviour
         }
 
         PlayerRotation();
+
+        //onCollisionXXX() doesn't always work for checking if the character is grounded from a playability perspective
+        //Uneven terrain can cause the player to become technically airborne, but so close the player thinks they're touching ground.
+        //Therefore, an additional raycast approach is used to check for close ground.
+        //This is good for allowing player to jump and not be frustrated that the jump button doesn't
+        //work
+
+        //TODO: This ray cast doesnt really work.
+        bool isGrounded = IsGrounded || CharacterUtils.CheckGroundNear(this.transform.position, jumpableGroundNormalMaxAngle, 0.1f, 1f, out closeToJumpableGround);
+        // Debug.DrawRay(transform.position, -Vector3.up, Color.red);
+        if (_inputActionFired)
+        {
+            _inputActionFired = false; // clear the input event that came from Update()
+        }
+
+
+        anim.speed = animationSpeed;
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            anim.speed *= 2.0f;
+            _inputForward *= 1.5f;
+            _inputTurn *= 1.5f;
+        }
+
+        anim.SetFloat("velx", _inputTurn);
+        anim.SetFloat("vely", _inputForward);
+        anim.SetBool("isFalling", !isGrounded);
 
     }
     private const float _threshold = 0.01f;
@@ -199,40 +230,6 @@ public class CharacterController : MonoBehaviour
         _cinemachineTargetYaw, 0.0f);
 
     }
-    void FixedUpdate()
-    {
-
-
-        //onCollisionXXX() doesn't always work for checking if the character is grounded from a playability perspective
-        //Uneven terrain can cause the player to become technically airborne, but so close the player thinks they're touching ground.
-        //Therefore, an additional raycast approach is used to check for close ground.
-        //This is good for allowing player to jump and not be frustrated that the jump button doesn't
-        //work
-        bool isGrounded = IsGrounded || CharacterUtils.CheckGroundNear(this.transform.position, jumpableGroundNormalMaxAngle, 0.1f, 1f, out closeToJumpableGround);
-
-
-
-        if (_inputActionFired)
-        {
-            _inputActionFired = false; // clear the input event that came from Update()
-        }
-
-
-        anim.speed = animationSpeed;
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            Debug.Log("Sprint");
-            anim.speed *= 2.0f;
-            _inputForward *= 1.5f;
-            _inputTurn *= 1.5f;
-        }
-        anim.SetFloat("velx", _inputTurn);
-        anim.SetFloat("vely", _inputForward);
-        anim.SetBool("isFalling", !isGrounded);
-
-    }
-
-
     //This is a physics callback
     void OnCollisionEnter(Collision collision)
     {
