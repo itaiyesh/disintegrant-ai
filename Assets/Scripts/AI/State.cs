@@ -45,17 +45,17 @@ public sealed class Idle : State
                 {
                     stateParams.Agent.SetDestination(hit.position);
                     stateParams.Waypoint = stateParams.Agent.transform.position + new Vector3(offset.x, 0.0f, offset.y);
-                    isWayPointvalid = true; 
+                    isWayPointvalid = true;
                     Debug.Log(hit.position);
                 }
-                
+
             }
-            
+
             if (stateParams.Agent.remainingDistance < 0.5)
             {
                 isWayPointvalid = false;
             }
-            
+
 
         }
     }
@@ -63,20 +63,32 @@ public sealed class Idle : State
 
 public sealed class Attack : State
 {
-
     public static readonly Attack Instance = new Attack();
 
+    public float PositionUpdateFrequency = 3f;
+    public float AttackRadius = 10f;
+    private float lastUpdateTime = 0f;
     public override void Execute(FSM fsm, StateParams stateParams)
     {
-        if (stateParams.Target != null &&  stateParams.IsTargetClose && stateParams.Attributes.equippedWeapons[stateParams.Attributes.activeWeaponIndex].GetComponent<Weapon>().Ammo > 0)
+        if (stateParams.Target != null && stateParams.IsTargetClose && stateParams.Attributes.equippedWeapons[stateParams.Attributes.activeWeaponIndex].GetComponent<Weapon>().Ammo > 0)
         {
             Vector3 targetDirection = stateParams.Target.transform.position - stateParams.Agent.transform.position;
             stateParams.Agent.transform.rotation = Quaternion.Lerp(stateParams.Agent.transform.rotation, Quaternion.LookRotation(targetDirection), Time.deltaTime * 10f);
             stateParams.Agent.updateRotation = true;
             stateParams.WeaponController.Attack(stateParams.Target.transform, WeaponFireType.SINGLE);
 
-            stateParams.Agent.transform.position += 2*stateParams.Target.transform.forward * stateParams.Agent.speed * Time.deltaTime;
-            
+            if (stateParams.Agent.remainingDistance - stateParams.Agent.stoppingDistance < 0.5f || Time.fixedTime - lastUpdateTime > PositionUpdateFrequency)
+            {
+                Vector3 attackPosition = stateParams.Target.transform.position;
+                Vector2 rand = Random.insideUnitCircle * AttackRadius;
+                attackPosition += new Vector3(rand.x, 0, rand.y);
+                stateParams.Agent.SetDestination(attackPosition);
+                lastUpdateTime = Time.fixedTime;
+                //AI will stay within radius of the enemy
+            }
+
+            // stateParams.Agent.transform.position += 2*stateParams.Target.transform.forward * stateParams.Agent.speed * Time.deltaTime;
+
         }
         else if (stateParams.Health != null && !stateParams.IsMediumHealth)
         {
@@ -184,7 +196,7 @@ public interface StateChangeListener
 public class FSM
 {
     State state;
-    
+
     private StateChangeListener listener;
 
     public void SetStateChangeListener(StateChangeListener stateChangeListener)
