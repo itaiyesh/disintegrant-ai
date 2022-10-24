@@ -34,7 +34,7 @@ public class EnemyAI : MonoBehaviour
         // Debug.Log("Attack - IsTargetinRange ?: " + (Vector3.Distance(agentPos, AIPos) < PlayerDist * 0.6) + "; Distance= " +
         //     Vector3.Distance(agentPos, AIPos) + " PlayerDist*0.6= " + (PlayerDist * chaseAttackRatio));
 
-        return Vector3.Distance(agentPos, AIPos) < PlayerDist*0.6;
+        return Vector3.Distance(agentPos, AIPos) < PlayerDist * 0.6;
     }
 
     private bool InHearingDistance(Vector3 agentPos, Vector3 AIPos)
@@ -127,6 +127,8 @@ public class EnemyAI : MonoBehaviour
         fsm.Execute(stateParams);
 
         //Update animator
-        animator.SetFloat("vely", agent.velocity.magnitude / agent.speed);
+        animator.SetFloat("vely", Vector3.Dot(agent.velocity, agent.transform.forward) / agent.speed);
+        animator.SetFloat("velx", Vector3.Dot(agent.velocity, agent.transform.right) / agent.speed);
+
     }
 }
