@@ -20,7 +20,7 @@ public class HealthBar : MonoBehaviour
 
     private void LateUpdate()
     {
-        UpdateHealth(_characterAttributes.characterAttributes.Health);
+        if(_characterAttributes) UpdateHealth(_characterAttributes.characterAttributes.Health);
     }
 
     private void SetMaxHealth(float value)
