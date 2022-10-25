@@ -64,45 +64,53 @@ public class AudioEventManager : MonoBehaviour
     }
     private void footstepEventHandler(int type, Vector3 position)
     {
-        //Workout till we figure out why spatial sound doesnt work:
-        AudioSource.PlayClipAtPoint(footstepAudios[type < footstepAudios.Length ? type : 0], position, 0.1f);
-
-        // var sound = Instantiate(eventSound3DPrefab, position, Quaternion.identity, null);
-        // //TODO: Cancel sound on death!
-        // // sound.gameObject.AddComponent<MinionAudioCancelOnDeath>();
-        // sound.audioSrc.clip = footstepAudios[type < footstepAudios.Length ? type : 0];
-        // sound.audioSrc.volume = 0.5f;
-        // sound.audioSrc.volume *= Random.Range(0.7f, 1f);
-        // sound.audioSrc.minDistance = 0f;
-        // sound.audioSrc.maxDistance = 20f;
-        // sound.audioSrc.Play();
+        var sound = Instantiate(eventSound3DPrefab, position, Quaternion.identity, null);
+        //TODO: Cancel sound on death!
+        // sound.gameObject.AddComponent<MinionAudioCancelOnDeath>();
+        sound.audioSrc.spatialBlend = 1f;
+        sound.audioSrc.rolloffMode = AudioRolloffMode.Linear;
+        
+        sound.audioSrc.clip = footstepAudios[type < footstepAudios.Length ? type : 0];
+        sound.audioSrc.volume = 0.5f;
+        sound.audioSrc.volume *= Random.Range(0.7f, 1f);
+        sound.audioSrc.minDistance = 1f;
+        sound.audioSrc.maxDistance = 5f;
+        sound.audioSrc.Play();
 
     }
     private void WeaponFiredEventHandler(AudioClip audioClip, Vector3 position)
     {
-        //Workout till we figure out why spatial sound doesnt work:
-        AudioSource.PlayClipAtPoint(audioClip, position);
-        // var sound = Instantiate(eventSound3DPrefab, position, Quaternion.identity, null);
-        // if (audioClip)
-        // {
-        //     sound.audioSrc.clip = audioClip;
-        //     sound.audioSrc.minDistance = 5f;
-        //     sound.audioSrc.maxDistance = 100f;
-        //     sound.audioSrc.Play();
-        // }
+        var sound = Instantiate(eventSound3DPrefab, position, Quaternion.identity, null);
+        if (audioClip)
+        {
+            // enable 3d spatial blend
+            sound.audioSrc.spatialBlend = 1f;
+            sound.audioSrc.rolloffMode = AudioRolloffMode.Linear;
+            sound.audioSrc.minDistance = 10f;
+            sound.audioSrc.maxDistance = 40f;
+            
+            sound.audioSrc.clip = audioClip;
+            sound.audioSrc.Play();
+        }
     }
 
     private void WeaponSwapEventHandler(Vector3 position)
     {
         //Workout till we figure out why spatial sound doesnt work:
-        AudioSource.PlayClipAtPoint(weaponSwapAudio, position);
-        // var sound = Instantiate(eventSound3DPrefab, position, Quaternion.identity, null);
+        // AudioSource.PlayClipAtPoint(weaponSwapAudio, position);
+        var sound = Instantiate(eventSound3DPrefab, position, Quaternion.identity, null);
 
-        // if (weaponSwapAudio)
-        // {
-        //     sound.audioSrc.clip = weaponSwapAudio;
-        //     sound.audioSrc.Play();
-        // }
+        if (weaponSwapAudio)
+        {
+            // enable 3d spatial blend
+            sound.audioSrc.spatialBlend = 1f;
+            sound.audioSrc.rolloffMode = AudioRolloffMode.Linear;
+            sound.audioSrc.minDistance = 1f;
+            sound.audioSrc.maxDistance = 1f;
+            
+            sound.audioSrc.clip = weaponSwapAudio;
+            sound.audioSrc.Play();
+        }
     }
 
     private void MenuBackgroundAudioEventHandler(bool enableBackgroundAudio)
