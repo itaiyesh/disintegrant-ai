@@ -12,6 +12,7 @@ using UnityEditor;
 [RequireComponent(typeof(CharacterInputController)), RequireComponent(typeof(WeaponController))]
 public class CharacterController : MonoBehaviour
 {
+    public GameObject Ragdoll;
     private WeaponController weaponController;
     public Transform aimTarget;
     public Rig aimLayer;
@@ -179,6 +180,8 @@ public class CharacterController : MonoBehaviour
         anim.SetFloat("vely", _inputForward);
         anim.SetBool("isFalling", !isGrounded);
 
+        if (Input.GetKeyDown(KeyCode.Y)) { Die(); }
+
     }
     private const float _threshold = 0.01f;
     private bool IsCurrentDeviceMouse
@@ -230,6 +233,14 @@ public class CharacterController : MonoBehaviour
         _cinemachineTargetYaw, 0.0f);
 
     }
+
+    void Die()
+    {
+        gameObject.SetActive(false);
+        GameObject ragdoll = Instantiate(Ragdoll, transform.position, transform.rotation);
+        Destroy(ragdoll, 30);
+    }
+
     //This is a physics callback
     void OnCollisionEnter(Collision collision)
     {

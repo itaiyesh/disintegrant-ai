@@ -65,7 +65,7 @@ public class AudioEventManager : MonoBehaviour
     private void footstepEventHandler(int type, Vector3 position)
     {
         //Workout till we figure out why spatial sound doesnt work:
-        AudioSource.PlayClipAtPoint(footstepAudios[type < footstepAudios.Length ? type : 0], position);
+        AudioSource.PlayClipAtPoint(footstepAudios[type < footstepAudios.Length ? type : 0], position, 0.1f);
 
         // var sound = Instantiate(eventSound3DPrefab, position, Quaternion.identity, null);
         // //TODO: Cancel sound on death!
