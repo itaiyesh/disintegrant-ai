@@ -7,7 +7,7 @@ public class Rocket : Projectile
 	
 	public GameObject vfxExplosion;
     
-	private void OnTriggerEnter(Collider collider)
+	public override void OnTriggerEnter(Collider collider)
 	{
 		GameObject vfxObject = Instantiate(vfxExplosion, transform.position, Quaternion.identity);
 		Destroy(vfxObject, 5f); //Manually destroy VFX after some time.

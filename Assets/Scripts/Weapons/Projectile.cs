@@ -57,9 +57,9 @@ public class Projectile : MonoBehaviour
             //Trigger hit animation based on type of weapon/projectile
             c.gameObject.GetComponent<Animator>().SetTrigger("takeDamage");
             c.gameObject.GetComponent<CharacterAttributes>().Attacked(pickup);
-
-           Destroy(gameObject);
 		}
+		
+		Destroy(gameObject);
     }
 
 }
