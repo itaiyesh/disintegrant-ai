@@ -38,9 +38,14 @@ public class WeaponController : MonoBehaviour
 		{
 			animator.SetTrigger("pull_out_" + weapon.GetComponent<Weapon>().AnimationTag);
 			weapon.SetActive(true);
+			
+			// send a weapon swap event
+			EventManager.TriggerEvent<WeaponSwapEvent, GameObject, GameObject, GameObject>(this.gameObject, null, weapon);
 		}
 		
+		weapon.GetComponent<Weapon>().Player = this.gameObject; // Set owning player
 		characterAttributes.equippedWeapons.Add(weapon);
+		EventManager.TriggerEvent<WeaponAddEvent, GameObject, GameObject>(this.gameObject, weapon);
 	}
 	
 	public void DropWeapons()
@@ -62,6 +67,7 @@ public class WeaponController : MonoBehaviour
 			PreviousWeapon();
 		
 		characterAttributes.equippedWeapons.Remove(weapon);
+		EventManager.TriggerEvent<WeaponRemoveEvent, GameObject, GameObject>(this.gameObject, weapon);
 		
 		if (dropAsCollectable) 
 		{
@@ -74,6 +80,7 @@ public class WeaponController : MonoBehaviour
 			
 			// Replace weapon in collectable with the weapon to remove
 			Destroy(collectable.transform.GetChild(0).gameObject);
+			weapon.GetComponent<Weapon>().Player = null; // Set owning player to null
 			weapon.transform.parent = collectable.transform;
 		}
 	}
@@ -93,14 +100,15 @@ public class WeaponController : MonoBehaviour
 		if(weapon != characterAttributes.equippedWeapons[characterAttributes.activeWeaponIndex] && characterAttributes.equippedWeapons.Contains(weapon)) 
         {
 			animator.SetTrigger("pull_in");
-			characterAttributes.equippedWeapons[characterAttributes.activeWeaponIndex].SetActive(false);
+			int oldIndex = characterAttributes.activeWeaponIndex;
+			characterAttributes.equippedWeapons[oldIndex].SetActive(false);
 			weapon.SetActive(true);
 			animator.SetTrigger("pull_out_" + weapon.GetComponent<Weapon>().AnimationTag);
 			
 			characterAttributes.activeWeaponIndex = characterAttributes.equippedWeapons.IndexOf(weapon);
 
-            // send a weapon change sound event.
-            EventManager.TriggerEvent<WeaponSwapEvent, Vector3>(gameObject.transform.position);
+			// send a weapon swap event
+			EventManager.TriggerEvent<WeaponSwapEvent, GameObject, GameObject, GameObject>(this.gameObject, characterAttributes.equippedWeapons[oldIndex], weapon);
         }
     }
 

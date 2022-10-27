@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Rifle
+  WeaponType: 1
   FireType: 1
   Projectile: {fileID: 7061896880637717249, guid: bed1e15994af89a4b83e5dd9bf64ec05, type: 3}
   FireSound: {fileID: 8300000, guid: 1e34685f11949724babac37ec931387a, type: 3}

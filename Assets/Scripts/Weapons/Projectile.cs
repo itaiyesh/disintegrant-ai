@@ -41,6 +41,11 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    
+	public virtual void OnCollisionEnter(Collision collision)
+	{
+		Destroy(gameObject);
+	}
 
 	public virtual void OnTriggerEnter(Collider c)
 	{
@@ -57,9 +62,9 @@ public class Projectile : MonoBehaviour
             //Trigger hit animation based on type of weapon/projectile
             c.gameObject.GetComponent<Animator>().SetTrigger("takeDamage");
             c.gameObject.GetComponent<CharacterAttributes>().Attacked(pickup);
+
+           Destroy(gameObject);
 		}
-		
-		Destroy(gameObject);
     }
 
 }

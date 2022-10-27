@@ -4,6 +4,13 @@ using UnityEngine;
 using UnityEditor;
 using Events;
 
+public enum WeaponType {
+	PISTOL,
+	RIFLE,
+	SHOTGUN,
+	RPG
+}
+
 public enum WeaponFireType {
 	SINGLE,
 	RAPID
@@ -13,9 +20,10 @@ public enum WeaponFireType {
 public class Weapon : MonoBehaviour {
 	public string Name;
 	
+	public WeaponType WeaponType;
 	public WeaponFireType FireType;
 	
-	private GameObject Player;
+	public GameObject Player;
 	
 	public GameObject Projectile;
 	public AudioClip FireSound;
@@ -51,15 +59,15 @@ public class Weapon : MonoBehaviour {
 		
 			// Calculate aim direction
 			Vector3 aimDirection = (target.position - bulletSpawnPosition.position).normalized;
-			// aimDirection.y = 0; // Constraining to horizontal aiming only
+			 //aimDirection.y = 0; // Constraining to horizontal aiming only
+			
+			Ammo -= 1;
         
 			// Spawn projectile and set stats
 			SpawnProjectile(bulletSpawnPosition, aimDirection);
-		
-			// Play fire sound
-			PlaySound(FireSound, bulletSpawnPosition.position);
 			
-			Ammo -= 1;
+			// Play fire sound & trigger fire event
+			TriggerEvent(FireSound, bulletSpawnPosition.position);
 			
 		}
 	}
@@ -78,8 +86,8 @@ public class Weapon : MonoBehaviour {
 		projectileScript.MaxDuration = MaxDuration;
 	}
 
-	public void PlaySound(AudioClip audioClip, Vector3 position)
+	public void TriggerEvent(AudioClip audioClip, Vector3 position)
     {
-        EventManager.TriggerEvent<WeaponFiredEvent, AudioClip, Vector3>(audioClip, position);
+	    EventManager.TriggerEvent<WeaponFiredEvent, GameObject, GameObject, AudioClip, Vector3>(Player, this.gameObject, audioClip, position);
     }
 }

@@ -16,10 +16,14 @@ public class WeaponCollectable : MonoBehaviour
 			
 			GameObject weapon = transform.GetChild(0).gameObject;
 			
+			GameObject playerWeapon = c.gameObject.GetComponent<CharacterAttributes>().characterAttributes.equippedWeapons.Find(wep => wep.GetComponent<Weapon>().Name == weapon.GetComponent<Weapon>().Name);
+			
 			// Check if the player already has a weapon of the same type
-			if (c.gameObject.GetComponent<CharacterAttributes>().characterAttributes.equippedWeapons.Exists(wep => wep.GetComponent<Weapon>().Name == weapon.GetComponent<Weapon>().Name)) 
+			if (playerWeapon != null) 
 			{
-				isTriggered = false;
+				// Add collectables ammo to the player's weapon
+				playerWeapon.GetComponent<Weapon>().Ammo += weapon.GetComponent<Weapon>().Ammo;
+				Destroy(this.gameObject);
 				return;
 			}
 			

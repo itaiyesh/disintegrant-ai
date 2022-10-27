@@ -5,28 +5,33 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class CharacterAttributeItems
+public class CharacterAttributeItems : ICloneable
 {
 	// Basics
 	public const float MAX_HEALTH = 100f;
-	public float Health = MAX_HEALTH;
+	public float Health { get; set; } = MAX_HEALTH;
 	
 	// Movement
-	public float MovementSpeedMultiplier = 1.0f;
+	public float MovementSpeedMultiplier { get; set; } = 1.0f;
 	
 	// Weapons
-	public List<GameObject> equippedWeapons = new List<GameObject>();
-	public int activeWeaponIndex = 0;
+	public List<GameObject> equippedWeapons { get; set; } = new List<GameObject>();
+	public int activeWeaponIndex { get; set; } = 0;
 	
 	// Camera effects
-	public bool ExplosionShakeEnabled = false;
-	public bool TimeDilationEnabled = false;
+	public bool ExplosionShakeEnabled { get; set; } = false;
+	public bool TimeDilationEnabled { get; set; } = false;
 	
 	// Skills
-	public bool SkillHasGrenade = false;
+	public bool SkillHasGrenade { get; set; } = false;
 
 	// UnderAttack
-	public bool IsUnderAttack = false;
+	public bool IsUnderAttack { get; set; } = false;
+	
+	public object Clone()
+	{
+		return this.MemberwiseClone();
+	}
 }
 
 // This class implements the character attributes & modifier system
@@ -38,19 +43,37 @@ public class CharacterAttributes : MonoBehaviour
 	// Character modifier list
 	public List<CharacterModifier> Modifiers = new List<CharacterModifier>();
 	
+	private CharacterAttributeItems previousAttributes = new CharacterAttributeItems();
+	
 	// Update is called once per frame, updates modifiers
     void Update()
 	{
 		foreach (CharacterModifier modifier in Modifiers) // Iterate over attributes
 		{
-			if (modifier.DurationRemaining <= 0) { // Attribute duration finished, remove attribute
+			if (modifier.State == ModifierState.REMOVED) {
+				continue;
+			} else if (modifier.DurationRemaining <= 0) { // Attribute duration finished, remove attribute
 				RemoveModifier(modifier);
-			} else if (modifier.State != ModifierState.REMOVED) {
+			} else {
 				modifier.DurationRemaining -= Time.deltaTime; // Decrement duration
 				modifier.OnUpdateModifier(this.characterAttributes);
 			}
 		}
-        
+		
+		// Get dictionary of attribute changes
+		Dictionary<string, object> newAttributes = getAttributes(characterAttributes, previousAttributes);
+				
+		// If there have been changes, emit attribute modification event with updated attributes
+		if (newAttributes.Count > 0)
+		{
+			EventManager.TriggerEvent<CharacterAttributeChangeEvent, GameObject, Dictionary<string, object>, Dictionary<string, object>>(
+				this.gameObject,
+				getAttributes(previousAttributes),
+				newAttributes
+			);
+			
+			previousAttributes = (CharacterAttributeItems) characterAttributes.Clone();
+		}
 	}
 
 	public void Attacked(CharacterModifier modifier)
@@ -68,7 +91,7 @@ public class CharacterAttributes : MonoBehaviour
 	
 	// Removes a modifier from the character by modifier
 	public void RemoveModifier(CharacterModifier modifier) {
-		Modifiers.Remove(modifier);
+		//Modifiers.Remove(modifier);
 		modifier.OnRemoveModifier(this.characterAttributes);
 		
 	}
@@ -79,7 +102,7 @@ public class CharacterAttributes : MonoBehaviour
 		
 		if (modifierToRemove !=  null)
 		{
-			Modifiers.Remove(modifierToRemove);
+			//Modifiers.Remove(modifierToRemove);
 			modifierToRemove.OnRemoveModifier(this.characterAttributes);
 		}
 		
@@ -95,5 +118,27 @@ public class CharacterAttributes : MonoBehaviour
 			}
 		}
 		
+	}
+	
+	// Extracts specific attribute values from the attributes class
+	private Dictionary<string, object> getAttributes(CharacterAttributeItems attributes, CharacterAttributeItems compareAttributes=null) 
+	{
+		Dictionary<string, object> output = new Dictionary<string, object>();
+		
+		bool isNull = compareAttributes is null;
+		
+		foreach(var prop in attributes.GetType().GetProperties()) {
+			// Checks if attribute is in the attribute names, and if a compare set exists, checks that they aren't identical
+			
+			bool isDifferent = !isNull && !compareAttributes.GetType().GetProperty(prop.Name).GetValue(compareAttributes, null).Equals(prop.GetValue(attributes, null));
+			
+			if (isNull || isDifferent)
+			{
+				//Debug.Log($"{prop.Name} - {isNull || isDifferent}, A: {compareAttributes.GetType().GetProperty(prop.Name).GetValue(compareAttributes, null)}, B: {prop.GetValue(attributes, null)}");
+				output.Add(prop.Name, prop.GetValue(attributes, null));
+			}
+		}
+		
+		return output;
 	}
 }
