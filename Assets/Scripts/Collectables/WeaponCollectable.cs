@@ -23,6 +23,8 @@ public class WeaponCollectable : MonoBehaviour
 			{
 				// Add collectables ammo to the player's weapon
 				playerWeapon.GetComponent<Weapon>().Ammo += weapon.GetComponent<Weapon>().Ammo;
+				// Trigger add event so ammo is updated on hud
+				EventManager.TriggerEvent<WeaponAddEvent, GameObject, GameObject>(c.gameObject, playerWeapon);
 				Destroy(this.gameObject);
 				return;
 			}

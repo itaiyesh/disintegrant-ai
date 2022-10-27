@@ -8,6 +8,7 @@ using UnityEngine;
 public class CharacterAttributeItems : ICloneable
 {
 	// Basics
+	public bool IsAlive { get; set; } = true;
 	public const float MAX_HEALTH = 100f;
 	public float Health { get; set; } = MAX_HEALTH;
 	

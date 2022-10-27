@@ -234,11 +234,10 @@ public class CharacterController : MonoBehaviour
 
     }
 
-    void Die()
+	public void Die()
     {
         gameObject.SetActive(false);
         GameObject ragdoll = Instantiate(Ragdoll, transform.position, transform.rotation);
-        Destroy(ragdoll, 30);
     }
 
     //This is a physics callback
