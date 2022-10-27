@@ -91,14 +91,6 @@ public class CharacterController : MonoBehaviour
 
     }
 
-
-    private void ConfineMouse()
-    {
-
-        Cursor.lockState = CursorLockMode.Confined; // keep confined in the game window
-        Cursor.lockState = CursorLockMode.Locked;   // keep confined to center of screen
-        Cursor.lockState = CursorLockMode.None;     // set to default default
-    }
     // Use this for initialization
     void Start()
     {
@@ -114,8 +106,8 @@ public class CharacterController : MonoBehaviour
 
     private void Update()
     {
-        ConfineMouse();
-
+        Cursor.lockState = CursorLockMode.Locked;
+        
         if (cinput.enabled)
         {
             _inputForward = cinput.Forward;
