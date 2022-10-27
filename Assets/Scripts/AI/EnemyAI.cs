@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -100,7 +100,7 @@ public class EnemyAI : MonoBehaviour
         }
 
         //find closest health pack to pick up
-        GameObject[] health = GameObject.FindGameObjectsWithTag("health");
+	    GameObject[] health = GameObject.FindGameObjectsWithTag("HealthCollectable");
         int minIndexHealth = -1;
         float minDistanceHealth = Mathf.Infinity;
         for (int i = 0; i < health.Length; i++)
@@ -113,9 +113,25 @@ public class EnemyAI : MonoBehaviour
                 minIndexHealth = i;
             }
         }
+        
+	    //find closest weapon pack to pick up
+	    GameObject[] weapon = GameObject.FindGameObjectsWithTag("WeaponCollectable");
+	    int minIndexWeapon = -1;
+	    float minDistanceWeapon = Mathf.Infinity;
+	    for (int i = 0; i < weapon.Length; i++)
+	    {
+		    if (weapon[i] == gameObject) { continue; }
+		    float distance = Vector3.Distance(weapon[i].transform.position, transform.position);
+		    if (distance < minDistanceWeapon)
+		    {
+			    minDistanceWeapon = distance;
+			    minIndexWeapon = i;
+		    }
+	    }
 
         stateParams.Target = minIndex > -1 ? players[minIndex] : null;
-        stateParams.Health = minIndexHealth > -1 ? health[minIndexHealth] : null;
+	    stateParams.Health = minIndexHealth > -1 ? health[minIndexHealth] : null;
+	    stateParams.Weapon = minIndexWeapon > -1 ? weapon[minIndexWeapon] : null;
         stateParams.IsTargetClose = stateParams.Target != null && IsTargetClose(stateParams.Target.transform.position, agent.transform.position);
         stateParams.IsTargetinRange = stateParams.Target != null && IsTargetinRange(stateParams.Target.transform.position, agent.transform.position);
         stateParams.IsArmed = IsArmed(stateParams.Attributes);

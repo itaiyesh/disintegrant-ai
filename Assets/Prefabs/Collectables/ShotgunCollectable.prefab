@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3615510141964780747}
   m_Layer: 0
   m_Name: ShotgunCollectable
-  m_TagString: Untagged
+  m_TagString: WeaponCollectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,7 +48,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.3, z: 0.8}
-  m_Center: {x: 0, y: 0.05, z: 0.17}
+  m_Center: {x: 0, y: 0.55, z: 0.17}
 --- !u!114 &5707985559679450548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,7 +107,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3584023036218625235, guid: d91392049b758ad46b684a0dc384014a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3584023036218625235, guid: d91392049b758ad46b684a0dc384014a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -181,7 +181,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4106807547668112, guid: ae5e9d0da5672704e9fd3367770b99cb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4106807547668112, guid: ae5e9d0da5672704e9fd3367770b99cb, type: 3}
       propertyPath: m_LocalPosition.z

@@ -84,7 +84,13 @@ public class HUD : MonoBehaviour
 		if (triggeringPlayer != player)
 			return;
 		
-		container.Q<VisualElement>("Weapons_Box").Q<VisualElement>($"Weapon_{weapon.GetComponent<Weapon>().WeaponType}").Q<Label>("Ammo").text = $"AMMO: {weapon.GetComponent<Weapon>().Ammo}";
+		string ammo = $"{weapon.GetComponent<Weapon>().Ammo}";
+		if (weapon.GetComponent<Weapon>().Ammo == 1.0f / 0.0f) // if ammo is infinite, change to infinity symbol
+		{
+			ammo = "∞";
+		}
+		
+		container.Q<VisualElement>("Weapons_Box").Q<VisualElement>($"Weapon_{weapon.GetComponent<Weapon>().WeaponType}").Q<Label>("Ammo").text = $"AMMO: {ammo}";
 		container.Q<VisualElement>("Weapons_Box").Q<VisualElement>($"Weapon_{weapon.GetComponent<Weapon>().WeaponType}").style.display = DisplayStyle.Flex;
 	}
 	
@@ -111,8 +117,14 @@ public class HUD : MonoBehaviour
 		// Filter out any AI players
 		if (triggeringPlayer != player)
 			return;
+			
+		string ammo = $"{weapon.GetComponent<Weapon>().Ammo}";
+		if (weapon.GetComponent<Weapon>().Ammo == 1.0f / 0.0f) // if ammo is infinite, change to infinity symbol
+		{
+			ammo = "∞";
+		}
 		
-		container.Q<VisualElement>("Weapons_Box").Q<VisualElement>($"Weapon_{weapon.GetComponent<Weapon>().WeaponType}").Q<Label>("Ammo").text = $"AMMO: {weapon.GetComponent<Weapon>().Ammo}";
+		container.Q<VisualElement>("Weapons_Box").Q<VisualElement>($"Weapon_{weapon.GetComponent<Weapon>().WeaponType}").Q<Label>("Ammo").text = $"AMMO: {ammo}";
 		
 	}
 	
