@@ -9,6 +9,8 @@ TagManager:
   - CinemachineTarget
   - health
   - AI
+  - WeaponCollectable
+  - HealthCollectable
   layers:
   - Default
   - TransparentFX

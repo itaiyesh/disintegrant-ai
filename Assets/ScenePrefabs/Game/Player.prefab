@@ -1904,8 +1904,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2244057864730738390}
-  m_LocalRotation: {x: 0.001445817, y: -0.00369715, z: 0.0009308492, w: 0.9999917}
-  m_LocalPosition: {x: 0.010200024, y: 0.0083000185, z: 0.02930007}
+  m_LocalRotation: {x: -0.0014455344, y: 0.0037014557, z: -0.00093019905, w: -0.9999917}
+  m_LocalPosition: {x: 0.010200024, y: 0.008300028, z: 0.029300122}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2441129750693742367}
@@ -1949,12 +1949,12 @@ ParentConstraint:
   m_GameObject: {fileID: 2244057864730738390}
   m_Enabled: 1
   m_Weight: 0.1
-  m_TranslationAtRest: {x: 0.010200024, y: 0.0083000185, z: 0.02930007}
-  m_RotationAtRest: {x: 0.16607155, y: -0.42350984, z: 0.10605449}
+  m_TranslationAtRest: {x: 0.010200024, y: 0.008300028, z: 0.029300122}
+  m_RotationAtRest: {x: 0.16603936, y: -0.42400336, z: 0.10597939}
   m_TranslationOffsets:
-  - {x: -0.22284412, y: -0.07776332, z: -0.3150251}
+  - {x: -0.22284412, y: -0.07776332, z: -0.31502533}
   m_RotationOffsets:
-  - {x: 12.450523, y: -174.09146, z: -179.37904}
+  - {x: 12.450547, y: -174.09096, z: -179.37901}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -4996,9 +4996,8 @@ GameObject:
   - component: {fileID: 6896395018603564654}
   - component: {fileID: 6896395018603564640}
   - component: {fileID: 6999414407159909089}
-  - component: {fileID: 7720771848554240661}
-  - component: {fileID: 1087615945536858656}
   - component: {fileID: 4279047252524368853}
+  - component: {fileID: 5932253541363329112}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -5149,6 +5148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8c5108d460131145a7b82594d41ec24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Ragdoll: {fileID: 0}
   aimTarget: {fileID: 0}
   aimLayer: {fileID: 8436183888704968600}
   aimLayerMask:
@@ -5177,15 +5177,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c936d52d464f00f4e987fdfeb416fb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterAttributes:
-    Health: 100
-    MovementSpeedMultiplier: 1
-    equippedWeapons: []
-    activeWeaponIndex: 0
-    ExplosionShakeEnabled: 0
-    TimeDilationEnabled: 0
-    SkillHasGrenade: 0
-    IsUnderAttack: 0
 --- !u!114 &6999414407159909089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5198,46 +5189,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99e95220932e57549b63d21c86998991, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterAttributes:
-    Health: 100
-    MovementSpeedMultiplier: 1
-    equippedWeapons: []
-    activeWeaponIndex: 0
-    ExplosionShakeEnabled: 0
-    TimeDilationEnabled: 0
-    SkillHasGrenade: 0
-    IsUnderAttack: 0
   rigLayers: {fileID: 5693860195521227373}
   starterWeapon: {fileID: 0}
---- !u!114 &7720771848554240661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6895103660279054881}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dbda46d34ae00a459f898db68ae8a54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransformToFollow: {fileID: 6767431596996083773}
---- !u!114 &1087615945536858656
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6895103660279054881}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f21c074d86024caca2a0034ce4f53f73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PanelSettings: {fileID: 11400000, guid: 946601423582340409e918de41d16934, type: 2}
-  m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: be5445954e98af549858b4bfab80fec7, type: 3}
-  m_SortingOrder: 0
 --- !u!114 &4279047252524368853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5250,6 +5203,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3338f8150960a1c4b8853fe8c0418c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5932253541363329112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6895103660279054881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4db7408ff1e45064aa15c2bf5b3a8a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RagDoll: {fileID: 705608761467800769, guid: d9cc3b527069edc479b3acfbfe8ec7c8, type: 3}
 --- !u!1 &7387957659503381744
 GameObject:
   m_ObjectHideFlags: 0
