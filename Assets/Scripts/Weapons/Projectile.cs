@@ -41,6 +41,11 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    
+	public virtual void OnCollisionEnter(Collision collision)
+	{
+		Destroy(gameObject);
+	}
 
 	public virtual void OnTriggerEnter(Collider c)
 	{

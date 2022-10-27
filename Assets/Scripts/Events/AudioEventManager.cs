@@ -18,9 +18,9 @@ public class AudioEventManager : MonoBehaviour
 
     private UnityAction<MenuButtonEventListener.ButtonEvent> menuButtonEventListener;
 
-    private UnityAction<Vector3> weaponSwapEventListener;
+    private UnityAction<GameObject, GameObject, GameObject> weaponSwapEventListener;
 
-    private UnityAction<AudioClip, Vector3> weaponFiredEventListener;
+	private UnityAction<GameObject, GameObject, AudioClip, Vector3> weaponFiredEventListener;
 
     private UnityAction<int, Vector3> footstepEventListener;
 
@@ -28,8 +28,8 @@ public class AudioEventManager : MonoBehaviour
     {
         menuBackgroundAudioEventListener = new UnityAction<bool>(MenuBackgroundAudioEventHandler);
         menuButtonEventListener = new UnityAction<MenuButtonEventListener.ButtonEvent>(MenuButtonAudioEventHandler);
-        weaponSwapEventListener = new UnityAction<Vector3>(WeaponSwapEventHandler);
-        weaponFiredEventListener = new UnityAction<AudioClip, Vector3>(WeaponFiredEventHandler);
+        weaponSwapEventListener = new UnityAction<GameObject, GameObject, GameObject>(WeaponSwapEventHandler);
+        weaponFiredEventListener = new UnityAction<GameObject, GameObject, AudioClip, Vector3>(WeaponFiredEventHandler);
         footstepEventListener = new UnityAction<int, Vector3>(footstepEventHandler);
 
     }
@@ -46,8 +46,8 @@ public class AudioEventManager : MonoBehaviour
         EventManager.StartListening<GameMenuBackgroundAudioEvent, bool>(menuBackgroundAudioEventListener);
         EventManager.StartListening<GameMenuButtonAudioEvent, MenuButtonEventListener.ButtonEvent>(
             menuButtonEventListener);
-        EventManager.StartListening<WeaponSwapEvent, Vector3>(weaponSwapEventListener);
-        EventManager.StartListening<WeaponFiredEvent, AudioClip, Vector3>(weaponFiredEventListener);
+	    EventManager.StartListening<WeaponSwapEvent, GameObject, GameObject, GameObject>(weaponSwapEventListener);
+	    EventManager.StartListening<WeaponFiredEvent, GameObject, GameObject, AudioClip, Vector3>(weaponFiredEventListener);
         EventManager.StartListening<FootstepSoundEvent, int, Vector3>(footstepEventListener);
 
     }
@@ -57,8 +57,8 @@ public class AudioEventManager : MonoBehaviour
         EventManager.StopListening<GameMenuBackgroundAudioEvent, bool>(menuBackgroundAudioEventListener);
         EventManager.StopListening<GameMenuButtonAudioEvent, MenuButtonEventListener.ButtonEvent>(
             menuButtonEventListener);
-        EventManager.StopListening<WeaponSwapEvent, Vector3>(weaponSwapEventListener);
-        EventManager.StopListening<WeaponFiredEvent, AudioClip, Vector3>(weaponFiredEventListener);
+        EventManager.StopListening<WeaponSwapEvent, GameObject, GameObject, GameObject>(weaponSwapEventListener);
+        EventManager.StopListening<WeaponFiredEvent, GameObject, GameObject, AudioClip, Vector3>(weaponFiredEventListener);
         EventManager.StopListening<FootstepSoundEvent, int, Vector3>(footstepEventListener);
 
     }
@@ -78,7 +78,7 @@ public class AudioEventManager : MonoBehaviour
         sound.audioSrc.Play();
 
     }
-    private void WeaponFiredEventHandler(AudioClip audioClip, Vector3 position)
+	private void WeaponFiredEventHandler(GameObject player, GameObject weapon, AudioClip audioClip, Vector3 position)
     {
         var sound = Instantiate(eventSound3DPrefab, position, Quaternion.identity, null);
         if (audioClip)
@@ -94,11 +94,11 @@ public class AudioEventManager : MonoBehaviour
         }
     }
 
-    private void WeaponSwapEventHandler(Vector3 position)
+	private void WeaponSwapEventHandler(GameObject player, GameObject oldWeapon, GameObject newWeapon)
     {
         //Workout till we figure out why spatial sound doesnt work:
         // AudioSource.PlayClipAtPoint(weaponSwapAudio, position);
-        var sound = Instantiate(eventSound3DPrefab, position, Quaternion.identity, null);
+	    var sound = Instantiate(eventSound3DPrefab, newWeapon.transform.position, Quaternion.identity, null);
 
         if (weaponSwapAudio)
         {

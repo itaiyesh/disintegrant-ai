@@ -76,6 +76,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Shotgun
+  WeaponType: 2
   FireType: 0
   Projectile: {fileID: 742195543451709728, guid: f7f154528e46dca48a93576913a867e9, type: 3}
   FireSound: {fileID: 8300000, guid: 7bd4708fd9bbd40f1a36ed98f40d9aa4, type: 3}

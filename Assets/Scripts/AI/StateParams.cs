@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class StateParams {
@@ -6,7 +6,8 @@ public class StateParams {
     public WeaponController WeaponController;
     public CharacterAttributeItems Attributes;
     public GameObject Target;
-    public GameObject Health;
+	public GameObject Health;
+	public GameObject Weapon;
     public Vector3 Waypoint; 
     public bool IsArmed;
     public bool IsTargetClose;
@@ -16,5 +17,7 @@ public class StateParams {
 
     public bool IsGoodHealth;
 
-    public bool IsMediumHealth;
+	public bool IsMediumHealth;
+    
+	public bool IsGoodAmmo;
 }

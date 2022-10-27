@@ -1,9 +1,8 @@
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Events
-{
-    public class WeaponSwapEvent : UnityEvent<Vector3>
-    {
-    }
-}
+// GameObject player
+// GameObject oldWeapon
+// GameObject newWeapon
+public class WeaponSwapEvent: UnityEvent<GameObject, GameObject, GameObject>{}
