@@ -5058,12 +5058,7 @@ Animator:
   m_UpdateMode: 1
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'Elbow_R'\n\tTransform 'Elbow_L'\n\tTransform
-    'Hand_L'\n\tTransform 'Shoulder_L'\n\tTransform 'Shoulder_R'\n\tTransform 'Hand_R'\n\tTransform
-    'Elbow_R'\n\tTransform 'Elbow_L'\n\tTransform 'Hand_L'\n\tTransform 'Shoulder_L'\n\tand
-    more ..."
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -5220,6 +5215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4db7408ff1e45064aa15c2bf5b3a8a99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RagDoll: {fileID: 705608761467800769, guid: d9cc3b527069edc479b3acfbfe8ec7c8, type: 3}
 --- !u!1 &7387957659503381744
 GameObject:
   m_ObjectHideFlags: 0
