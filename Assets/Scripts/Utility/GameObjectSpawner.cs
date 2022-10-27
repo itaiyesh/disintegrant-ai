@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class CollectableSpawner : MonoBehaviour
+public class GameObjectSpawner : MonoBehaviour
 {
 	
 	// Collectables to spawn
-	public List<GameObject> collectables = new List<GameObject>();
+	public List<GameObject> gameObjects = new List<GameObject>();
 	
-	// How often to spawn a collectable
+	// How often to spawn a game object
+	public bool spawnOnFrequency = true;
 	public float spawnFrequency = 1.0f;
 	
 	// Spawn certain number on start
@@ -43,7 +44,7 @@ public class CollectableSpawner : MonoBehaviour
 	    {
 	    	for (int i = 0; i < spawnOnStartQuantity; i++) 
 	    	{
-	    		SpawnCollectable();
+	    		SpawnGameObject();
 	    	}
 	    }
     }
@@ -51,14 +52,14 @@ public class CollectableSpawner : MonoBehaviour
     void Update()
     {
 	    // Every x amount of time, spawn collectables
-	    if (lastSpawnTime + spawnFrequency <= Time.time) 
+	    if (spawnOnFrequency && lastSpawnTime + spawnFrequency <= Time.time) 
 	    {
 	    	lastSpawnTime = Time.time;
-	    	SpawnCollectable();
+	    	SpawnGameObject();
 	    }
     }
     
-	private void SpawnCollectable()
+	private void SpawnGameObject()
 	{
 		Vector3 point;
 		
@@ -67,7 +68,7 @@ public class CollectableSpawner : MonoBehaviour
 		
 		// Spawn collectable at point
 		GameObject collectable = Instantiate(
-			collectables[Random.Range(0, collectables.Count)],
+			gameObjects[Random.Range(0, gameObjects.Count)],
 			point,
 			Quaternion.identity
 		);
