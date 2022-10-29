@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59088829aa46df3479d846acc75b35ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObjects: []
+  gameObjects:
+  - {fileID: 7654392371548945915, guid: b7125abdd6c769b4aa12c76376d8e117, type: 3}
   spawnOnFrequency: 1
   spawnFrequency: 3
   spawnOnStart: 1
@@ -62,7 +63,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59088829aa46df3479d846acc75b35ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObjects: []
+  gameObjects:
+  - {fileID: 7274299059721956844, guid: a3eb7e6420e2b5d4ba4e69b05654636d, type: 3}
+  - {fileID: 3790430343819360389, guid: 2195d7c928b57134ab34d0e763cc3d7e, type: 3}
   spawnOnFrequency: 1
   spawnFrequency: 3
   spawnOnStart: 1
