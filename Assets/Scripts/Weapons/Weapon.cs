@@ -79,11 +79,14 @@ public class Weapon : MonoBehaviour {
 		Projectile projectileScript = GameObject.FindObjectOfType<Projectile>(); // Get projectile script
 		
 		// Pass stats to projectile
-		projectileScript.Damage = Damage;
-		projectileScript.InitialSpeed = InitialSpeed;
-		projectileScript.MaxSpeed = MaxSpeed;
-		projectileScript.Acceleration = Acceleration;
-		projectileScript.MaxDuration = MaxDuration;
+		projectileScript.Init(
+			damage: Damage,
+			initialSpeed: InitialSpeed,
+			maxSpeed: MaxSpeed,
+			acceleration: Acceleration,
+			maxDuration: MaxDuration,
+			player: Player
+		);
 	}
 
 	public void TriggerEvent(AudioClip audioClip, Vector3 position)

@@ -19,11 +19,15 @@ public class SpreadProjectile : Projectile
             Quaternion noise = Quaternion.Euler(new Vector3(Random.Range(-spreadAngle, spreadAngle),
             Random.Range(-spreadAngle, spreadAngle), Random.Range(-spreadAngle, spreadAngle)));
             Projectile projectileScript = GameObject.Instantiate(particleProjectile, transform.position, rotation * noise);
-            projectileScript.Damage = Damage;
-            projectileScript.InitialSpeed = InitialSpeed * Random.Range(1 - speedVarianceRatio, 1 + speedVarianceRatio);
-            projectileScript.MaxSpeed = InitialSpeed;
-            projectileScript.Acceleration = Acceleration;
-            projectileScript.MaxDuration = MaxDuration;
+
+            projectileScript.Init(
+                damage: Damage,
+                initialSpeed: InitialSpeed * Random.Range(1 - speedVarianceRatio, 1 + speedVarianceRatio),
+                maxSpeed: InitialSpeed,
+                acceleration: Acceleration,
+                maxDuration: MaxDuration,
+                player: Player
+            );
         }
 
         Destroy(gameObject);
