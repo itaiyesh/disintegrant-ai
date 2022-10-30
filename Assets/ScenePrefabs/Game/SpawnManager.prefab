@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8081008870103427197}
   - component: {fileID: 9002420169783915429}
   - component: {fileID: 1979942939792762362}
-  - component: {fileID: 4383596723420108290}
   m_Layer: 0
   m_Name: SpawnManager
   m_TagString: Untagged
@@ -70,21 +69,3 @@ MonoBehaviour:
   spawnFrequency: 3
   spawnOnStart: 1
   spawnOnStartQuantity: 10
---- !u!114 &4383596723420108290
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3223293195693605060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59088829aa46df3479d846acc75b35ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameObjects:
-  - {fileID: 7570195601042855417, guid: 240d6e80283419245b5d64f8b4d37624, type: 3}
-  spawnOnFrequency: 0
-  spawnFrequency: 0
-  spawnOnStart: 1
-  spawnOnStartQuantity: 15
