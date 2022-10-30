@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     GameState state;
     public CanvasGroup pauseMenu;
     public CanvasGroup gameOverMenu;
+    public CanvasGroup gameWonMenu;
 
     public GameObject botPrefab;
     public GameObject ragdollPrefab; // TODO: Will need corresponding ragdoll for each character
@@ -136,6 +137,14 @@ public class GameManager : MonoBehaviour
                 gameOverMenu.blocksRaycasts = true;
                 gameOverMenu.alpha = 1f;
                 break;
+            case GameState.WIN:
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+                Time.timeScale = 0.3f;
+                gameWonMenu.interactable = true;
+                gameWonMenu.blocksRaycasts = true;
+                gameWonMenu.alpha = 1f;
+                break;
             case GameState.QUIT:
                 QuitGame();
                 break;
@@ -149,6 +158,16 @@ public class GameManager : MonoBehaviour
         if ((state == GameState.PLAYING || state == GameState.PAUSE) && Input.GetKeyUp(KeyCode.Escape))
         {
             Switch(state == GameState.PAUSE ? GameState.UNPAUSE : GameState.PAUSE);
+        }
+
+        if (state != GameState.WIN && bots.Count == 0)
+        {
+            Switch(GameState.WIN);
+        }
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            bots.Clear();
         }
     }
     private void QuitGame()
@@ -167,6 +186,7 @@ public enum GameState
     PAUSE,
     UNPAUSE,
     GAMEOVER,
+    WIN,
     PLAYING,
     QUIT
 }
