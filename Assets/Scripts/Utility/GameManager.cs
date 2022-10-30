@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     public GameObject botPrefab;
     public GameObject ragdollPrefab; // TODO: Will need corresponding ragdoll for each character
     public int numBots = 10;
-    private Dictionary<int, GameObject> bots = new Dictionary<int, GameObject>();
+	public Dictionary<int, GameObject> bots = new Dictionary<int, GameObject>();
 
     public List<Vector3> PlayerSpawnPositions = new List<Vector3>();
     private UnityAction<GameObject, Dictionary<string, object>, Dictionary<string, object>> characterAttributeEventListener;

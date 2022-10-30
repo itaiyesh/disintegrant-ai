@@ -15,8 +15,10 @@ public class HUD : MonoBehaviour
 	private UnityAction<GameObject, GameObject> weaponRemoveEventListener;
 	private UnityAction<GameObject, GameObject, AudioClip, Vector3> weaponFiredEventListener;
 	private UnityAction<GameObject, GameObject, GameObject> weaponSwapEventListener;
+	private GameManager gameManager;
 	
 	public GameObject player;
+	private VisualElement rootComponent;
 	private VisualElement healthBar;
 	private VisualElement container;
 	
@@ -33,8 +35,13 @@ public class HUD : MonoBehaviour
 		weaponFiredEventListener = new UnityAction<GameObject, GameObject, AudioClip, Vector3>(weaponFiredEventHandler);
 		weaponSwapEventListener = new UnityAction<GameObject, GameObject, GameObject>(weaponSwapEventHandler);
 		
-		container = GetComponent<UnityEngine.UIElements.UIDocument>().rootVisualElement.Q<VisualElement>("Container");
+		rootComponent = GetComponent<UnityEngine.UIElements.UIDocument>().rootVisualElement;
+		container = rootComponent.Q<VisualElement>("Container");
 		healthBar = container.Q<VisualElement>("Health_Box").Q<VisualElement>("Health_Bars");
+		
+		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+		
+		rootComponent.Q<VisualElement>("Remaining").Q<Label>("Label").text = $"Players \nRemaining: {gameManager.numBots}/{gameManager.numBots}";
 	}
 	
 	void OnEnable()
@@ -182,23 +189,11 @@ public class HUD : MonoBehaviour
 		}
 	}
 	
-	//private void LateUpdate()
-	//{
-	//	// Update health
-	//	float healthValue = Math.Ceiling(player.GetComponent<CharacterAttributes>().characterAttributes.Health);
-	//	if (lastHealth != healthValue)
-	//	{
-			
-			
-	//		// Update health bars
-	//		AnimateBar();
-			
-	//		lastHealth = healthValue;
-	//	}
-		
-	//	// Update weapons
-		
-	//}
+	private void LateUpdate()
+	{
+		// Update player count
+		rootComponent.Q<VisualElement>("Remaining").Q<Label>("Label").text = $"Players \nRemaining: {gameManager.bots.Count}/{gameManager.numBots}";
+	}
     
 	
 }

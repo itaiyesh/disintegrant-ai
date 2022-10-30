@@ -36,4 +36,7 @@
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="Target" style="background-image: url(&apos;/Assets/Textures/crosshair_blk.png&apos;); width: 16px; height: 16px; flex-direction: row; position: absolute; left: 50%; top: 50%; bottom: 50%;" />
+    <ui:VisualElement name="Remaining" style="position: absolute; left: auto; right: 5px; top: 5px; background-color: rgba(255, 255, 255, 0.35); -unity-font: url(&apos;/Assets/3rd Party Assets/Oribtron Fonts/Orbitron-Regular.ttf&apos;); -unity-font-definition: resource(&apos;FontAssets/DynamicOSFontAssets/GlobalFallback/Linux/LiberationSans SDF&apos;); -unity-font-style: normal; font-size: 2px; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px;">
+        <ui:Label text="Players \nRemaining: 2/12" display-tooltip-when-elided="true" name="Label" style="-unity-font-style: bold; -unity-font: url(&apos;/Assets/3rd Party Assets/Oribtron Fonts/Orbitron-Medium.ttf&apos;); font-size: 10px;" />
+    </ui:VisualElement>
 </ui:UXML>
