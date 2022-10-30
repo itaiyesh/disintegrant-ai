@@ -59,10 +59,10 @@ public class GameManager : MonoBehaviour
         }
         characterAttributeEventListener = new UnityAction<GameObject, Dictionary<string, object>, Dictionary<string, object>>(characterAttributeEventHandler);
         //set the cursor origin to its centre. (default is upper left corner)
-        //Vector2 cursorOffset = new Vector2(crosshair.width / 2, crosshair.height / 2);
+        Vector2 cursorOffset = new Vector2(crosshair.width / 2, crosshair.height / 2);
         //Sets the cursor to the Crosshair sprite with given offset 
         //and automatic switching to hardware default if necessary
-        //Cursor.SetCursor(crosshair, cursorOffset, CursorMode.Auto);
+        Cursor.SetCursor(crosshair, cursorOffset, CursorMode.Auto);
     }
 
     // Start is called before the first frame update
