@@ -10,9 +10,9 @@ public class GameManager : MonoBehaviour
     //TODO: Make singleton
     public Texture2D crosshair;
     GameState state;
-    public CanvasGroup pauseMenu;
-    public CanvasGroup gameOverMenu;
-    public CanvasGroup gameWonMenu;
+	public GameObject pauseMenu;
+	public GameObject gameOverMenu;
+	public GameObject gameWonMenu;
 
     public GameObject botPrefab;
     public GameObject ragdollPrefab; // TODO: Will need corresponding ragdoll for each character
@@ -116,16 +116,12 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.PAUSE:
 	            Time.timeScale = 0f;
-	            pauseMenu.interactable = true;
-	            pauseMenu.blocksRaycasts = true;
-	            pauseMenu.alpha = 1f;
+	            pauseMenu.SetActive(true);
 	            Cursor.lockState = CursorLockMode.Confined;
 	            Cursor.visible = true;
                 break;
             case GameState.UNPAUSE:
-                pauseMenu.interactable = false;
-                pauseMenu.blocksRaycasts = false;
-                pauseMenu.alpha = 0f;
+	            pauseMenu.SetActive(false);
 	            Time.timeScale = 1f;
                 Switch(GameState.PLAYING);
 	            return; // need to return here or state is set to unpause incorrectly
@@ -133,17 +129,13 @@ public class GameManager : MonoBehaviour
 	            Cursor.lockState = CursorLockMode.Confined;
 	            Cursor.visible = true;
                 Time.timeScale = 0.3f;
-                gameOverMenu.interactable = true;
-                gameOverMenu.blocksRaycasts = true;
-                gameOverMenu.alpha = 1f;
+	            gameOverMenu.SetActive(true);
                 break;
             case GameState.WIN:
 	            Cursor.lockState = CursorLockMode.Confined;
 	            Cursor.visible = true;
                 Time.timeScale = 0.3f;
-                gameWonMenu.interactable = true;
-                gameWonMenu.blocksRaycasts = true;
-                gameWonMenu.alpha = 1f;
+	            gameWonMenu.SetActive(true);
                 break;
             case GameState.QUIT:
                 QuitGame();
