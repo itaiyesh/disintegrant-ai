@@ -106,7 +106,6 @@ public class CharacterController : MonoBehaviour
 
     private void Update()
     {
-        Cursor.lockState = CursorLockMode.Locked;
         
         if (cinput.enabled)
         {

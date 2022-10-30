@@ -46,7 +46,7 @@ public sealed class Idle : State
                     stateParams.Agent.SetDestination(hit.position);
                     stateParams.Waypoint = stateParams.Agent.transform.position + new Vector3(offset.x, 0.0f, offset.y);
                     isWayPointvalid = true;
-                    Debug.Log(hit.position);
+                    // Debug.Log(hit.position);
                 }
 
             }
@@ -208,7 +208,7 @@ public class FSM
     {
         listener?.OnStateChange(state, newState);
         state = newState;
-        Debug.Log("State: " + newState);
+        // Debug.Log("State: " + newState);
     }
     public void Execute(StateParams stateParams)
     {
