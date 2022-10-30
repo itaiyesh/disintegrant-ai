@@ -94,7 +94,7 @@ public class HUD : MonoBehaviour
 		string ammo = $"{weapon.GetComponent<Weapon>().Ammo}";
 		if (weapon.GetComponent<Weapon>().Ammo == 1.0f / 0.0f) // if ammo is infinite, change to infinity symbol
 		{
-			ammo = "∞";
+			ammo = "\u221E";
 		}
 		
 		container.Q<VisualElement>("Weapons_Box").Q<VisualElement>($"Weapon_{weapon.GetComponent<Weapon>().WeaponType}").Q<Label>("Ammo").text = $"AMMO: {ammo}";
@@ -128,7 +128,7 @@ public class HUD : MonoBehaviour
 		string ammo = $"{weapon.GetComponent<Weapon>().Ammo}";
 		if (weapon.GetComponent<Weapon>().Ammo == 1.0f / 0.0f) // if ammo is infinite, change to infinity symbol
 		{
-			ammo = "∞";
+			ammo = "\u221E";
 		}
 		
 		container.Q<VisualElement>("Weapons_Box").Q<VisualElement>($"Weapon_{weapon.GetComponent<Weapon>().WeaponType}").Q<Label>("Ammo").text = $"AMMO: {ammo}";

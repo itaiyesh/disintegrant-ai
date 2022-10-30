@@ -59,10 +59,10 @@ public class GameManager : MonoBehaviour
         }
         characterAttributeEventListener = new UnityAction<GameObject, Dictionary<string, object>, Dictionary<string, object>>(characterAttributeEventHandler);
         //set the cursor origin to its centre. (default is upper left corner)
-        Vector2 cursorOffset = new Vector2(crosshair.width / 2, crosshair.height / 2);
+        //Vector2 cursorOffset = new Vector2(crosshair.width / 2, crosshair.height / 2);
         //Sets the cursor to the Crosshair sprite with given offset 
         //and automatic switching to hardware default if necessary
-        Cursor.SetCursor(crosshair, cursorOffset, CursorMode.Auto);
+        //Cursor.SetCursor(crosshair, cursorOffset, CursorMode.Auto);
     }
 
     // Start is called before the first frame update
@@ -111,35 +111,35 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.PLAYING:
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
+	            Cursor.lockState = CursorLockMode.Locked;
+	            Cursor.visible = false;
                 break;
             case GameState.PAUSE:
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-                pauseMenu.interactable = true;
-                pauseMenu.blocksRaycasts = true;
-                pauseMenu.alpha = 1f;
-                Time.timeScale = 0f;
+	            Time.timeScale = 0f;
+	            pauseMenu.interactable = true;
+	            pauseMenu.blocksRaycasts = true;
+	            pauseMenu.alpha = 1f;
+	            Cursor.lockState = CursorLockMode.Confined;
+	            Cursor.visible = true;
                 break;
             case GameState.UNPAUSE:
                 pauseMenu.interactable = false;
                 pauseMenu.blocksRaycasts = false;
                 pauseMenu.alpha = 0f;
-                Time.timeScale = 1f;
+	            Time.timeScale = 1f;
                 Switch(GameState.PLAYING);
-                break;
+	            return; // need to return here or state is set to unpause incorrectly
             case GameState.GAMEOVER:
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
+	            Cursor.lockState = CursorLockMode.Confined;
+	            Cursor.visible = true;
                 Time.timeScale = 0.3f;
                 gameOverMenu.interactable = true;
                 gameOverMenu.blocksRaycasts = true;
                 gameOverMenu.alpha = 1f;
                 break;
             case GameState.WIN:
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
+	            Cursor.lockState = CursorLockMode.Confined;
+	            Cursor.visible = true;
                 Time.timeScale = 0.3f;
                 gameWonMenu.interactable = true;
                 gameWonMenu.blocksRaycasts = true;
@@ -149,11 +149,10 @@ public class GameManager : MonoBehaviour
                 QuitGame();
                 break;
         };
-
         state = newState;
     }
     void Update()
-    {
+	{
         //PAUSE - UNPAUSE
         if ((state == GameState.PLAYING || state == GameState.PAUSE) && Input.GetKeyUp(KeyCode.Escape))
         {
