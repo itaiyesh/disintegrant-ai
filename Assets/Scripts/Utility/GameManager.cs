@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
             case GameState.PAUSE:
 	            Time.timeScale = 0f;
 	            pauseMenu.SetActive(true);
-	            Cursor.lockState = CursorLockMode.Confined;
+	            Cursor.lockState = CursorLockMode.None;
 	            Cursor.visible = true;
                 break;
             case GameState.UNPAUSE:
@@ -126,15 +126,15 @@ public class GameManager : MonoBehaviour
                 Switch(GameState.PLAYING);
 	            return; // need to return here or state is set to unpause incorrectly
             case GameState.GAMEOVER:
-	            Cursor.lockState = CursorLockMode.Confined;
+	            Cursor.lockState = CursorLockMode.None;
 	            Cursor.visible = true;
                 Time.timeScale = 0.3f;
 	            gameOverMenu.SetActive(true);
                 break;
             case GameState.WIN:
-	            Cursor.lockState = CursorLockMode.Confined;
+	            Cursor.lockState = CursorLockMode.None;
 	            Cursor.visible = true;
-                Time.timeScale = 0.3f;
+                Time.timeScale = 0f;
 	            gameWonMenu.SetActive(true);
                 break;
             case GameState.QUIT:
