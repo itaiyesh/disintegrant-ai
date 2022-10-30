@@ -35,4 +35,5 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
+    <ui:VisualElement name="Target" style="background-image: url(&apos;/Assets/Textures/crosshair_blk.png&apos;); width: 16px; height: 16px; flex-direction: row; position: absolute; left: 50%; top: 50%; bottom: 50%;" />
 </ui:UXML>
