@@ -19,6 +19,7 @@ public class EnemyAI : MonoBehaviour
     public float mediumHealth = 0.33f; // threshold between bad and medium agent health
     public float chaseAttackRatio = 0.6f;
     private StateParams stateParams;
+    public GameObject _target;
     //private UnityAction<AudioClip, Vector3> weaponFiredEventListener; 
 
     private bool IsTargetClose(Vector3 agentPos, Vector3 AIPos)
@@ -145,6 +146,19 @@ public class EnemyAI : MonoBehaviour
         //Update animator
         animator.SetFloat("vely", Vector3.Dot(agent.velocity, agent.transform.forward) / agent.speed);
         animator.SetFloat("velx", Vector3.Dot(agent.velocity, agent.transform.right) / agent.speed);
+
+        //Draw Raycast in shooting direction
+        if (Physics.Raycast(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward), out RaycastHit hitInfo, 20f))
+        {
+            Debug.DrawRay(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward) * hitInfo.distance, Color.red);
+        }
+        else
+        {
+            Debug.DrawRay(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward) * hitInfo.distance, Color.yellow);
+        }
+
+        //Set sphere to current goal of agent
+        _target.transform.position = stateParams.Agent.destination;
 
     }
 }

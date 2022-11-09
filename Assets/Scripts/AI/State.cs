@@ -5,10 +5,12 @@ using UnityEngine.AI;
 //State classes
 public sealed class Idle : State
 {
-
+    public GameObject _target;
     public static readonly Idle Instance = new Idle();
 
     bool isWayPointvalid = false;
+    private bool blocked = true;
+    private NavMeshHit hit;
 
     public override void Execute(FSM fsm, StateParams stateParams)
     {
@@ -36,6 +38,7 @@ public sealed class Idle : State
         else
         {
             //Select a nearby accessible waypoint to wander towards
+            
             while (!isWayPointvalid && stateParams.Agent.remainingDistance < 0.5)
             {
                 var offset = Random.insideUnitCircle * 20;
@@ -51,10 +54,12 @@ public sealed class Idle : State
 
             }
 
-            if (stateParams.Agent.remainingDistance < 0.5)
+            if (stateParams.Agent.remainingDistance < 0.5 || stateParams.Agent.isStopped)
             {
                 isWayPointvalid = false;
             }
+
+
 
 
         }
@@ -68,13 +73,21 @@ public sealed class Attack : State
     public float PositionUpdateFrequency = 3f;
     public float AttackRadius = 10f;
     private float lastUpdateTime = 0f;
+    private bool blocked = true;
+    private NavMeshHit hit;
     public override void Execute(FSM fsm, StateParams stateParams)
     {
+
+        
         if (stateParams.Target != null && stateParams.IsTargetClose && stateParams.Attributes.equippedWeapons[stateParams.Attributes.activeWeaponIndex].GetComponent<Weapon>().Ammo > 0)
         {
             Vector3 targetDirection = stateParams.Target.transform.position - stateParams.Agent.transform.position;
             stateParams.Agent.transform.rotation = Quaternion.Lerp(stateParams.Agent.transform.rotation, Quaternion.LookRotation(targetDirection), Time.deltaTime * 10f);
             stateParams.Agent.updateRotation = true;
+
+            blocked = Physics.Raycast(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward), out RaycastHit hitInfo, 20f);
+            Debug.DrawRay(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward) * hitInfo.distance, Color.red);
+
             stateParams.WeaponController.Attack(stateParams.Target.transform, WeaponFireType.SINGLE);
 
             if (stateParams.Agent.remainingDistance - stateParams.Agent.stoppingDistance < 0.5f || Time.fixedTime - lastUpdateTime > PositionUpdateFrequency)
@@ -93,6 +106,30 @@ public sealed class Attack : State
         else if (stateParams.Health != null && !stateParams.IsMediumHealth)
         {
             fsm.Switch(Heal.Instance);
+        }
+
+        else if (stateParams.Agent.velocity.magnitude < 0.15f) //workaround to get Agent unstuck if he is is "stuck" at a point
+        {
+            var isWayPointvalid = false;
+            while (!isWayPointvalid && stateParams.Agent.remainingDistance < 0.5)
+            {
+                var offset = Random.insideUnitCircle * 20;
+                var newWaypoint = stateParams.Agent.transform.position + new Vector3(offset.x, 0.0f, offset.y);
+                NavMeshHit hit;
+                if (NavMesh.SamplePosition(newWaypoint, out hit, 1f, NavMesh.AllAreas))
+                {
+                    stateParams.Agent.SetDestination(hit.position);
+                    stateParams.Waypoint = stateParams.Agent.transform.position + new Vector3(offset.x, 0.0f, offset.y);
+                    isWayPointvalid = true;
+                    // Debug.Log(hit.position);
+                }
+
+            }
+
+            if (stateParams.Agent.remainingDistance < 0.5 || stateParams.Agent.isStopped)
+            {
+                isWayPointvalid = false;
+            }
         }
 
         else

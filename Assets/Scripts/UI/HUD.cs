@@ -35,7 +35,7 @@ public class HUD : MonoBehaviour
 		weaponFiredEventListener = new UnityAction<GameObject, GameObject, AudioClip, Vector3>(weaponFiredEventHandler);
 		weaponSwapEventListener = new UnityAction<GameObject, GameObject, GameObject>(weaponSwapEventHandler);
 		
-		rootComponent = GetComponent<UnityEngine.UIElements.UIDocument>().rootVisualElement;
+		rootComponent = GetComponent<UIDocument>().rootVisualElement;
 		container = rootComponent.Q<VisualElement>("Container");
 		healthBar = container.Q<VisualElement>("Health_Box").Q<VisualElement>("Health_Bars");
 		
