@@ -9,7 +9,7 @@ public class NavMeshLine : MonoBehaviour
     public void Start()
     {
         //agent = gameObject.GetComponent<NavMeshAgent>();
-        Debug.Log("Agent: " + agent);
+        //Debug.Log("Agent: " + agent);
     }
     
     public void Update()
@@ -21,7 +21,7 @@ public class NavMeshLine : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         path = agent.path;
-        Debug.Log("Path: " + path);
+        //Debug.Log("Path: " + path);
         //if (path.corners.Length < 2)
         //    yield break;
         switch (path.status)

@@ -81,25 +81,29 @@ public sealed class Attack : State
         
         if (stateParams.Target != null && stateParams.IsTargetClose && stateParams.Attributes.equippedWeapons[stateParams.Attributes.activeWeaponIndex].GetComponent<Weapon>().Ammo > 0)
         {
+
             Vector3 targetDirection = stateParams.Target.transform.position - stateParams.Agent.transform.position;
-            stateParams.Agent.transform.rotation = Quaternion.Lerp(stateParams.Agent.transform.rotation, Quaternion.LookRotation(targetDirection), Time.deltaTime * 10f);
+            stateParams.Agent.transform.rotation = Quaternion.Lerp(stateParams.Agent.transform.rotation, Quaternion.LookRotation(targetDirection), Time.deltaTime * 45f);
             stateParams.Agent.updateRotation = true;
 
             blocked = Physics.Raycast(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward), out RaycastHit hitInfo, 20f);
             Debug.DrawRay(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward) * hitInfo.distance, Color.red);
 
-            stateParams.WeaponController.Attack(stateParams.Target.transform, WeaponFireType.SINGLE);
+            if (hitInfo.transform.CompareTag("Player"))
+                {
+                stateParams.WeaponController.Attack(stateParams.Target.transform, WeaponFireType.SINGLE);
 
-            if (stateParams.Agent.remainingDistance - stateParams.Agent.stoppingDistance < 0.5f || Time.fixedTime - lastUpdateTime > PositionUpdateFrequency)
-            {
-                Vector3 attackPosition = stateParams.Target.transform.position;
-                Vector2 rand = Random.insideUnitCircle * AttackRadius;
-                attackPosition += new Vector3(rand.x, 0, rand.y);
-                stateParams.Agent.SetDestination(attackPosition);
-                lastUpdateTime = Time.fixedTime;
-                //AI will stay within radius of the enemy
+                if (stateParams.Agent.remainingDistance - stateParams.Agent.stoppingDistance < 0.5f || Time.fixedTime - lastUpdateTime > PositionUpdateFrequency)
+                {
+                    Vector3 attackPosition = stateParams.Target.transform.position;
+                    Vector2 rand = Random.insideUnitCircle * AttackRadius;
+                    attackPosition += new Vector3(rand.x, 0, rand.y);
+                    stateParams.Agent.SetDestination(attackPosition);
+                    lastUpdateTime = Time.fixedTime;
+                    //AI will stay within radius of the enemy
+                }
             }
-
+            else { fsm.Switch(Attack.Instance); }
             // stateParams.Agent.transform.position += 2*stateParams.Target.transform.forward * stateParams.Agent.speed * Time.deltaTime;
 
         }
@@ -110,6 +114,7 @@ public sealed class Attack : State
 
         else if (stateParams.Agent.velocity.magnitude < 0.15f) //workaround to get Agent unstuck if he is is "stuck" at a point
         {
+            Debug.Log("AIEnemy velocity: " + stateParams.Agent.velocity.magnitude);
             var isWayPointvalid = false;
             while (!isWayPointvalid && stateParams.Agent.remainingDistance < 0.5)
             {
@@ -121,7 +126,6 @@ public sealed class Attack : State
                     stateParams.Agent.SetDestination(hit.position);
                     stateParams.Waypoint = stateParams.Agent.transform.position + new Vector3(offset.x, 0.0f, offset.y);
                     isWayPointvalid = true;
-                    // Debug.Log(hit.position);
                 }
 
             }
