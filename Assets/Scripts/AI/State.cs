@@ -92,19 +92,24 @@ public sealed class Attack : State
             if (hitInfo.transform.CompareTag("Player"))
                 {
                 stateParams.WeaponController.Attack(stateParams.Target.transform, WeaponFireType.SINGLE);
+                }
 
-                if (stateParams.Agent.remainingDistance - stateParams.Agent.stoppingDistance < 0.5f || Time.fixedTime - lastUpdateTime > PositionUpdateFrequency)
+            if (stateParams.Agent.remainingDistance - stateParams.Agent.stoppingDistance < 0.5f || Time.fixedTime - lastUpdateTime > PositionUpdateFrequency)
                 {
+                    bool newDestValid = false;
                     Vector3 attackPosition = stateParams.Target.transform.position;
-                    Vector2 rand = Random.insideUnitCircle * AttackRadius;
-                    attackPosition += new Vector3(rand.x, 0, rand.y);
-                    stateParams.Agent.SetDestination(attackPosition);
+                    while (newDestValid == false) {
+                        Vector2 rand = Random.insideUnitCircle * AttackRadius;
+                        attackPosition += new Vector3(rand.x, 0, rand.y);
+                        blocked = Physics.Raycast(stateParams.Agent.transform.position, attackPosition - stateParams.Agent.transform.position, out RaycastHit hit, Vector3.Distance(stateParams.Agent.transform.position, attackPosition));
+                        if (!hit.rigidbody) { 
+                            stateParams.Agent.SetDestination(attackPosition);
+                            newDestValid = true;
+                    }
+                }
                     lastUpdateTime = Time.fixedTime;
                     //AI will stay within radius of the enemy
                 }
-            }
-            else { fsm.Switch(Attack.Instance); }
-            // stateParams.Agent.transform.position += 2*stateParams.Target.transform.forward * stateParams.Agent.speed * Time.deltaTime;
 
         }
         else if (stateParams.Health != null && !stateParams.IsMediumHealth)
@@ -115,25 +120,7 @@ public sealed class Attack : State
         else if (stateParams.Agent.velocity.magnitude < 0.15f) //workaround to get Agent unstuck if he is is "stuck" at a point
         {
             Debug.Log("AIEnemy velocity: " + stateParams.Agent.velocity.magnitude);
-            var isWayPointvalid = false;
-            while (!isWayPointvalid && stateParams.Agent.remainingDistance < 0.5)
-            {
-                var offset = Random.insideUnitCircle * 20;
-                var newWaypoint = stateParams.Agent.transform.position + new Vector3(offset.x, 0.0f, offset.y);
-                NavMeshHit hit;
-                if (NavMesh.SamplePosition(newWaypoint, out hit, 1f, NavMesh.AllAreas))
-                {
-                    stateParams.Agent.SetDestination(hit.position);
-                    stateParams.Waypoint = stateParams.Agent.transform.position + new Vector3(offset.x, 0.0f, offset.y);
-                    isWayPointvalid = true;
-                }
-
-            }
-
-            if (stateParams.Agent.remainingDistance < 0.5 || stateParams.Agent.isStopped)
-            {
-                isWayPointvalid = false;
-            }
+            fsm.Switch(Idle.Instance);
         }
 
         else
