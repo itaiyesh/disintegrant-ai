@@ -5,10 +5,12 @@ using UnityEngine.AI;
 //State classes
 public sealed class Idle : State
 {
-
+    public GameObject _target;
     public static readonly Idle Instance = new Idle();
 
     bool isWayPointvalid = false;
+    private bool blocked = true;
+    private NavMeshHit hit;
 
     public override void Execute(FSM fsm, StateParams stateParams)
     {
@@ -36,6 +38,7 @@ public sealed class Idle : State
         else
         {
             //Select a nearby accessible waypoint to wander towards
+            
             while (!isWayPointvalid && stateParams.Agent.remainingDistance < 0.5)
             {
                 var offset = Random.insideUnitCircle * 20;
@@ -51,10 +54,12 @@ public sealed class Idle : State
 
             }
 
-            if (stateParams.Agent.remainingDistance < 0.5)
+            if (stateParams.Agent.remainingDistance < 0.5 || stateParams.Agent.isStopped)
             {
                 isWayPointvalid = false;
             }
+
+
 
 
         }
@@ -68,31 +73,54 @@ public sealed class Attack : State
     public float PositionUpdateFrequency = 3f;
     public float AttackRadius = 10f;
     private float lastUpdateTime = 0f;
+    private bool blocked = true;
+    private NavMeshHit hit;
     public override void Execute(FSM fsm, StateParams stateParams)
     {
+
+        
         if (stateParams.Target != null && stateParams.IsTargetClose && stateParams.Attributes.equippedWeapons[stateParams.Attributes.activeWeaponIndex].GetComponent<Weapon>().Ammo > 0)
         {
+
             Vector3 targetDirection = stateParams.Target.transform.position - stateParams.Agent.transform.position;
-            stateParams.Agent.transform.rotation = Quaternion.Lerp(stateParams.Agent.transform.rotation, Quaternion.LookRotation(targetDirection), Time.deltaTime * 10f);
+            stateParams.Agent.transform.rotation = Quaternion.Lerp(stateParams.Agent.transform.rotation, Quaternion.LookRotation(targetDirection), Time.deltaTime * 45f);
             stateParams.Agent.updateRotation = true;
-            stateParams.WeaponController.Attack(stateParams.Target.transform, WeaponFireType.SINGLE);
+
+            blocked = Physics.Raycast(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward), out RaycastHit hitInfo, 20f);
+            Debug.DrawRay(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward) * hitInfo.distance, Color.red);
+
+            if (hitInfo.transform.CompareTag("Player"))
+                {
+                stateParams.WeaponController.Attack(stateParams.Target.transform, WeaponFireType.SINGLE);
+                }
 
             if (stateParams.Agent.remainingDistance - stateParams.Agent.stoppingDistance < 0.5f || Time.fixedTime - lastUpdateTime > PositionUpdateFrequency)
-            {
-                Vector3 attackPosition = stateParams.Target.transform.position;
-                Vector2 rand = Random.insideUnitCircle * AttackRadius;
-                attackPosition += new Vector3(rand.x, 0, rand.y);
-                stateParams.Agent.SetDestination(attackPosition);
-                lastUpdateTime = Time.fixedTime;
-                //AI will stay within radius of the enemy
-            }
-
-            // stateParams.Agent.transform.position += 2*stateParams.Target.transform.forward * stateParams.Agent.speed * Time.deltaTime;
+                {
+                    bool newDestValid = false;
+                    Vector3 attackPosition = stateParams.Target.transform.position;
+                    while (newDestValid == false) {
+                        Vector2 rand = Random.insideUnitCircle * AttackRadius;
+                        attackPosition += new Vector3(rand.x, 0, rand.y);
+                        blocked = Physics.Raycast(stateParams.Agent.transform.position, attackPosition - stateParams.Agent.transform.position, out RaycastHit hit, Vector3.Distance(stateParams.Agent.transform.position, attackPosition));
+                        if (!hit.rigidbody) { 
+                            stateParams.Agent.SetDestination(attackPosition);
+                            newDestValid = true;
+                    }
+                }
+                    lastUpdateTime = Time.fixedTime;
+                    //AI will stay within radius of the enemy
+                }
 
         }
         else if (stateParams.Health != null && !stateParams.IsMediumHealth)
         {
             fsm.Switch(Heal.Instance);
+        }
+
+        else if (stateParams.Agent.velocity.magnitude < 0.15f) //workaround to get Agent unstuck if he is is "stuck" at a point
+        {
+            Debug.Log("AIEnemy velocity: " + stateParams.Agent.velocity.magnitude);
+            fsm.Switch(Idle.Instance);
         }
 
         else
