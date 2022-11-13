@@ -22,6 +22,8 @@ public class DoorScript : MonoBehaviour
 		{
 			anim.SetTrigger("OnDoorOpen");
 			isDoorOpen = true;
+			GetComponent<MeshCollider>().enabled = false;
+			GetComponent<BoxCollider>().enabled = false;
 		}
 	}
 	
@@ -31,6 +33,8 @@ public class DoorScript : MonoBehaviour
 		{
 			anim.SetTrigger("OnDoorClose");
 			isDoorOpen = false;
+			GetComponent<MeshCollider>().enabled = true;
+			GetComponent<BoxCollider>().enabled = true;
 		}
 	}
 }
