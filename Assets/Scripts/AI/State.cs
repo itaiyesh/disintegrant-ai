@@ -94,8 +94,9 @@ public sealed class Attack : State
                 stateParams.WeaponController.Attack(stateParams.Target.transform, WeaponFireType.SINGLE);
                 }
 
-            if (stateParams.Agent.remainingDistance - stateParams.Agent.stoppingDistance < 0.5f || Time.fixedTime - lastUpdateTime > PositionUpdateFrequency)
+            if (stateParams.Agent.remainingDistance < 0.5f || Time.fixedTime - lastUpdateTime > PositionUpdateFrequency)
                 {
+                    Debug.Log("Time check: " + (Time.fixedTime - lastUpdateTime));
                     bool newDestValid = false;
                     Vector3 attackPosition = stateParams.Target.transform.position;
                     while (newDestValid == false) {
