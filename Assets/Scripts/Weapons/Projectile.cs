@@ -15,6 +15,7 @@ public class Projectile : MonoBehaviour
 	
 	// the player who fired this projectile
 	public GameObject Player { get; private set; }
+	
 
 	private Vector3 direction;
 	protected float startTime;
@@ -42,7 +43,8 @@ public class Projectile : MonoBehaviour
 	    direction = transform.forward; // Set projectile direction
         bulletRigidbody.velocity = transform.forward * InitialSpeed;
         startTime = Time.fixedTime;
-    }
+		gameObject.tag = "bullet";
+	}
 
     void Update()
     {
