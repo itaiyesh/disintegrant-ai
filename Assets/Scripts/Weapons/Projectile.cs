@@ -43,7 +43,6 @@ public class Projectile : MonoBehaviour
 	    direction = transform.forward; // Set projectile direction
         bulletRigidbody.velocity = transform.forward * InitialSpeed;
         startTime = Time.fixedTime;
-		gameObject.tag = "bullet";
 	}
 
     void Update()
