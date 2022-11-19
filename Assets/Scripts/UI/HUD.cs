@@ -166,26 +166,19 @@ public class HUD : MonoBehaviour
 		
 	}
 
-	
-	public void AnimateBar(int health)
+	private void AnimateBar(int health)
 	{
-		// TODO: This is problably not amazing for perforamnce. Better to use a health update event.
-		int newHealthBars = (int) Math.Ceiling(player.GetComponent<CharacterAttributes>().characterAttributes.Health / 10);
-		
-		if (newHealthBars != healthBars) 
+		int newHealthBars = (int) Math.Ceiling(health / 10f);
+		int i = 0;
+		foreach(VisualElement bar in healthBar.Children())
 		{
-			int i = 0;
-			foreach(VisualElement bar in healthBar.Children())
+			if (i <= newHealthBars)
 			{
-				if (i <= newHealthBars)
-				{
-					bar.style.visibility = Visibility.Visible;
-				} else {
-					bar.style.visibility = Visibility.Hidden;
-				}
-				i += 1;
+				bar.style.visibility = Visibility.Visible;
+			} else {
+				bar.style.visibility = Visibility.Hidden;
 			}
-			
+			i += 1;
 		}
 	}
 	
