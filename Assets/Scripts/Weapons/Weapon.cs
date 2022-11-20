@@ -49,7 +49,8 @@ public class Weapon : MonoBehaviour {
 		LastShootTime = Time.time;
 	}
 	
-	public virtual void Attack(Transform target){		
+	public virtual void Attack(Transform target){
+
 		if (LastShootTime + FireRate <= Time.time && Ammo > 0)
 		{
 			LastShootTime = Time.time;
