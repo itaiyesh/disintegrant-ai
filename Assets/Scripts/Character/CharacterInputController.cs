@@ -56,7 +56,7 @@ public class CharacterInputController : MonoBehaviour
 
     void Update()
     {
-        Look = 100 * (new Vector2(Input.GetAxis("Mouse X"), -Input.GetAxis("Mouse Y")) );
+        Look = 160 * (new Vector2(Input.GetAxis("Mouse X"), -Input.GetAxis("Mouse Y")) );
 
         //GetAxisRaw() so we can do filtering here instead of the InputManager
         float h = Input.GetAxisRaw("Horizontal");// setup h variable as our horizontal input axis
