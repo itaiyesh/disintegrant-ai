@@ -86,9 +86,9 @@ public class AudioEventManager : MonoBehaviour
             // enable 3d spatial blend
             sound.audioSrc.spatialBlend = 1f;
             sound.audioSrc.rolloffMode = AudioRolloffMode.Linear;
-            sound.audioSrc.volume = 0.5f;
+            sound.audioSrc.volume = 0.3f;
             sound.audioSrc.minDistance = 5f;
-            sound.audioSrc.maxDistance = 25f;
+            sound.audioSrc.maxDistance = 20f;
             
             sound.audioSrc.clip = audioClip;
             sound.audioSrc.Play();
