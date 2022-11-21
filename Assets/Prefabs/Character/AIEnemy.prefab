@@ -666,6 +666,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6895103660279054881, guid: 11c0aefbfb929f544aec83ad7dd23e45, type: 3}
+      propertyPath: m_TagString
+      value: AI
+      objectReference: {fileID: 0}
     - target: {fileID: 6896395018313185734, guid: 11c0aefbfb929f544aec83ad7dd23e45, type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
