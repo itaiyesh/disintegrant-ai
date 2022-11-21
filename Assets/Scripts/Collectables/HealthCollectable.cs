@@ -22,7 +22,7 @@ public class HealthCollectable : MonoBehaviour
 
 			var healthAmountToAdd = System.Math.Min(
 				CharacterAttributeItems.MAX_HEALTH - characterAttribute.characterAttributes.Health,
-				CharacterAttributeItems.MAX_HEALTH
+				amount
 			);
 			
 			characterAttribute.AddModifier(new HealthModifier(
