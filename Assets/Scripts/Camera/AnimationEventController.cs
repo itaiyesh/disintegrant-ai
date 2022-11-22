@@ -7,7 +7,7 @@ public class AnimationEventController : MonoBehaviour
     //NPC must set this to null because it causes the camera to shake upon fire.
     public GameObject ShakeCamera;
 
-    public float amplitude = 1f;
+    public float amplitude = 1.5f;
     public float frequency = 1f;
     private CinemachineVirtualCamera playerFollowVirtualCamera;
 
