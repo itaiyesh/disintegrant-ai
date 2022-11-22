@@ -6,7 +6,7 @@ public class MusicSwitch : MonoBehaviour
 {
     public AudioSource musicSource1, musicSource2;
     float defaultVolume = 0.5f;
-    float transitionTime = 1.25f;
+    float transitionTime = 0.75f;
     bool switchTrigger = false;
     
 
@@ -55,7 +55,7 @@ public class MusicSwitch : MonoBehaviour
         while (target.volume < defaultVolume)
         {
             target.volume = Mathf.Lerp(0, defaultVolume, percentage);
-            percentage += Time.deltaTime / transitionTime;
+            percentage += 1.2f*(Time.deltaTime / transitionTime);
             yield return null;
         }
     }
