@@ -14,26 +14,22 @@ public class CrateExplode : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Explosion.Stop();
+        if (Explosion.isPlaying)
+        { Explosion.Stop(); }
         boom = true;
+
     }
 
-    // Update is called once per frame
-    void Update()
+    
+    void OnMouseDown()
     {
-        if (Input.GetMouseButton(0))
-        {
-            Physics.Raycast(Player.transform.position, Player.transform.TransformDirection(Vector3.forward), out RaycastHit hitInfo, 20f);
-            Debug.Log("hit.tag: " + hitInfo.transform.tag);
-            if (hitInfo.transform.tag == "ExplodableCrate" && boom == true)
-            {
-                Explosion.Play();
-                Destroy(ExplodableCrate);
-                explosionSound.Play();
-                boom = false;
-            }
-        }
-
-
+        Debug.Log(" MOUSE HIIIIIT!");
+            if (!Explosion.isPlaying)
+            { Explosion.Play(); }
+            Destroy(ExplodableCrate);
+            explosionSound.Play();
+            boom = false;
+        
     }
+
 }
