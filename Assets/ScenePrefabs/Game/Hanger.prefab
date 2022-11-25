@@ -191,6 +191,7 @@ GameObject:
   - component: {fileID: 4892012255066846603}
   - component: {fileID: 4884131120785004041}
   - component: {fileID: 4863773166704763659}
+  - component: {fileID: 2131314559662619213}
   m_Layer: 0
   m_Name: SM_Bld_HangerDoor_02
   m_TagString: Untagged
@@ -274,6 +275,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 14.009404, y: 10.95142, z: 0.5777173}
   m_Center: {x: -6.405027, y: 0.06291342, z: -0.1558728}
+--- !u!114 &2131314559662619213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4868413073114867151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84461857e5a5a4fc180dd0c75bead1a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  solidBody: {fileID: 0}
+  transperantBody: {fileID: 0}
 --- !u!1 &4868442515313891777
 GameObject:
   m_ObjectHideFlags: 0
@@ -557,6 +572,7 @@ GameObject:
   - component: {fileID: 4891959146347400473}
   - component: {fileID: 4883827135303384937}
   - component: {fileID: 4863100701345073759}
+  - component: {fileID: 5815489564925209761}
   m_Layer: 0
   m_Name: SM_Bld_HangerDoor_01
   m_TagString: Untagged
@@ -640,6 +656,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 14.009401, y: 10.95142, z: 0.5777136}
   m_Center: {x: 6.4273243, y: 0.06291342, z: -0.15587342}
+--- !u!114 &5815489564925209761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4868736732185194415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84461857e5a5a4fc180dd0c75bead1a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  solidBody: {fileID: 0}
+  transperantBody: {fileID: 0}
 --- !u!1 &4868803045416844361
 GameObject:
   m_ObjectHideFlags: 0

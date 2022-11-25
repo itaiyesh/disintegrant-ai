@@ -312,6 +312,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 64585779360771958, guid: ceddc97abfdd06647918f15b13cfac6c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 64949968090404992, guid: ceddc97abfdd06647918f15b13cfac6c, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -360,6 +364,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1506818619065458243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8097171139516853727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84461857e5a5a4fc180dd0c75bead1a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  solidBody: {fileID: 0}
+  transperantBody: {fileID: 0}
 --- !u!114 &8193688438338378731
 MonoBehaviour:
   m_ObjectHideFlags: 0
