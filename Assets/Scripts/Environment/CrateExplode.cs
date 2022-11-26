@@ -17,19 +17,40 @@ public class CrateExplode : MonoBehaviour
         if (Explosion.isPlaying)
         { Explosion.Stop(); }
         boom = true;
-
+        
     }
 
     
     void OnMouseDown()
     {
-        Debug.Log(" MOUSE HIIIIIT!");
-            if (!Explosion.isPlaying)
-            { Explosion.Play(); }
+        StartCoroutine(PauseGame(0.0f));
+        if (!Explosion.isPlaying)
+            {
+            Explosion.Play(); }
             Destroy(ExplodableCrate);
+            BoxCollider boxCollider = ExplodableCrate.GetComponent<BoxCollider>();
+            Destroy(boxCollider);
             explosionSound.Play();
             boom = false;
+            if (!Explosion.isPlaying)
+            { 
+                Destroy(gameObject);
+                Destroy(explosionSound);
+                Destroy(Explosion);
+            }
         
+        
+    }
+
+    public IEnumerator PauseGame(float pauseTime)
+    {
+        Time.timeScale = 0f;
+        float pauseEndTime = Time.realtimeSinceStartup + pauseTime;
+        while (Time.realtimeSinceStartup < pauseEndTime)
+        {
+            yield return 0;
+        }
+        Time.timeScale = 1f;
     }
 
 }

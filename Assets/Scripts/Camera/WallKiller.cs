@@ -6,7 +6,6 @@ using UnityEngine;
 public class WallKiller : MonoBehaviour
 {
     private Transform camera;
-    //Attach this script to the camera//
     // adapted from https://www.youtube.com/watch?v=xMFx9HfRknU
     public GameObject player;
     [SerializeField] private List<Iam_InTheWay> currentlyInTheWay;

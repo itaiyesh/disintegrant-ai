@@ -61,17 +61,9 @@ public class MusicSwitch : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    {
+    { { 
         if (other.tag == "Player")
-        { 
-        //GameObject trigger = GetComponent<GameObject>();
         switchMusic();
         }
-        //if (!switchTrigger)
-        //    { 
-        //switchTrigger = true;
-        //    }
-
-        //else switchTrigger = false;
     }
 }

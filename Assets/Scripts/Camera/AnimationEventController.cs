@@ -7,8 +7,8 @@ public class AnimationEventController : MonoBehaviour
     //NPC must set this to null because it causes the camera to shake upon fire.
     public GameObject ShakeCamera;
 
-    public float amplitude = 1.5f;
-    public float frequency = 1f;
+    public float amplitude = 2.5f;
+    public float frequency = 0.5f;
     private CinemachineVirtualCamera playerFollowVirtualCamera;
 
     private void Awake()
@@ -31,9 +31,12 @@ public class AnimationEventController : MonoBehaviour
     IEnumerator CameraShakeCoroutine(float amplitude, float frequency, float duration)
     {
         var perlin = playerFollowVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        perlin.m_AmplitudeGain = amplitude;
-        perlin.m_FrequencyGain = frequency;
-        yield return new WaitForSeconds(duration);
+        if (Input.GetMouseButtonDown(0))
+        { 
+            perlin.m_AmplitudeGain = amplitude;
+            perlin.m_FrequencyGain = frequency;
+            yield return new WaitForSeconds(duration);
+        }
         perlin.m_AmplitudeGain = 0f;
         perlin.m_FrequencyGain = 0f;
     }
