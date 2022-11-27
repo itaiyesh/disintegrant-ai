@@ -14,8 +14,7 @@ public class GameManager : MonoBehaviour
 	public GameObject gameOverMenu;
 	public GameObject gameWonMenu;
 
-    public GameObject botPrefab;
-    public GameObject ragdollPrefab; // TODO: Will need corresponding ragdoll for each character
+    public List<GameObject> botPrefabs;
     public int numBots = 10;
 	public Dictionary<int, GameObject> bots = new Dictionary<int, GameObject>();
 
@@ -54,7 +53,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < numBots; i++)
         {
             //Better have more spawn points than players
-            GameObject bot = Instantiate(botPrefab, PlayerSpawnPositions[i % PlayerSpawnPositions.Count], Quaternion.identity);
+            GameObject bot = Instantiate(botPrefabs[i % botPrefabs.Count], PlayerSpawnPositions[i % PlayerSpawnPositions.Count], Quaternion.identity);
             bots[bot.GetInstanceID()] = bot;
         }
         characterAttributeEventListener = new UnityAction<GameObject, Dictionary<string, object>, Dictionary<string, object>>(characterAttributeEventHandler);
@@ -99,6 +98,7 @@ public class GameManager : MonoBehaviour
     {
         player.SetActive(false);
         player.GetComponent<CharacterAttributes>().characterAttributes.IsAlive = false;
+        GameObject ragdollPrefab = player.GetComponent<Ragdoll>().ragdollPrefab;
         GameObject ragdoll = Instantiate(ragdollPrefab, player.transform.position, player.transform.rotation);
         Destroy(ragdoll, 3);
     }
