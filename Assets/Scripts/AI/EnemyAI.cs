@@ -86,7 +86,10 @@ public class EnemyAI : MonoBehaviour
     {
         //Collect common FSM variables
         //Find closest player to fight
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] AIs = GameObject.FindGameObjectsWithTag("AI");
+        GameObject[] players = player.Concat(AIs).ToArray();
+
         int minIndex = -1;
         float minDistance = Mathf.Infinity;
         for (int i = 0; i < players.Length; i++)
