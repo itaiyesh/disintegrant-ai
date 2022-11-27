@@ -47,12 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd4698f8eb54fc845ac44824f219adf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 0
-  InitialSpeed: 0
-  MaxSpeed: 0
-  Acceleration: 0
-  MaxDuration: 0
-  vfxExplosion: {fileID: 1485626432833870, guid: b510fe24f925ddd4bbf696284d146f51, type: 3}
+  DamageFX: {fileID: 2619641601261260123, guid: ff71259505fdc89408e30e709efbbb33, type: 3}
 --- !u!54 &7562150781984316488
 Rigidbody:
   m_ObjectHideFlags: 0
