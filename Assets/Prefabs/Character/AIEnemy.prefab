@@ -678,6 +678,10 @@ PrefabInstance:
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6896395018603564652, guid: 11c0aefbfb929f544aec83ad7dd23e45, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6896395018603564653, guid: 11c0aefbfb929f544aec83ad7dd23e45, type: 3}
       propertyPath: m_Radius
       value: 0.8
