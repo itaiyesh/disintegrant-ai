@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
-
+using System.Collections.Generic;
 
 //State classes
 public sealed class Idle : State
@@ -14,11 +14,6 @@ public sealed class Idle : State
 
     public override void Execute(FSM fsm, StateParams stateParams)
     {
-        // Debug.Log("Switch to Attack? = " + (stateParams.Target != null && stateParams.IsTargetinRange && stateParams.IsGoodHealth) + "; Target: " + stateParams.Target
-        //         + " IsTargetinRange: " + stateParams.IsTargetinRange + "GoodHealth: " + stateParams.IsGoodHealth);
-
-        // Debug.Log("Switch to Chase? = " + (stateParams.Target != null && stateParams.IsGoodHealth && stateParams.IsTargetClose) + " Target: " + stateParams.Target
-        //         + " IsTargetClose: " + stateParams.IsTargetClose + " GoodHealth: " + stateParams.IsGoodHealth);
 
         if ((stateParams.Target != null && stateParams.IsTargetinRange && (stateParams.IsGoodHealth ||
             stateParams.Health == null)))
@@ -38,8 +33,8 @@ public sealed class Idle : State
         else
         {
             //Select a nearby accessible waypoint to wander towards
-            
-            while (!isWayPointvalid && stateParams.Agent.remainingDistance < 0.5)
+
+            while (!isWayPointvalid)//&& stateParams.Agent.remainingDistance < 0.5)
             {
                 var offset = Random.insideUnitCircle * 20;
                 var newWaypoint = stateParams.Agent.transform.position + new Vector3(offset.x, 0.0f, offset.y);
@@ -77,9 +72,14 @@ public sealed class Attack : State
     private NavMeshHit hit;
     public override void Execute(FSM fsm, StateParams stateParams)
     {
-
-        
-        if (stateParams.Target != null && stateParams.IsTargetClose && stateParams.Attributes.equippedWeapons[stateParams.Attributes.activeWeaponIndex].GetComponent<Weapon>().Ammo > 0)
+        List<GameObject> equippedWeapons = stateParams.Attributes.equippedWeapons;
+        int bestLoadedWeaponIndex = equippedWeapons.FindLastIndex(weapon => weapon.GetComponent<Weapon>().Ammo > 0);
+        if (bestLoadedWeaponIndex != stateParams.Attributes.activeWeaponIndex)
+        {
+            stateParams.WeaponController.Swap(equippedWeapons[bestLoadedWeaponIndex]);
+        }
+        GameObject equippedWeapon = equippedWeapons[stateParams.Attributes.activeWeaponIndex];
+        if (stateParams.Target != null && stateParams.IsTargetClose)
         {
 
             Vector3 targetDirection = stateParams.Target.transform.position - stateParams.Agent.transform.position;
@@ -90,40 +90,36 @@ public sealed class Attack : State
             Debug.DrawRay(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward) * hitInfo.distance, Color.red);
 
             if (hitInfo.transform.CompareTag("Player"))
-                {
-                stateParams.WeaponController.Attack(stateParams.Target.transform, WeaponFireType.SINGLE);
-                }
+            {
+                stateParams.WeaponController.Attack(stateParams.Target.transform, equippedWeapon.GetComponent<Weapon>().FireType);
+
+            }
 
             if (stateParams.Agent.remainingDistance < 0.5f || Time.fixedTime - lastUpdateTime > PositionUpdateFrequency)
+            {
+                // Debug.Log("Time check: " + (Time.fixedTime - lastUpdateTime));
+                bool newDestValid = false;
+                Vector3 attackPosition = stateParams.Target.transform.position;
+                while (newDestValid == false)
                 {
-                    Debug.Log("Time check: " + (Time.fixedTime - lastUpdateTime));
-                    bool newDestValid = false;
-                    Vector3 attackPosition = stateParams.Target.transform.position;
-                    while (newDestValid == false) {
-                        Vector2 rand = Random.insideUnitCircle * AttackRadius;
-                        attackPosition += new Vector3(rand.x, 0, rand.y);
-                        blocked = Physics.Raycast(stateParams.Agent.transform.position, attackPosition - stateParams.Agent.transform.position, out RaycastHit hit, Vector3.Distance(stateParams.Agent.transform.position, attackPosition));
-                        if (!hit.rigidbody) { 
-                            stateParams.Agent.SetDestination(attackPosition);
-                            newDestValid = true;
+                    Vector2 rand = Random.insideUnitCircle * AttackRadius;
+                    attackPosition += new Vector3(rand.x, 0, rand.y);
+                    blocked = Physics.Raycast(stateParams.Agent.transform.position, attackPosition - stateParams.Agent.transform.position, out RaycastHit hit, Vector3.Distance(stateParams.Agent.transform.position, attackPosition));
+                    if (!hit.rigidbody)
+                    {
+                        stateParams.Agent.SetDestination(attackPosition);
+                        newDestValid = true;
                     }
                 }
-                    lastUpdateTime = Time.fixedTime;
-                    //AI will stay within radius of the enemy
-                }
+                lastUpdateTime = Time.fixedTime;
+                //AI will stay within radius of the enemy
+            }
 
         }
         else if (stateParams.Health != null && !stateParams.IsMediumHealth)
         {
             fsm.Switch(Heal.Instance);
         }
-
-        else if (stateParams.Agent.velocity.magnitude < 0.15f) //workaround to get Agent unstuck if he is is "stuck" at a point
-        {
-            Debug.Log("AIEnemy velocity: " + stateParams.Agent.velocity.magnitude);
-            fsm.Switch(Idle.Instance);
-        }
-
         else
         {
             fsm.Switch(Idle.Instance);

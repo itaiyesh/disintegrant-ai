@@ -95,7 +95,7 @@ public class WeaponController : MonoBehaviour
 	    Swap(characterAttributes.equippedWeapons[mod(characterAttributes.activeWeaponIndex - 1, characterAttributes.equippedWeapons.Count)]);
     }
     
-	private void Swap(GameObject weapon) 
+	public void Swap(GameObject weapon) 
 	{
 		if(weapon != characterAttributes.equippedWeapons[characterAttributes.activeWeaponIndex] && characterAttributes.equippedWeapons.Contains(weapon)) 
         {
