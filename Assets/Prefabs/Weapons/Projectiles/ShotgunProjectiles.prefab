@@ -60,11 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b579fe5f554bb374dbb90016a3816e77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 0
-  InitialSpeed: 0
-  MaxSpeed: 0
-  Acceleration: 0
-  MaxDuration: 0
+  DamageFX: {fileID: 2619641601261260123, guid: ff71259505fdc89408e30e709efbbb33, type: 3}
   particleProjectile: {fileID: 7333685803347457643, guid: bed1e15994af89a4b83e5dd9bf64ec05, type: 3}
   particles: 8
   spreadAngle: 10

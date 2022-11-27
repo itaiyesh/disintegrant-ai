@@ -89,7 +89,7 @@ public sealed class Attack : State
             blocked = Physics.Raycast(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward), out RaycastHit hitInfo, 20f);
             Debug.DrawRay(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward) * hitInfo.distance, Color.red);
 
-            if (hitInfo.transform.CompareTag("Player") || hitInfo.transform.CompareTag("AI"))
+            if (hitInfo.transform != null && (hitInfo.transform.CompareTag("Player") || hitInfo.transform.CompareTag("AI")))
             {
                 stateParams.WeaponController.Attack(stateParams.Target.transform, equippedWeapon.GetComponent<Weapon>().FireType);
 
