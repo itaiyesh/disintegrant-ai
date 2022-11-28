@@ -41,7 +41,7 @@ public class HUD : MonoBehaviour
 		
 		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 		
-		rootComponent.Q<VisualElement>("Remaining").Q<Label>("Label").text = $"Players \nRemaining: {gameManager.numBots}/{gameManager.numBots}";
+		rootComponent.Q<VisualElement>("Remaining").Q<Label>("Label").text = $"Players \nRemaining: {gameManager.numBots + 1}/{gameManager.numBots + 1}";
 	}
 	
 	void OnEnable()
@@ -185,7 +185,7 @@ public class HUD : MonoBehaviour
 	private void LateUpdate()
 	{
 		// Update player count
-		rootComponent.Q<VisualElement>("Remaining").Q<Label>("Label").text = $"Players \nRemaining: {gameManager.bots.Count}/{gameManager.numBots}";
+		rootComponent.Q<VisualElement>("Remaining").Q<Label>("Label").text = $"Players \nRemaining: {gameManager.bots.Count + 1}/{gameManager.numBots  + 1}";
 	}
     
 	
