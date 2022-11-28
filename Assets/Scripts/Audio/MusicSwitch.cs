@@ -5,7 +5,7 @@ using UnityEditor;
 public class MusicSwitch : MonoBehaviour
 {
     public AudioSource musicSource1, musicSource2;
-    float defaultVolume = 0.5f;
+    public float defaultVolume = 0.5f;
     float transitionTime = 0.75f;
     bool switchTrigger = false;
     

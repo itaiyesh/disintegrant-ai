@@ -92,6 +92,7 @@ public class AudioEventManager : MonoBehaviour
         countDownSound.audioSrc.Stop();
         countDownSound.audioSrc.clip = countDownAudioDic[count];
         countDownSound.audioSrc.loop = false;
+        countDownSound.audioSrc.volume = 1.0f;
         countDownSound.audioSrc.Play();
     }
     private void footstepEventHandler(int type, Vector3 position)
