@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Events;
 using UnityEngine.Events;
-
 
 public class GameManager : MonoBehaviour
 {
     //TODO: Make singleton
     public Texture2D crosshair;
     GameState state;
-	public GameObject pauseMenu;
-	public GameObject gameOverMenu;
-	public GameObject gameWonMenu;
+    public GameObject pauseMenu;
+    public GameObject gameOverMenu;
+    public GameObject gameWonMenu;
 
     public List<GameObject> botPrefabs;
     public int numBots = 10;
-	public Dictionary<int, GameObject> bots = new Dictionary<int, GameObject>();
+    public Dictionary<int, GameObject> bots = new Dictionary<int, GameObject>();
 
     public List<Vector3> PlayerSpawnPositions = new List<Vector3>();
     private UnityAction<GameObject, Dictionary<string, object>, Dictionary<string, object>> characterAttributeEventListener;
@@ -88,7 +88,12 @@ public class GameManager : MonoBehaviour
         {
             Die(triggeringPlayer);
             int playerID = triggeringPlayer.GetInstanceID();
-            if (bots.ContainsKey(playerID)) { bots.Remove(playerID); }
+            if (bots.ContainsKey(playerID))
+            {
+                bots.Remove(playerID);
+                int totalPlayers = bots.Count + 1;
+                EventManager.TriggerEvent<CountDownEvent, int>(totalPlayers);
+            }
             if (triggeringPlayer.name == "Player") { Switch(GameState.GAMEOVER); }
         }
 
@@ -111,31 +116,31 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.PLAYING:
-	            Cursor.lockState = CursorLockMode.Locked;
-	            Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
                 break;
             case GameState.PAUSE:
-	            Time.timeScale = 0f;
-	            pauseMenu.SetActive(true);
-	            Cursor.lockState = CursorLockMode.None;
-	            Cursor.visible = true;
+                Time.timeScale = 0f;
+                pauseMenu.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
                 break;
             case GameState.UNPAUSE:
-	            pauseMenu.SetActive(false);
-	            Time.timeScale = 1f;
+                pauseMenu.SetActive(false);
+                Time.timeScale = 1f;
                 Switch(GameState.PLAYING);
-	            return; // need to return here or state is set to unpause incorrectly
+                return; // need to return here or state is set to unpause incorrectly
             case GameState.GAMEOVER:
-	            Cursor.lockState = CursorLockMode.None;
-	            Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
                 Time.timeScale = 0.3f;
-	            gameOverMenu.SetActive(true);
+                gameOverMenu.SetActive(true);
                 break;
             case GameState.WIN:
-	            Cursor.lockState = CursorLockMode.None;
-	            Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
                 Time.timeScale = 0f;
-	            gameWonMenu.SetActive(true);
+                gameWonMenu.SetActive(true);
                 break;
             case GameState.QUIT:
                 QuitGame();
@@ -144,7 +149,7 @@ public class GameManager : MonoBehaviour
         state = newState;
     }
     void Update()
-	{
+    {
         //PAUSE - UNPAUSE
         if ((state == GameState.PLAYING || state == GameState.PAUSE) && Input.GetKeyUp(KeyCode.Escape))
         {
