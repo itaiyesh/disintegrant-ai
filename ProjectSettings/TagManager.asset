@@ -12,6 +12,8 @@ TagManager:
   - WeaponCollectable
   - HealthCollectable
   - ExplodableCrate
+  - HUDWeaponContainer
+  - HUDWeaponCrosshair
   layers:
   - Default
   - TransparentFX
