@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HealthFillMaterial
-  m_Shader: {fileID: 4800000, guid: 4b580fff4d401514595737ccc0fc3059, type: 3}
+  m_Name: HUDMaterial
+  m_Shader: {fileID: 4800000, guid: 24f9f312f97bd48dba1a728d58c89842, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -63,29 +63,16 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Height: 0.99
-    - _Level2: 100
-    - _Level3: 200
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _PeakLevel: 300
-    - _Slope: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WaterLevel: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 1, g: 0.5290805, b: 0.46274507, a: 1}
-    - _Color2: {r: 0.4627451, g: 0.9098039, b: 1, a: 1}
+    - _Color: {r: 0.4627451, g: 0.9098039, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Level1Color: {r: 0.65, g: 0.86, b: 0.63, a: 1}
-    - _Level2Color: {r: 0.69, g: 0.63, b: 0.31, a: 1}
-    - _Level3Color: {r: 0.75, g: 0.53, b: 0, a: 1}
-    - _PeakColor: {r: 0.8, g: 0.9, b: 0.9, a: 1}
-    - _WaterColor: {r: 0.37, g: 0.78, b: 0.92, a: 1}
   m_BuildTextureStacks: []
