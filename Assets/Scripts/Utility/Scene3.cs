@@ -7,7 +7,7 @@ public class Scene3 : MonoBehaviour
 {
     void OnEnable()
     {
-        SceneManager.LoadScene("Intro_Interior2", LoadSceneMode.Single);
+        SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
     }
 
 }
