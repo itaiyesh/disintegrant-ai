@@ -10,7 +10,14 @@ public class CharacterAttributeItems : ICloneable
 	// Basics
 	public bool IsAlive { get; set; } = true;
 	public const float MAX_HEALTH = 100f;
-	public float Health { get; set; } = MAX_HEALTH;
+
+	// Backing field for health
+	private float _health = MAX_HEALTH;
+	public float Health
+	{
+		get => Mathf.Clamp(_health, 0, MAX_HEALTH);
+		set => _health = value;
+	}
 	
 	// Movement
 	public float MovementSpeedMultiplier { get; set; } = 1.0f;
