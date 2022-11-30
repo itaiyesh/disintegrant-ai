@@ -81,7 +81,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!136 &2078481966479804768
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -108,12 +108,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c242357d5a62542428f64c7c6eeb07de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 0
-  InitialSpeed: 0
-  MaxSpeed: 0
-  Acceleration: 0
-  MaxDuration: 0
+  DamageFX: {fileID: 2619641601261260123, guid: ff71259505fdc89408e30e709efbbb33, type: 3}
   vfxExplosion: {fileID: 7528311140573634780, guid: 8f67490dfc0ee1a4aa738a85081bcb72, type: 3}
+  audioClip: {fileID: 8300000, guid: f0bba60dd1813bd40af826dbaa99b983, type: 3}
+  shockwave: {fileID: 6923720668655663091, guid: 19a11e1431a295f40b3380023a008736, type: 3}
 --- !u!1001 &339035641912222041
 PrefabInstance:
   m_ObjectHideFlags: 0

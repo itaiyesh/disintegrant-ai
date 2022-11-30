@@ -110,14 +110,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: RPG
+  WeaponType: 3
   FireType: 0
+  Player: {fileID: 0}
   Projectile: {fileID: 8708175371260511287, guid: 8e842ffd8b99c2d44b111a8817d0d92b, type: 3}
-  FireSound: {fileID: 8300000, guid: 227f2b05e45ee4003aa4bca234af6da0, type: 3}
+  FireSound: {fileID: 8300000, guid: 00205aef1a8c91541a2faadd3b399b36, type: 3}
   Collectable: {fileID: 7357103534998013877, guid: afaf482df57c6784fb53820979e4678b, type: 3}
   AnimationTag: rpg
-  FireRate: 0.3
-  Ammo: Infinity
-  Damage: 1
+  FireRate: 1
+  Ammo: 5
+  Damage: 0
   InitialSpeed: 0
   MaxSpeed: 50
   Acceleration: 3
