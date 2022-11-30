@@ -128,6 +128,13 @@ public class HUDController : MonoBehaviour
 
         var weaponType = weapon.GetComponent<Weapon>().WeaponType;
         if (weaponAnimators.ContainsKey(weaponType)) weaponAnimators[weaponType].SetBool("active", true);
+        
+        string ammo = $"{weapon.GetComponent<Weapon>().Ammo}";
+        if (weapon.GetComponent<Weapon>().Ammo == 1.0f / 0.0f) // if ammo is infinite, change to infinity symbol
+        {
+            ammo = "INF";
+        }
+        ammoText.text = $"{ammo}";
     }
 
     void weaponRemoveEventHandler(

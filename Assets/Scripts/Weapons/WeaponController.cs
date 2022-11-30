@@ -117,7 +117,7 @@ public class WeaponController : MonoBehaviour
 	    GameObject equippedWeaponObject = characterAttributes.equippedWeapons[characterAttributes.activeWeaponIndex];
 	    Weapon equippedWeapon = equippedWeaponObject.GetComponent<Weapon>();
 	    
-	    if (equippedWeapon.FireType == fireType) 
+	    if (equippedWeapon.FireType == fireType && (equippedWeapon.LastShootTime + equippedWeapon.FireRate <= Time.time && equippedWeapon.Ammo > 0)) 
 	    {
 		    equippedWeapon.Attack(target);
 		    animator.SetTrigger("attack");
