@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour
 {
     //TODO: Make singleton
     public Texture2D crosshair;
-    GameState state;
+	GameState state;
+	public bool isTutorial = false;
     public GameObject pauseMenu;
     public GameObject gameOverMenu;
     public GameObject gameWonMenu;
@@ -24,7 +25,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         //If no specified spawn positions, generate random positions on map;
-        if (PlayerSpawnPositions.Count == 0)
+	    if (PlayerSpawnPositions.Count == 0)
         {
             Mesh mesh = new Mesh();
             NavMeshTriangulation navmeshData = NavMesh.CalculateTriangulation();
@@ -156,7 +157,7 @@ public class GameManager : MonoBehaviour
             Switch(state == GameState.PAUSE ? GameState.UNPAUSE : GameState.PAUSE);
         }
 
-        if (state != GameState.WIN && bots.Count == 0)
+        if (state != GameState.WIN && bots.Count == 0 && !isTutorial)
         {
             Switch(GameState.WIN);
         }
