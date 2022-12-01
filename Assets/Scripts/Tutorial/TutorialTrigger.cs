@@ -11,7 +11,7 @@ public class TutorialTrigger : MonoBehaviour
 	
 	public void OnTriggerEnter(Collider c)
 	{
-		if (!isTriggered)
+		if (c.gameObject.GetComponent<CharacterAttributes>() != null &&!isTriggered)
 		{
 			isTriggered = true;
 			
