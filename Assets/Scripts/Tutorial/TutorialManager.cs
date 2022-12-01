@@ -201,12 +201,12 @@ public class TutorialManager : MonoBehaviour
             TextElement.text = "";
         }
 
-        yield return new WaitForSecondsRealtime(writingDelay);
+        yield return new WaitForSeconds(writingDelay);
 
         foreach (char c in text)
         {
             TextElement.text += c;
-            yield return new WaitForSecondsRealtime(writingDelay);
+            yield return new WaitForSeconds(writingDelay);
         }
     }
 
