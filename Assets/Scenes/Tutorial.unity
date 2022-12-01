@@ -30281,6 +30281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   crosshair: {fileID: 2800000, guid: d8d19c93d3525445fafbd34c8b5c1b67, type: 3}
+  isTutorial: 1
   pauseMenu: {fileID: 1832390897}
   gameOverMenu: {fileID: 1832390897}
   gameWonMenu: {fileID: 1832390897}
