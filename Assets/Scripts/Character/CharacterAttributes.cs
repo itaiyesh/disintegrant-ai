@@ -36,6 +36,8 @@ public class CharacterAttributeItems : ICloneable
     // UnderAttack
     public bool IsUnderAttack { get; set; } = false;
 
+    public VoicePack VoicePack;
+    
     public object Clone()
     {
         return this.MemberwiseClone();

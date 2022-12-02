@@ -6,69 +6,17 @@ class Utils
 {
     public static void Attack(StateParams stateParams)
     {
-        // List<GameObject> equippedWeapons = stateParams.Attributes.equippedWeapons;
-        // int bestLoadedWeaponIndex = equippedWeapons.FindLastIndex(weapon => weapon.GetComponent<Weapon>().Ammo > 0);
-        // if (bestLoadedWeaponIndex != stateParams.Attributes.activeWeaponIndex)
-        // {
-        //     stateParams.WeaponController.Swap(equippedWeapons[bestLoadedWeaponIndex]);
-        // }
-        // GameObject equippedWeapon = equippedWeapons[stateParams.Attributes.activeWeaponIndex];
-
-        // float dist = (movingWaypoint.transform.position - navMeshAgent.transform.position).magnitude;
-        // float lookAheadTime = Mathf.Clamp(dist / navMeshAgent.speed, 0, 4);
-        // Vector3 futureTarget = movingWaypoint.transform.position + lookAheadTime * velocityReporter.velocity;
-        // if (NavMesh.Raycast(movingWaypoint.transform.position, futureTarget, out hit, NavMesh.AllAreas))
-        // {
-        //     //Raycast is blocked 
-        //     Vector3 clampedTarget = hit.position + (movingWaypoint.transform.position - hit.position).normalized;
-        //     destinationTracker.transform.position = clampedTarget;
-        //     navMeshAgent.SetDestination(clampedTarget);
-        // }
-        // else
-        // {
-        //     destinationTracker.transform.position = futureTarget;
-        //     navMeshAgent.SetDestination(futureTarget);
-        // }
 
         //Assuming last weapon is always the best
         stateParams.WeaponController.Swap(stateParams.LoadedWeapons[stateParams.LoadedWeapons.Count - 1]);
         GameObject equippedWeapon = stateParams.Attributes.equippedWeapons[stateParams.Attributes.activeWeaponIndex];
         Weapon equippedWeaponObject = equippedWeapon.GetComponent<Weapon>();
 
-        // GameObject nearestPlayer = stateParams.NearestPlayer;
-        // float targetDistance = Vector3.Distance(nearestPlayer.transform.position, stateParams.Agent.transform.position);
-        // float lookAheadTime = targetDistance / equippedWeaponObject.MaxSpeed;
-        // VelocityReporter reporter = nearestPlayer.GetComponent<VelocityReporter>();
-        // if (reporter == null)
-        // {
-        //     Debug.LogError("NO REPORTER");
-        //     return;
-        // }
-        // Vector3 futureTarget = nearestPlayer.transform.position + lookAheadTime * reporter.velocity;// + new Vector3(0f, 1f, 0f);
-        // Vector3 currentTargetDirection = nearestPlayer.transform.position - stateParams.Agent.transform.position;
-        // Vector3 futureTargetDirection = futureTarget - stateParams.Agent.transform.position;
-        // stateParams.Agent.transform.rotation = Quaternion.Lerp(stateParams.Agent.transform.rotation,
-        //  Quaternion.LookRotation(futureTargetDirection), Time.deltaTime * 20f);
-        // // stateParams.Agent.transform.LookAt(futureTargetDirection);
-
-        // stateParams.Agent.updateRotation = true;
-        // // bool blocked = Physics.Raycast(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward), out RaycastHit hitInfo, 20f);
-        // // Debug.DrawRay(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward) * hitInfo.distance, Color.red);
-        // bool blocked = Physics.Raycast(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward), out RaycastHit hitInfo, 20f);
-        // if (hitInfo.transform != null && Vector3.Distance(hitInfo.transform.position, stateParams.Agent.transform.position) < targetDistance)
-        // {
-        //     //A closer object than target is blocking our view
-        //     return;
-        // }
-        // stateParams.WeaponController.Attack(futureTarget, equippedWeapon.GetComponent<Weapon>().FireType);
-
-
-
         Vector3 targetDirection = stateParams.NearestPlayer.transform.position - stateParams.Agent.transform.position;
         stateParams.Agent.transform.rotation = Quaternion.Lerp(stateParams.Agent.transform.rotation, Quaternion.LookRotation(targetDirection), Time.deltaTime * 45f);
         stateParams.Agent.updateRotation = true;
         bool blocked = Physics.Raycast(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward), out RaycastHit hitInfo, 20f);
-        Debug.DrawRay(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward) * hitInfo.distance, Color.red);
+        // Debug.DrawRay(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward) * hitInfo.distance, Color.red);
         if (hitInfo.transform != null && (hitInfo.transform.CompareTag("Player") || hitInfo.transform.CompareTag("AI")))
         {
             stateParams.WeaponController.Attack(stateParams.NearestPlayer.transform.position, equippedWeapon.GetComponent<Weapon>().FireType);
@@ -124,40 +72,6 @@ public sealed class Idle : State
                     stateParams.Agent.SetDestination(hit.position);
                     isWayPointvalid = true;
                 }
-
-
-                // NavMeshHit hit;
-                // if (NavMesh.SamplePosition(stateParams.PlayersCenterOfMass, out hit, 30f, NavMesh.AllAreas))
-                // {
-                //     var offset = Random.insideUnitCircle * 20;
-                //     var newWaypoint = hit.position + new Vector3(offset.x, 0.0f, offset.y);
-                //     if (NavMesh.SamplePosition(newWaypoint, out hit, 20f, NavMesh.AllAreas))
-                //     {
-                //         stateParams.Agent.SetDestination(hit.position);
-                //         isWayPointvalid = true;
-                //     }
-                // }
-
-                // var offset = Random.insideUnitCircle * 10f;
-                // var newWaypoint = stateParams.Agent.transform.position + new Vector3(offset.x, 0.0f, offset.y);
-                // NavMeshHit hit;
-                // if (NavMesh.SamplePosition(newWaypoint, out hit, 10f, NavMesh.AllAreas))
-                // {
-                //     stateParams.Agent.SetDestination(hit.position);
-                //     isWayPointvalid = true;
-                // }
-
-
-                // var centerOfMassDirection = (stateParams.PlayersCenterOfMass - stateParams.Agent.transform.position).normalized;
-                // var randomOffset = Random.insideUnitCircle * 20f;
-                // Vector3 randomVectorOffset = new Vector3(randomOffset.x, 0.0f, randomOffset.y);
-                // var newWaypoint = stateParams.Agent.transform.position + centerOfMassDirection * 20f + randomVectorOffset;
-                // NavMeshHit hit;
-                // if (NavMesh.SamplePosition(newWaypoint, out hit, 50f, NavMesh.AllAreas))
-                // {
-                //     stateParams.Agent.SetDestination(hit.position);
-                //     isWayPointvalid = true;
-                // }
 
             }
 
@@ -246,6 +160,12 @@ public sealed class Chase : State
             //No target selected
             fsm.Switch(Idle.Instance);
         }
+
+        // Attack while chasing
+        if (stateParams.IsTargetinRange && stateParams.IsUnderAttack)
+        {
+            Utils.Attack(stateParams);
+        }
     }
 }
 public sealed class CollectWeapon : State
@@ -290,7 +210,7 @@ public sealed class Heal : State
         }
 
         // Attack while healing
-        if (stateParams.IsTargetinRange)
+        if (stateParams.IsTargetinRange && stateParams.Attributes.Health > 20)
         {
             Utils.Attack(stateParams);
         }
@@ -308,6 +228,8 @@ public interface StateChangeListener
 
 public class FSM
 {
+    public VoicePack VoicePack;
+    public NavMeshAgent Agent;
     State state;
 
     private StateChangeListener listener;
@@ -321,7 +243,28 @@ public class FSM
     {
         listener?.OnStateChange(state, newState);
         state = newState;
-        // Debug.Log("State: " + newState);
+
+        if (newState == Chase.Instance && VoicePack.chase.Length > 0)
+        {
+            int index = Random.Range(0, VoicePack.chase.Length - 1);
+            EventManager.TriggerEvent<VoiceEvent, AudioClip, Vector3>(VoicePack.chase[index], Agent.transform.position);
+        }
+        else if (newState == Heal.Instance && VoicePack.heal.Length > 0)
+        {
+            int index = Random.Range(0, VoicePack.heal.Length - 1);
+            EventManager.TriggerEvent<VoiceEvent, AudioClip, Vector3>(VoicePack.heal[index], Agent.transform.position);
+        }
+        else if (newState == Combat.Instance && VoicePack.combat.Length > 0)
+        {
+            int index = Random.Range(0, VoicePack.combat.Length - 1);
+            EventManager.TriggerEvent<VoiceEvent, AudioClip, Vector3>(VoicePack.combat[index], Agent.transform.position);
+        }
+        else if (newState == CollectWeapon.Instance && VoicePack.collectWeapon.Length > 0)
+        {
+            int index = Random.Range(0, VoicePack.collectWeapon.Length - 1);
+            EventManager.TriggerEvent<VoiceEvent, AudioClip, Vector3>(VoicePack.collectWeapon[index], Agent.transform.position);
+        }
+
     }
     public void Execute(StateParams stateParams)
     {

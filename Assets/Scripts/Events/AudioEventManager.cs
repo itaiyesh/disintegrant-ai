@@ -22,6 +22,7 @@ public class AudioEventManager : MonoBehaviour
     private UnityAction<GameObject, GameObject, GameObject> weaponSwapEventListener;
 
     private UnityAction<GameObject, GameObject, AudioClip, Vector3> weaponFiredEventListener;
+    private UnityAction<AudioClip, Vector3> voiceEventListener;
 
     private UnityAction<int, Vector3> footstepEventListener;
     private UnityAction<int> countDownEventListener;
@@ -43,6 +44,7 @@ public class AudioEventManager : MonoBehaviour
         menuButtonEventListener = new UnityAction<MenuButtonEventListener.ButtonEvent>(MenuButtonAudioEventHandler);
         weaponSwapEventListener = new UnityAction<GameObject, GameObject, GameObject>(WeaponSwapEventHandler);
         weaponFiredEventListener = new UnityAction<GameObject, GameObject, AudioClip, Vector3>(WeaponFiredEventHandler);
+        voiceEventListener = new UnityAction<AudioClip, Vector3>(VoiceEventHandler);
         footstepEventListener = new UnityAction<int, Vector3>(footstepEventHandler);
         countDownEventListener = new UnityAction<int>(CountDownHandler);
         foreach (CountDownAudio item in CountDownAudios)
@@ -65,6 +67,7 @@ public class AudioEventManager : MonoBehaviour
             menuButtonEventListener);
         EventManager.StartListening<WeaponSwapEvent, GameObject, GameObject, GameObject>(weaponSwapEventListener);
         EventManager.StartListening<WeaponFiredEvent, GameObject, GameObject, AudioClip, Vector3>(weaponFiredEventListener);
+        EventManager.StartListening<VoiceEvent, AudioClip, Vector3>(voiceEventListener);
         EventManager.StartListening<FootstepSoundEvent, int, Vector3>(footstepEventListener);
         EventManager.StartListening<CountDownEvent, int>(countDownEventListener);
 
@@ -77,6 +80,7 @@ public class AudioEventManager : MonoBehaviour
             menuButtonEventListener);
         EventManager.StopListening<WeaponSwapEvent, GameObject, GameObject, GameObject>(weaponSwapEventListener);
         EventManager.StopListening<WeaponFiredEvent, GameObject, GameObject, AudioClip, Vector3>(weaponFiredEventListener);
+        EventManager.StopListening<VoiceEvent, AudioClip, Vector3>(voiceEventListener);
         EventManager.StopListening<FootstepSoundEvent, int, Vector3>(footstepEventListener);
         EventManager.StopListening<CountDownEvent, int>(countDownEventListener);
 
@@ -127,7 +131,21 @@ public class AudioEventManager : MonoBehaviour
             sound.audioSrc.Play();
         }
     }
-
+    private void VoiceEventHandler(AudioClip audioClip, Vector3 position)
+    {
+        var sound = Instantiate(eventSound3DPrefab, position, Quaternion.identity, null);
+        if (audioClip)
+        {
+            // enable 3d spatial blend
+            sound.audioSrc.spatialBlend = 1f;
+            sound.audioSrc.rolloffMode = AudioRolloffMode.Linear;
+            sound.audioSrc.volume = 1f;
+            sound.audioSrc.minDistance = 0f;
+            sound.audioSrc.maxDistance = 30f;
+            sound.audioSrc.clip = audioClip;
+            sound.audioSrc.Play();
+        }
+    }
     private void WeaponSwapEventHandler(GameObject player, GameObject oldWeapon, GameObject newWeapon)
     {
         //Workout till we figure out why spatial sound doesnt work:
