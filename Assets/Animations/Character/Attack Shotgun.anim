@@ -1432,7 +1432,7 @@ AnimationClip:
   m_Events:
   - time: 0
     functionName: OnShakeCamera
-    data: 
+    data: 0.8,1.0,0.5
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0.3
     intParameter: 0

@@ -17,7 +17,7 @@ public class EnemyAI : MonoBehaviour
     private float PlayerDist = 20.0f; // value to determine if player is close to agent
     private int goodHealth = 90; // threshold between medium and good agent health
     private int mediumHealth = 50; // threshold between bad and medium agent health
-    public float chaseAttackRatio = 0.6f;
+    public float chaseAttackRatio = 0.5f;
     private StateParams stateParams;
     public GameObject _target;
     //private UnityAction<AudioClip, Vector3> weaponFiredEventListener; 
@@ -76,6 +76,10 @@ public class EnemyAI : MonoBehaviour
         stateParams.Agent = agent;
         stateParams.Attributes = GetComponent<CharacterAttributes>().characterAttributes;
         stateParams.WeaponController = GetComponent<WeaponController>();
+        // stateParams.Voices = GetComponent<Voices>();
+
+        fsm.Agent = agent;
+        fsm.VoicePack = stateParams.Attributes.VoicePack;
         //Initial State:
         fsm.Switch(Idle.Instance);
     }

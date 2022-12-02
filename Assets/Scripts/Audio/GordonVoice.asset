@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4406a1a3de2bfa041b7162e326f0cbdf, type: 3}
+  m_Name: GordonVoice
+  m_EditorClassIdentifier: 
+  chase:
+  - {fileID: 8300000, guid: aa9e4dc862d437c4c8143aeb77cdd5d2, type: 3}
+  heal:
+  - {fileID: 8300000, guid: 1c1bc5c7d50e2e54fa449ccb8a45d5d3, type: 3}
+  - {fileID: 8300000, guid: 9a6b8dbee9d4a8345a0bba707d03bf01, type: 3}
+  combat:
+  - {fileID: 8300000, guid: 3bd4cafd8a5768941886ae3be5a11b04, type: 3}
+  - {fileID: 8300000, guid: 90985c89b4132c549b34cd283b94d43d, type: 3}
+  collectWeapon:
+  - {fileID: 8300000, guid: 99a7ace4c8ef83144b7c65b155ceae82, type: 3}
+  death:
+  - {fileID: 8300000, guid: a1a3203eb0fd47b4c8d3691b4bcba8b2, type: 3}
+  - {fileID: 8300000, guid: 140727a0f88d45a47868f6a3d3d401bc, type: 3}

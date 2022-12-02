@@ -5178,7 +5178,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c936d52d464f00f4e987fdfeb416fb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnderAttackDuration: 3
+  characterAttributes:
+    VoicePack: {fileID: 11400000, guid: 3146e81b9d737e548958e2ee5efd2309, type: 2}
+  UnderAttackDuration: 1
 --- !u!114 &6999414407159909089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5191,6 +5193,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99e95220932e57549b63d21c86998991, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterAttributes:
+    VoicePack: {fileID: 0}
   rigLayers: {fileID: 5693860195521227373}
   starterWeapon: {fileID: 0}
 --- !u!114 &4279047252524368853

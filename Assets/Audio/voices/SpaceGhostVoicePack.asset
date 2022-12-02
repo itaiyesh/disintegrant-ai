@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4406a1a3de2bfa041b7162e326f0cbdf, type: 3}
+  m_Name: SpaceGhostVoicePack
+  m_EditorClassIdentifier: 
+  chase:
+  - {fileID: 8300000, guid: 0663a2ee22ac6124d977183e70476373, type: 3}
+  heal:
+  - {fileID: 8300000, guid: 91d07e0fedbfb5c468f987bcb5b84b2f, type: 3}
+  combat:
+  - {fileID: 8300000, guid: fb4b196ca7576a04c958e855469a4e06, type: 3}
+  collectWeapon:
+  - {fileID: 8300000, guid: fdb29c3d97c349b46b82276baa869eff, type: 3}
+  death:
+  - {fileID: 8300000, guid: 6e077163bb306fd4095b6b2e288e8a58, type: 3}

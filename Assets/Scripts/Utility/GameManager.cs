@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour
 {
     //TODO: Make singleton
     public Texture2D crosshair;
-	GameState state;
-	public bool isTutorial = false;
+    GameState state;
+    public bool isTutorial = false;
     public GameObject pauseMenu;
     public GameObject gameOverMenu;
     public GameObject gameWonMenu;
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         //If no specified spawn positions, generate random positions on map;
-	    if (PlayerSpawnPositions.Count == 0)
+        if (PlayerSpawnPositions.Count == 0)
         {
             Mesh mesh = new Mesh();
             NavMeshTriangulation navmeshData = NavMesh.CalculateTriangulation();
@@ -107,6 +107,13 @@ public class GameManager : MonoBehaviour
         GameObject ragdollPrefab = player.GetComponent<Ragdoll>().ragdollPrefab;
         GameObject ragdoll = Instantiate(ragdollPrefab, player.transform.position, player.transform.rotation);
         Destroy(ragdoll, 3);
+        AudioClip[] deathClips = player.GetComponent<CharacterAttributes>().characterAttributes.VoicePack.death;
+        if (deathClips.Length > 0)
+        {
+            int index = Random.Range(0, deathClips.Length - 1);
+            EventManager.TriggerEvent<VoiceEvent, AudioClip, Vector3>(deathClips[index], player.transform.position);
+        }
+
     }
 
 
