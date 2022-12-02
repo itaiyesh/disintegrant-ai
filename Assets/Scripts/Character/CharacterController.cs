@@ -133,7 +133,7 @@ public class CharacterController : MonoBehaviour
             weaponController.Attack(aimTarget.position, Input.GetMouseButtonDown(0) ? WeaponFireType.SINGLE : WeaponFireType.RAPID);
         }
 
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f || Input.GetKeyUp(KeyCode.C))
         {
             weaponController.NextWeapon();
         }
