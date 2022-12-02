@@ -49,6 +49,7 @@ MonoBehaviour:
   Name: Rifle
   WeaponType: 1
   FireType: 1
+  Player: {fileID: 0}
   Projectile: {fileID: 7061896880637717249, guid: bed1e15994af89a4b83e5dd9bf64ec05, type: 3}
   FireSound: {fileID: 8300000, guid: 1e34685f11949724babac37ec931387a, type: 3}
   Collectable: {fileID: 7274299059721956844, guid: a3eb7e6420e2b5d4ba4e69b05654636d, type: 3}
@@ -56,10 +57,11 @@ MonoBehaviour:
   FireRate: 0.1
   Ammo: Infinity
   Damage: 5
-  InitialSpeed: 0
-  MaxSpeed: 100
-  Acceleration: 15
-  MaxDuration: 10
+  InitialSpeed: 300
+  MaxSpeed: 300
+  Acceleration: 0
+  MaxDuration: 3
+  IsHitScan: 1
   LastShootTime: 0
   RemoveGunOnZeroAmmo: 0
   particleSystem: {fileID: 0}

@@ -4998,6 +4998,7 @@ GameObject:
   - component: {fileID: 6999414407159909089}
   - component: {fileID: 4279047252524368853}
   - component: {fileID: 8465372154329550661}
+  - component: {fileID: 1365589593914276131}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -5177,6 +5178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c936d52d464f00f4e987fdfeb416fb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UnderAttackDuration: 3
 --- !u!114 &6999414407159909089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5216,6 +5218,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ragdollPrefab: {fileID: 705608761467800769, guid: d9cc3b527069edc479b3acfbfe8ec7c8, type: 3}
+--- !u!114 &1365589593914276131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6895103660279054881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54556891c8b3c7d4f8e3441e093c288a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smoothingTimeFactor: 0.5
 --- !u!1 &7387957659503381744
 GameObject:
   m_ObjectHideFlags: 0

@@ -50,7 +50,7 @@ public class Shockwave : MonoBehaviour
 
             //Trigger hit animation based on type of weapon/projectile
             c.gameObject.GetComponent<Animator>().SetTrigger("takeDamage");
-            c.gameObject.GetComponent<CharacterAttributes>().Attacked(pickup);
+            c.gameObject.GetComponent<CharacterAttributes>().Attacked(this.gameObject);
             // GameObject.Instantiate(DamageFX, gameObject.transform.position, gameObject.transform.rotation);
         }
 

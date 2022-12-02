@@ -106,7 +106,7 @@ public class CharacterController : MonoBehaviour
 
     private void Update()
     {
-        
+
         if (cinput.enabled)
         {
             _inputForward = cinput.Forward;
@@ -130,7 +130,7 @@ public class CharacterController : MonoBehaviour
 
         if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0))
         {
-            weaponController.Attack(aimTarget, Input.GetMouseButtonDown(0) ? WeaponFireType.SINGLE : WeaponFireType.RAPID);
+            weaponController.Attack(aimTarget.position, Input.GetMouseButtonDown(0) ? WeaponFireType.SINGLE : WeaponFireType.RAPID);
         }
 
         if (Input.GetAxis("Mouse ScrollWheel") > 0f)

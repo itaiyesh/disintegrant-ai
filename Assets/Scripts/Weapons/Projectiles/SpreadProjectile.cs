@@ -26,6 +26,7 @@ public class SpreadProjectile : Projectile
                 maxSpeed: InitialSpeed,
                 acceleration: Acceleration,
                 maxDuration: MaxDuration,
+                isHitScan: IsHitScan,
                 player: Player
             );
         }

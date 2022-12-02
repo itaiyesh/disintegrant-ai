@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 public class StateParams {
     public NavMeshAgent Agent;
     public WeaponController WeaponController;
     public CharacterAttributeItems Attributes;
-    public GameObject Target;
+    public GameObject NearestPlayer;
 	public GameObject Health;
 	public GameObject Weapon;
     public Vector3 Waypoint; 
@@ -20,4 +21,7 @@ public class StateParams {
 	public bool IsMediumHealth;
     
 	public bool IsGoodAmmo;
+
+    public Vector3 PlayersCenterOfMass;
+    public List<GameObject> LoadedWeapons;
 }

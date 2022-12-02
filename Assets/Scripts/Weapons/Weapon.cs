@@ -43,6 +43,7 @@ public class Weapon : MonoBehaviour
     public float MaxSpeed = 50f;
     public float Acceleration = 3f;
     public float MaxDuration = 10f; //seconds
+    public bool IsHitScan = true; 
 
     public float LastShootTime;
     public bool RemoveGunOnZeroAmmo = false;
@@ -52,7 +53,7 @@ public class Weapon : MonoBehaviour
         LastShootTime = Time.time;
     }
 
-    public virtual void Attack(Transform target)
+    public virtual void Attack(Vector3 target)
     {
 
         LastShootTime = Time.time;
@@ -61,7 +62,7 @@ public class Weapon : MonoBehaviour
         Transform bulletSpawnPosition = transform.Find($"BulletSpawnPosition").transform;
 
         // Calculate aim direction
-        Vector3 aimDirection = (target.position - bulletSpawnPosition.position).normalized;
+        Vector3 aimDirection = (target - bulletSpawnPosition.position).normalized;
         //aimDirection.y = 0; // Constraining to horizontal aiming only
 
         Ammo -= 1;
@@ -87,6 +88,7 @@ public class Weapon : MonoBehaviour
             maxSpeed: MaxSpeed,
             acceleration: Acceleration,
             maxDuration: MaxDuration,
+            isHitScan: IsHitScan,
             player: Player
         );
     }
