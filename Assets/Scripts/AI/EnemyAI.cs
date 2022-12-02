@@ -14,9 +14,9 @@ public class EnemyAI : MonoBehaviour
     private Animator animator;
 
     //State Machine variables:
-    public float PlayerDist = 15.0f; // value to determine if player is close to agent
-    public float goodHealth = 0.66f; // threshold between medium and good agent health
-    public float mediumHealth = 0.33f; // threshold between bad and medium agent health
+    private float PlayerDist = 20.0f; // value to determine if player is close to agent
+    private int goodHealth = 90; // threshold between medium and good agent health
+    private int mediumHealth = 50; // threshold between bad and medium agent health
     public float chaseAttackRatio = 0.6f;
     private StateParams stateParams;
     public GameObject _target;
@@ -92,6 +92,7 @@ public class EnemyAI : MonoBehaviour
 
         int minIndex = -1;
         float minDistance = Mathf.Infinity;
+        Vector3 playersCenterOfMass = Vector3.zero;
         for (int i = 0; i < players.Length; i++)
         {
             if (players[i] == gameObject) { continue; }
@@ -101,15 +102,17 @@ public class EnemyAI : MonoBehaviour
                 minDistance = distance;
                 minIndex = i;
             }
+
+            playersCenterOfMass += players[i].transform.position;
         }
+        if (players.Length > 0) { playersCenterOfMass /= players.Length; } //TODO:Else?
 
         //find closest health pack to pick up
-	    GameObject[] health = GameObject.FindGameObjectsWithTag("HealthCollectable");
+        GameObject[] health = GameObject.FindGameObjectsWithTag("HealthCollectable");
         int minIndexHealth = -1;
         float minDistanceHealth = Mathf.Infinity;
         for (int i = 0; i < health.Length; i++)
         {
-            if (health[i] == gameObject) { continue; }
             float distance = Vector3.Distance(health[i].transform.position, transform.position);
             if (distance < minDistanceHealth)
             {
@@ -117,30 +120,36 @@ public class EnemyAI : MonoBehaviour
                 minIndexHealth = i;
             }
         }
-        
-	    //find closest weapon pack to pick up
-	    GameObject[] weapon = GameObject.FindGameObjectsWithTag("WeaponCollectable");
-	    int minIndexWeapon = -1;
-	    float minDistanceWeapon = Mathf.Infinity;
-	    for (int i = 0; i < weapon.Length; i++)
-	    {
-		    if (weapon[i] == gameObject) { continue; }
-		    float distance = Vector3.Distance(weapon[i].transform.position, transform.position);
-		    if (distance < minDistanceWeapon)
-		    {
-			    minDistanceWeapon = distance;
-			    minIndexWeapon = i;
-		    }
-	    }
 
-        stateParams.Target = minIndex > -1 ? players[minIndex] : null;
-	    stateParams.Health = minIndexHealth > -1 ? health[minIndexHealth] : null;
-	    stateParams.Weapon = minIndexWeapon > -1 ? weapon[minIndexWeapon] : null;
-        stateParams.IsTargetClose = stateParams.Target != null && IsTargetClose(stateParams.Target.transform.position, agent.transform.position);
-        stateParams.IsTargetinRange = stateParams.Target != null && IsTargetinRange(stateParams.Target.transform.position, agent.transform.position);
+        //find closest weapon pack to pick up
+        List<GameObject> equippedWeapons = stateParams.Attributes.equippedWeapons != null ? stateParams.Attributes.equippedWeapons : new List<GameObject>();
+        List<GameObject> loadedWeapons = equippedWeapons.FindAll(weapon => weapon.GetComponent<Weapon>().Ammo > 0);
+        HashSet<WeaponType> loadedWeaponTypes = new HashSet<WeaponType>(loadedWeapons.Select(weapon => weapon.GetComponent<Weapon>().WeaponType));
+
+        GameObject[] weapon = GameObject.FindGameObjectsWithTag("WeaponCollectable");
+        int minIndexWeapon = -1;
+        float minDistanceWeapon = Mathf.Infinity;
+        for (int i = 0; i < weapon.Length; i++)
+        {
+            if (loadedWeaponTypes.Contains(weapon[i].GetComponentInChildren<Weapon>().WeaponType)) { continue; }
+            float distance = Vector3.Distance(weapon[i].transform.position, transform.position);
+            if (distance < minDistanceWeapon)
+            {
+                minDistanceWeapon = distance;
+                minIndexWeapon = i;
+            }
+        }
+
+        stateParams.NearestPlayer = minIndex > -1 ? players[minIndex] : null;
+        stateParams.Health = minIndexHealth > -1 ? health[minIndexHealth] : null;
+        stateParams.Weapon = minIndexWeapon > -1 ? weapon[minIndexWeapon] : null;
+        stateParams.IsTargetClose = stateParams.NearestPlayer != null && IsTargetClose(stateParams.NearestPlayer.transform.position, agent.transform.position);
+        stateParams.IsTargetinRange = stateParams.NearestPlayer != null && IsTargetinRange(stateParams.NearestPlayer.transform.position, agent.transform.position);
         stateParams.IsArmed = IsArmed(stateParams.Attributes);
         stateParams.IsGoodHealth = stateParams.Attributes.Health > goodHealth;
         stateParams.IsMediumHealth = stateParams.Attributes.Health > mediumHealth;
+        stateParams.PlayersCenterOfMass = playersCenterOfMass;
+        stateParams.LoadedWeapons = loadedWeapons;
         //stateParams.InHearingDistance = InHearingDistance(stateParams.Target.transform.position, agent.transform.position);
 
         //Execute current state

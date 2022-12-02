@@ -78,13 +78,14 @@ MonoBehaviour:
   Name: Shotgun
   WeaponType: 2
   FireType: 0
+  Player: {fileID: 0}
   Projectile: {fileID: 742195543451709728, guid: f7f154528e46dca48a93576913a867e9, type: 3}
   FireSound: {fileID: 8300000, guid: 7bd4708fd9bbd40f1a36ed98f40d9aa4, type: 3}
   Collectable: {fileID: 3790430343819360389, guid: 2195d7c928b57134ab34d0e763cc3d7e, type: 3}
   AnimationTag: shotgun
   FireRate: 1
   Ammo: 10
-  Damage: 50
+  Damage: 10
   InitialSpeed: 100
   MaxSpeed: 100
   Acceleration: 0

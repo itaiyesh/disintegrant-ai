@@ -124,5 +124,6 @@ MonoBehaviour:
   MaxSpeed: 50
   Acceleration: 3
   MaxDuration: 10
+  IsHitScan: 0
   LastShootTime: 0
-  RemoveGunOnZeroAmmo: 0
+  RemoveGunOnZeroAmmo: 1

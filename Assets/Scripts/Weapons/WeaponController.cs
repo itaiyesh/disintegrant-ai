@@ -112,7 +112,7 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-	public void Attack(Transform target, WeaponFireType fireType)
+	public void Attack(Vector3 target, WeaponFireType fireType)
     {
 	    GameObject equippedWeaponObject = characterAttributes.equippedWeapons[characterAttributes.activeWeaponIndex];
 	    Weapon equippedWeapon = equippedWeaponObject.GetComponent<Weapon>();
