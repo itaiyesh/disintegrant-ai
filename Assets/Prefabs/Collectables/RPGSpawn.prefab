@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40c83009627baab409863f8774a43b45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponCollectable: {fileID: 7357103534998013877, guid: afaf482df57c6784fb53820979e4678b, type: 3}
+  WeaponCollectable: {fileID: 7357103534998013877, guid: 4a1cd40861a0c3d448b9a8df74459ecb, type: 3}
   CountdownText: {fileID: 3277411908842702264}
   SpawnPending: {fileID: 2051984711007805837}
   Frequency: 40

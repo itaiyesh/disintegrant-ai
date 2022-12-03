@@ -23,7 +23,6 @@ public class AnimationEventController : MonoBehaviour
         //Only player may cause a camera shake
         if (playerFollowVirtualCamera)
         {
-            p = "2., 1.5, 0.1";
             string[] args = p.Split(',');
             float amplitude = float.Parse(args[0], CultureInfo.InvariantCulture.NumberFormat);
             float frequency = float.Parse(args[1], CultureInfo.InvariantCulture.NumberFormat);
