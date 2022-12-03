@@ -30562,7 +30562,7 @@ MonoBehaviour:
   Door3: {fileID: 822274909}
   LiftDoors: {fileID: 683909606}
   TextElement: {fileID: 1716791093}
-  writingDelay: 0.05
+  writingDelay: 0.04
   audioClips:
   - {fileID: 8300000, guid: 2dcf39ebcebfa474c873a2160e2da088, type: 3}
   - {fileID: 8300000, guid: 97df9d95bc56b7446b20b7e29a77f235, type: 3}

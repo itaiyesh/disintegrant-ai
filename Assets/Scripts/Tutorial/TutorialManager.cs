@@ -82,7 +82,7 @@ public class TutorialManager : MonoBehaviour
 
         WeaponsPanel.SetActive(true); // Display weapons panel
         yield return StartCoroutine(Wait(1f));
-        player.GetComponent<WeaponController>().enabled = true; // Enable weapons
+	    player.GetComponent<WeaponController>().enabled = true; // Enable weapons
         EventManager.TriggerEvent<VoiceEvent, AudioClip, Vector3>(audioClips[6], player.transform.position); // Play audio
         yield return StartCoroutine(WriteText("On your right you can view your equipped weapons."));
         yield return StartCoroutine(Wait(1.5f));
@@ -140,6 +140,8 @@ public class TutorialManager : MonoBehaviour
     IEnumerator Room3()
     {
         CrossHairPanel.SetActive(true);
+
+        player.GetComponent<CharacterAttributes>().characterAttributes.equippedWeapons[0].GetComponent<Weapon>().Ammo = 1.0f / 0.0f;
 
         EventManager.TriggerEvent<VoiceEvent, AudioClip, Vector3>(audioClips[16], player.transform.position); // Play audio
         yield return StartCoroutine(WriteText("To shoot your weapon, click the left mouse button. You can hold the left mouse for rapid fire weapons such as the machine gun."));
