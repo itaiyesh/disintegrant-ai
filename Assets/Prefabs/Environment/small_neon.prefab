@@ -136,6 +136,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Light_Small_04
       objectReference: {fileID: 0}
+    - target: {fileID: 1857477283633704, guid: c78f2f1e4d68b264b8b6dd5529269193, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 4487485550611312, guid: c78f2f1e4d68b264b8b6dd5529269193, type: 3}
       propertyPath: m_RootOrder
       value: 0
