@@ -161,10 +161,10 @@ public class TutorialManager : MonoBehaviour
     IEnumerator Room4()
     {
         EventManager.TriggerEvent<VoiceEvent, AudioClip, Vector3>(audioClips[20], player.transform.position); // Play audio
-        yield return StartCoroutine(WriteText("Congratulations! You have completed the basic training regimine! Now go eliminate all the agents of the Orient Empire!"));
+        yield return StartCoroutine(WriteText("Congratulations! You have completed the basic training regimine!"));
         yield return StartCoroutine(Wait(2f));
         EventManager.TriggerEvent<VoiceEvent, AudioClip, Vector3>(audioClips[21], player.transform.position); // Play audio
-        yield return StartCoroutine(WriteText("For glory! For survival! Go through the portal and make our people proud!"));
+        yield return StartCoroutine(WriteText("Rapture - your intrusion into the soldier has been recognized. The Crew turned on itself not knowing where you are. Use it to make your escape. Good luck!"));
         LiftDoors.SetActive(false);
         yield return StartCoroutine(Wait(1.0f));
     }
