@@ -21,7 +21,45 @@ public class GameManager : MonoBehaviour
 
     public List<Vector3> PlayerSpawnPositions = new List<Vector3>();
     private UnityAction<GameObject, Dictionary<string, object>, Dictionary<string, object>> characterAttributeEventListener;
+    private AudioSource currentBackgroundSrc;
+    public AudioSource InitialAudioSrc;
+    public float defaultVolume = 0.1f;
+    public float transitionTime = 1.5f;
+    public void SwitchBackgroundMusic(AudioSource src)
+    {
+        if (src == currentBackgroundSrc)
+        {
+            return;
+        }
+        StartCoroutine(FadeInOut(currentBackgroundSrc, src, defaultVolume, transitionTime));
+    }
 
+    private IEnumerator FadeInOut(AudioSource src1, AudioSource src2, float defaultVolume, float transitionTime)
+    {
+        Coroutine fadeIn = StartCoroutine(Fade(src1, defaultVolume, 0, transitionTime));
+        Coroutine fadeOut = StartCoroutine(Fade(src2, 0, defaultVolume, transitionTime));
+
+        //wait until all of them are over
+        yield return fadeIn;
+        yield return fadeOut;
+
+        if (src1 != null) { src1.Stop(); }
+        currentBackgroundSrc = src2;
+    }
+    private IEnumerator Fade(AudioSource src, float volume1, float volume2, float transitionTime)
+    {
+        if (src != null)
+        {
+            if (!src.isPlaying) src.Play();
+            float percentage = 0;
+            while (Mathf.Abs(src.volume - volume2) > 0.01)
+            {
+                src.volume = Mathf.Lerp(volume1, volume2, percentage);
+                percentage += Time.deltaTime / transitionTime;
+                yield return null;
+            }
+        }
+    }
     void Awake()
     {
         //If no specified spawn positions, generate random positions on map;
@@ -63,6 +101,11 @@ public class GameManager : MonoBehaviour
         //Sets the cursor to the Crosshair sprite with given offset 
         //and automatic switching to hardware default if necessary
         Cursor.SetCursor(crosshair, cursorOffset, CursorMode.Auto);
+
+        if (InitialAudioSrc != null)
+        {
+            SwitchBackgroundMusic(InitialAudioSrc);
+        }
     }
 
     // Start is called before the first frame update
