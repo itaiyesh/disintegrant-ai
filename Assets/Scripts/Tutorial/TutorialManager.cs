@@ -164,7 +164,7 @@ public class TutorialManager : MonoBehaviour
         yield return StartCoroutine(WriteText("Congratulations! You have completed the basic training regimine!"));
         yield return StartCoroutine(Wait(2f));
         EventManager.TriggerEvent<VoiceEvent, AudioClip, Vector3>(audioClips[21], player.transform.position); // Play audio
-        yield return StartCoroutine(WriteText("Rapture - your intrusion into the soldier has been recognized. The Crew turned on itself not knowing where you are. Use it to make your escape. Good luck!"));
+        yield return StartCoroutine(WriteText("Rapture - your intrusion into the soldier has been recognized. The Fleet's crew turned on itself not knowing where you are. Use it to make your escape. Good luck!"));
         LiftDoors.SetActive(false);
         yield return StartCoroutine(Wait(1.0f));
     }
