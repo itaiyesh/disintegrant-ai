@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    void Die(GameObject player)
+    public void Die(GameObject player)
     {
         player.SetActive(false);
         player.GetComponent<CharacterAttributes>().characterAttributes.IsAlive = false;
