@@ -722,6 +722,10 @@ PrefabInstance:
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6896395018603564640, guid: 11c0aefbfb929f544aec83ad7dd23e45, type: 3}
+      propertyPath: characterAttributes.VoicePack
+      value: 
+      objectReference: {fileID: 11400000, guid: 3146e81b9d737e548958e2ee5efd2309, type: 2}
     - target: {fileID: 6896395018603564652, guid: 11c0aefbfb929f544aec83ad7dd23e45, type: 3}
       propertyPath: m_IsKinematic
       value: 1
@@ -1204,9 +1208,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 395679161}
-  PlayerDist: 15
-  goodHealth: 0.66
-  mediumHealth: 0.33
   chaseAttackRatio: 0.6
   _target: {fileID: 8673076020498503599}
 --- !u!114 &8002548992265862008
@@ -1235,5 +1236,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShakeCamera: {fileID: 0}
-  amplitude: 1
-  frequency: 1

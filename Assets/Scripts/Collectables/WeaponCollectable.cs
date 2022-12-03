@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponCollectable : MonoBehaviour
+public class WeaponCollectable : BaseCollectable
 {
     bool isTriggered = false;
 
     Weapon weapon;
 
-    public bool TryCollect(Collider c)
+    public override bool TryCollect(Collider c)
     {
         if (c.gameObject.GetComponent<CharacterAttributes>() != null && !isTriggered)
         {

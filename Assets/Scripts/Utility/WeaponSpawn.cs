@@ -55,7 +55,7 @@ public class WeaponSpawn : MonoBehaviour
     }
     public void OnTriggerEnter(Collider c)
     {
-        if (spawnedCollectable != null && spawnedCollectable.GetComponent<WeaponCollectable>().TryCollect(c))
+        if (spawnedCollectable != null && spawnedCollectable.GetComponent<BaseCollectable>().TryCollect(c))
         {
             pickupTime = Time.fixedTime;
             spawnedCollectable = null;
