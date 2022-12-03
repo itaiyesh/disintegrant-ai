@@ -10,7 +10,7 @@ public class Iam_InTheWay : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("GAME OBJECT: " + gameObject.name);
+        // Debug.Log("GAME OBJECT: " + gameObject.name);
     }
 
     // Start is called before the first frame update
