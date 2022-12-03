@@ -46,7 +46,7 @@ public class CharacterController : MonoBehaviour
 
     public float animationSpeed = 1f;
     public float rootMovementSpeed = 1f;
-    public float rootTurnSpeed = 1f;
+    public float rootTurnSpeed = 1.175f;
 
     private int groundContactCount = 0;
 
