@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class BackgroundMusicTrigger : MonoBehaviour
 {
-    // public GameObject SrcObject;
-    public AudioSource src;
+    public int src;
     private GameManager GameManager;
 
     void Start()

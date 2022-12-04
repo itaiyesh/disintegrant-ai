@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using Events;
 using UnityEngine.Events;
-
 public class GameManager : MonoBehaviour
 {
     //TODO: Make singleton
@@ -14,58 +13,71 @@ public class GameManager : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject gameOverMenu;
     public GameObject gameWonMenu;
-
     public List<GameObject> botPrefabs;
     public int numBots = 10;
     public Dictionary<int, GameObject> bots = new Dictionary<int, GameObject>();
 
     public List<Vector3> PlayerSpawnPositions = new List<Vector3>();
     private UnityAction<GameObject, Dictionary<string, object>, Dictionary<string, object>> characterAttributeEventListener;
-    private AudioSource currentBackgroundSrc;
-    public AudioSource InitialAudioSrc;
     public float defaultVolume = 0.1f;
     public float transitionTime = 1.5f;
+    private Coroutine fadeCoroutine;
+    public AudioSource[] RoomMusic;
 
     [Range(0.0f, 1.0f)]
     public float AIAgressiveness = 0.7f; //0 means AI will only seek each other. 1 means AI will only seek Player
 
     [Range(0.0f, 3.0f)]
     public float AIAimSpread = 0.5f; // 0 means 100% hit rate.
-    public void SwitchBackgroundMusic(AudioSource src)
-    {
-        if (src == currentBackgroundSrc)
-        {
-            return;
-        }
-        StartCoroutine(FadeInOut(currentBackgroundSrc, src, defaultVolume, transitionTime));
-    }
 
-    private IEnumerator FadeInOut(AudioSource src1, AudioSource src2, float defaultVolume, float transitionTime)
+    public void SwitchBackgroundMusic(int srcIndex)
     {
-        Coroutine fadeIn = StartCoroutine(Fade(src1, defaultVolume, 0, transitionTime));
-        Coroutine fadeOut = StartCoroutine(Fade(src2, 0, defaultVolume, transitionTime));
+        if (fadeCoroutine != null)
+        {
+            StopCoroutine(fadeCoroutine);
+        }
+        fadeCoroutine = StartCoroutine(FadeIn(srcIndex, defaultVolume, transitionTime));
+    }
+    private IEnumerator FadeIn(int src, float defaultVolume, float transitionTime)
+    {
+        List<int> fadeIns = new List<int>();
+        fadeIns.Add(src);
+        List<int> fadeOuts = new List<int>();
+        for (int i = 0; i < RoomMusic.Length; i++)
+        {
+            if (i != src) fadeOuts.Add(i);
+        }
+        Coroutine fadeIn = StartCoroutine(FadeAll(fadeOuts, defaultVolume, 0, transitionTime));
+        Coroutine fadeOut = StartCoroutine(FadeAll(fadeIns, 0, defaultVolume, transitionTime));
 
         //wait until all of them are over
         yield return fadeIn;
         yield return fadeOut;
-
-        if (src1 != null) { src1.Stop(); }
-        currentBackgroundSrc = src2;
     }
-    private IEnumerator Fade(AudioSource src, float volume1, float volume2, float transitionTime)
+
+    private IEnumerator FadeAll(List<int> srcs, float volume1, float volume2, float transitionTime)
     {
-        if (src != null)
+
+        float percentage = 0;
+        bool dirty = true;
+        while (dirty)
         {
-            if (!src.isPlaying) src.Play();
-            float percentage = 0;
-            while (Mathf.Abs(src.volume - volume2) > 0.01)
+            dirty = false;
+
+            foreach (int srcIndex in srcs)
             {
-                src.volume = Mathf.Lerp(volume1, volume2, percentage);
-                percentage += Time.deltaTime / transitionTime;
-                yield return null;
+                AudioSource src = RoomMusic[srcIndex];
+                if (Mathf.Abs(src.volume - volume2) > 0.01)
+                {
+                    dirty = true;
+                    src.volume = Mathf.Lerp(volume1, volume2, percentage);
+                }
             }
+            percentage += Time.deltaTime / transitionTime;
+            yield return null;
         }
     }
+    
     void Awake()
     {
         //If no specified spawn positions, generate random positions on map;
@@ -108,10 +120,20 @@ public class GameManager : MonoBehaviour
         //and automatic switching to hardware default if necessary
         Cursor.SetCursor(crosshair, cursorOffset, CursorMode.Auto);
 
-        if (InitialAudioSrc != null)
+        foreach (AudioSource src in RoomMusic)
         {
-            SwitchBackgroundMusic(InitialAudioSrc);
+            src.Play();
+            src.volume = 0;
+            // src.Pause();
         }
+        RoomMusic[0].volume = defaultVolume;
+        // RoomMusic[0].Play();
+        // if (InitialAudioSrc != null)
+        // {
+        //     SwitchBackgroundMusic(InitialAudioSrc);
+        // }
+
+
     }
 
     // Start is called before the first frame update
