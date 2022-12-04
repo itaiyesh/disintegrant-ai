@@ -14,6 +14,7 @@ TagManager:
   - ExplodableCrate
   - HUDWeaponContainer
   - HUDWeaponCrosshair
+  - Minimap
   layers:
   - Default
   - TransparentFX
@@ -24,8 +25,8 @@ TagManager:
   - Weapon
   - Projectile
   - Character Un-interactable
-  - 
-  - 
+  - Minimap
+  - Floor
   - 
   - 
   - 
