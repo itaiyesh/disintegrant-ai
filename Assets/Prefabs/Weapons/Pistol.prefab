@@ -55,7 +55,7 @@ MonoBehaviour:
   AnimationTag: pistol
   FireRate: 0.2
   Ammo: Infinity
-  Damage: 8
+  Damage: 6
   InitialSpeed: 300
   MaxSpeed: 300
   Acceleration: 0

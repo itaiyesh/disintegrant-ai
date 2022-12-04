@@ -55,8 +55,8 @@ MonoBehaviour:
   Collectable: {fileID: 7274299059721956844, guid: a3eb7e6420e2b5d4ba4e69b05654636d, type: 3}
   AnimationTag: rifle
   FireRate: 0.1
-  Ammo: Infinity
-  Damage: 5
+  Ammo: 200
+  Damage: 4
   InitialSpeed: 300
   MaxSpeed: 300
   Acceleration: 0
