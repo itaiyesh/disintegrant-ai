@@ -25,7 +25,6 @@ public class Shockwave : MonoBehaviour
         _collider.radius += Time.deltaTime * speed;
         if (_collider.radius >= MaxScale)
         {
-            Debug.Log("BYE");
             Destroy(gameObject);
         }
         // // transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one * MaxScale, speed * Time.deltaTime);
@@ -38,6 +37,18 @@ public class Shockwave : MonoBehaviour
     }
     public virtual void OnTriggerEnter(Collider c)
     {
+        List<Rigidbody> rbodies = new List<Rigidbody>(c.gameObject.GetComponentsInChildren<Rigidbody>());
+        if (c.gameObject.GetComponent<Rigidbody>() != null)
+        {
+            rbodies.Add(c.gameObject.GetComponent<Rigidbody>());
+        }
+
+        foreach (Rigidbody rbody in rbodies)
+        {
+            rbody.AddExplosionForce(200, transform.position, MaxScale, 0, ForceMode.Impulse);
+        }
+
+
         if (c.gameObject.GetComponent<CharacterAttributes>() != null)
         {
             float distance = Vector3.Distance(transform.position, c.transform.position);
