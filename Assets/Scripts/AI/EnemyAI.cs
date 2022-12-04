@@ -17,7 +17,7 @@ public class EnemyAI : MonoBehaviour
     private float PlayerDist = 20.0f; // value to determine if player is close to agent
     private int goodHealth = 90; // threshold between medium and good agent health
     private int mediumHealth = 50; // threshold between bad and medium agent health
-    private float chaseAttackRatio = 0.5f;
+    public float chaseAttackRatio = 0.5f;
     private StateParams stateParams;
     public GameObject _target;
     //private UnityAction<AudioClip, Vector3> weaponFiredEventListener; 
@@ -76,7 +76,8 @@ public class EnemyAI : MonoBehaviour
         stateParams.Agent = agent;
         stateParams.Attributes = GetComponent<CharacterAttributes>().characterAttributes;
         stateParams.WeaponController = GetComponent<WeaponController>();
-        // stateParams.Voices = GetComponent<Voices>();
+        stateParams.AIAgressiveness = FindObjectOfType<GameManager>().AIAgressiveness;
+        stateParams.AIAimSpread = FindObjectOfType<GameManager>().AIAimSpread;
 
         fsm.Agent = agent;
         fsm.VoicePack = stateParams.Attributes.VoicePack;
@@ -100,7 +101,8 @@ public class EnemyAI : MonoBehaviour
         for (int i = 0; i < players.Length; i++)
         {
             if (players[i] == gameObject) { continue; }
-            float distance = Vector3.Distance(players[i].transform.position, transform.position);
+            float w = i == 0 ? (1 - stateParams.AIAgressiveness) : stateParams.AIAgressiveness;
+            float distance = w * Vector3.Distance(players[i].transform.position, transform.position);
             if (distance < minDistance)
             {
                 minDistance = distance;
@@ -110,7 +112,6 @@ public class EnemyAI : MonoBehaviour
             playersCenterOfMass += players[i].transform.position;
         }
         if (players.Length > 0) { playersCenterOfMass /= players.Length; } //TODO:Else?
-
         //find closest health pack to pick up
         GameObject[] health = GameObject.FindGameObjectsWithTag("HealthCollectable");
         int minIndexHealth = -1;

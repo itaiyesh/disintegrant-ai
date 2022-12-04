@@ -15,9 +15,11 @@ MonoBehaviour:
   chase:
   - {fileID: 8300000, guid: 7599927eb0fba9049a76df28498503ce, type: 3}
   - {fileID: 8300000, guid: b3739912fb7c48c4d9e836ec8b022205, type: 3}
+  - {fileID: 8300000, guid: 17e0cdd262634e34fab112d131a48119, type: 3}
   heal:
   - {fileID: 8300000, guid: a92eaf4c2257cd547a89caa380801cb9, type: 3}
-  combat: []
+  combat:
+  - {fileID: 8300000, guid: fcb496ff99b0c9844a30abaf3b1d2904, type: 3}
   collectWeapon:
   - {fileID: 8300000, guid: 9a4f67543e127a94792a97e4125a78f9, type: 3}
   death:

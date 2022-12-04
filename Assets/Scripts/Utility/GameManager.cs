@@ -25,6 +25,12 @@ public class GameManager : MonoBehaviour
     public AudioSource InitialAudioSrc;
     public float defaultVolume = 0.1f;
     public float transitionTime = 1.5f;
+
+    [Range(0.0f, 1.0f)]
+    public float AIAgressiveness = 0.7f; //0 means AI will only seek each other. 1 means AI will only seek Player
+
+    [Range(0.0f, 3.0f)]
+    public float AIAimSpread = 0.5f; // 0 means 100% hit rate.
     public void SwitchBackgroundMusic(AudioSource src)
     {
         if (src == currentBackgroundSrc)
