@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace Events
 {
-    public class CountDownEvent : UnityEvent<int>
+    public class AnnouncementEvent : UnityEvent<AudioEventManager.Announcement>
     {
         
     }
