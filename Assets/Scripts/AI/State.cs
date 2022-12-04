@@ -19,7 +19,8 @@ class Utils
         // Debug.DrawRay(stateParams.Agent.transform.position, stateParams.Agent.transform.TransformDirection(Vector3.forward) * hitInfo.distance, Color.red);
         if (hitInfo.transform != null && (hitInfo.transform.CompareTag("Player") || hitInfo.transform.CompareTag("AI")))
         {
-            stateParams.WeaponController.Attack(stateParams.NearestPlayer.transform.position, equippedWeapon.GetComponent<Weapon>().FireType);
+            Vector3 noise = Random.insideUnitSphere * stateParams.AIAimSpread;
+            stateParams.WeaponController.Attack(stateParams.NearestPlayer.transform.position + noise, equippedWeapon.GetComponent<Weapon>().FireType);
 
         }
     }

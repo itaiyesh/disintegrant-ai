@@ -22,6 +22,4 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 90985c89b4132c549b34cd283b94d43d, type: 3}
   collectWeapon:
   - {fileID: 8300000, guid: 99a7ace4c8ef83144b7c65b155ceae82, type: 3}
-  death:
-  - {fileID: 8300000, guid: a1a3203eb0fd47b4c8d3691b4bcba8b2, type: 3}
-  - {fileID: 8300000, guid: 140727a0f88d45a47868f6a3d3d401bc, type: 3}
+  death: []
