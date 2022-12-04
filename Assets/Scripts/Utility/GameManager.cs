@@ -164,7 +164,27 @@ public class GameManager : MonoBehaviour
             {
                 bots.Remove(playerID);
                 int totalPlayers = bots.Count + 1;
-                EventManager.TriggerEvent<CountDownEvent, int>(totalPlayers);
+                switch (totalPlayers)
+                {
+                    case 10:
+                        EventManager.TriggerEvent<AnnouncementEvent, AudioEventManager.Announcement>(AudioEventManager.Announcement.COUNTDOWN_10);
+                        break;
+                    case 5:
+                        EventManager.TriggerEvent<AnnouncementEvent, AudioEventManager.Announcement>(AudioEventManager.Announcement.COUNTDOWN_5);
+                        break;
+                    case 4:
+                        EventManager.TriggerEvent<AnnouncementEvent, AudioEventManager.Announcement>(AudioEventManager.Announcement.COUNTDOWN_4);
+                        break;
+                    case 3:
+                        EventManager.TriggerEvent<AnnouncementEvent, AudioEventManager.Announcement>(AudioEventManager.Announcement.COUNTDOWN_3);
+                        break;
+                    case 2:
+                        EventManager.TriggerEvent<AnnouncementEvent, AudioEventManager.Announcement>(AudioEventManager.Announcement.COUNTDOWN_2);
+                        break;
+                    default:
+                        break;
+                }
+
             }
             if (triggeringPlayer.name == "Player") { Switch(GameState.GAMEOVER); }
         }
@@ -210,15 +230,17 @@ public class GameManager : MonoBehaviour
                 Switch(GameState.PLAYING);
                 return; // need to return here or state is set to unpause incorrectly
             case GameState.GAMEOVER:
+                EventManager.TriggerEvent<AnnouncementEvent, AudioEventManager.Announcement>(AudioEventManager.Announcement.YOU_LOSE);
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 Time.timeScale = 0.3f;
                 gameOverMenu.SetActive(true);
                 break;
             case GameState.WIN:
+                EventManager.TriggerEvent<AnnouncementEvent, AudioEventManager.Announcement>(AudioEventManager.Announcement.YOU_WIN);
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-                Time.timeScale = 0f;
+                // Time.timeScale = 0f;
                 gameWonMenu.SetActive(true);
                 SceneManager.LoadScene("Final", LoadSceneMode.Single);
                 break;

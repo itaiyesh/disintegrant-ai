@@ -89,7 +89,7 @@ public sealed class Combat : State
 {
     public static readonly Combat Instance = new Combat();
 
-    public float PositionUpdateFrequency = 2f;
+    public float PositionUpdateFrequency = 1f;
     public float AttackRadius = 5f;
     private float lastUpdateTime = 0f;
     private bool blocked = true;
@@ -138,6 +138,8 @@ public sealed class Chase : State
 
     public override void Execute(FSM fsm, StateParams stateParams)
     {
+        GameObject nearestPlayer = stateParams.NearestPlayer;
+        float targetDistance = Vector3.Distance(nearestPlayer.transform.position, stateParams.Agent.transform.position);
         if (stateParams.IsMediumHealth && stateParams.IsTargetinRange)
         {
             //Target is close enough, stop and switch to attack mode
@@ -148,8 +150,6 @@ public sealed class Chase : State
         {
             //Target is too far
             //Intercept target
-            GameObject nearestPlayer = stateParams.NearestPlayer;
-            float targetDistance = Vector3.Distance(nearestPlayer.transform.position, stateParams.Agent.transform.position);
             float lookAheadTime = Mathf.Clamp(targetDistance / stateParams.Agent.speed, 0, 5);
             VelocityReporter reporter = nearestPlayer.GetComponent<VelocityReporter>();
             Vector3 futureTarget = nearestPlayer.transform.position + lookAheadTime * reporter.velocity;
@@ -163,7 +163,7 @@ public sealed class Chase : State
         }
 
         // Attack while chasing
-        if (stateParams.IsTargetinRange && stateParams.IsUnderAttack)
+        if (stateParams.IsTargetinRange)// && stateParams.IsUnderAttack)
         {
             Utils.Attack(stateParams);
         }

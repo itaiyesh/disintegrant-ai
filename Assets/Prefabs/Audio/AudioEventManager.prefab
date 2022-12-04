@@ -51,13 +51,17 @@ MonoBehaviour:
   menuButtonClickedAudio: {fileID: 8300000, guid: 54793823f76e3a2489a81df960f9f254, type: 3}
   weaponSwapAudio: {fileID: 8300000, guid: 319afa99d68dd924580fb4914e806117, type: 3}
   CountDownAudios:
-  - count: 10
+  - announcement: 0
     audio: {fileID: 8300000, guid: 588c922186a5f0f47b1133f5c8a15767, type: 3}
-  - count: 5
+  - announcement: 1
     audio: {fileID: 8300000, guid: 31dadc032b71d524f94f15c879ec4cf9, type: 3}
-  - count: 4
+  - announcement: 2
     audio: {fileID: 8300000, guid: cd2af115c9c96864d911153574885158, type: 3}
-  - count: 3
+  - announcement: 3
     audio: {fileID: 8300000, guid: 4c9702e7ad89a344eb22d5f5aab33b79, type: 3}
-  - count: 2
+  - announcement: 4
     audio: {fileID: 8300000, guid: 12192e7d87387dc4da5326293af3d847, type: 3}
+  - announcement: 5
+    audio: {fileID: 8300000, guid: 697e08fc0e720d74d921b3a7674a9480, type: 3}
+  - announcement: 6
+    audio: {fileID: 8300000, guid: ea4894dfb05f18f489355c87a9a58d59, type: 3}

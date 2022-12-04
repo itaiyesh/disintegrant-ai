@@ -25,18 +25,28 @@ public class AudioEventManager : MonoBehaviour
     private UnityAction<AudioClip, Vector3> voiceEventListener;
 
     private UnityAction<int, Vector3> footstepEventListener;
-    private UnityAction<int> countDownEventListener;
+    private UnityAction<Announcement> countDownEventListener;
 
     private EventSound3D countDownSound;
 
+    public enum Announcement
+    {
+        COUNTDOWN_10,
+        COUNTDOWN_5,
+        COUNTDOWN_4,
+        COUNTDOWN_3,
+        COUNTDOWN_2,
+        YOU_LOSE,
+        YOU_WIN,
+    }
     [System.Serializable]
     public struct CountDownAudio
     {
-        public int count;
+        public Announcement announcement;
         public AudioClip audio;
     }
     public CountDownAudio[] CountDownAudios;
-    private Dictionary<int, AudioClip> countDownAudioDic = new Dictionary<int, AudioClip>();
+    private Dictionary<Announcement, AudioClip> countDownAudioDic = new Dictionary<Announcement, AudioClip>();
 
     void Awake()
     {
@@ -46,10 +56,10 @@ public class AudioEventManager : MonoBehaviour
         weaponFiredEventListener = new UnityAction<GameObject, GameObject, AudioClip, Vector3>(WeaponFiredEventHandler);
         voiceEventListener = new UnityAction<AudioClip, Vector3>(VoiceEventHandler);
         footstepEventListener = new UnityAction<int, Vector3>(footstepEventHandler);
-        countDownEventListener = new UnityAction<int>(CountDownHandler);
+        countDownEventListener = new UnityAction<Announcement>(CountDownHandler);
         foreach (CountDownAudio item in CountDownAudios)
         {
-            countDownAudioDic[item.count] = item.audio;
+            countDownAudioDic[item.announcement] = item.audio;
         }
     }
 
@@ -69,7 +79,7 @@ public class AudioEventManager : MonoBehaviour
         EventManager.StartListening<WeaponFiredEvent, GameObject, GameObject, AudioClip, Vector3>(weaponFiredEventListener);
         EventManager.StartListening<VoiceEvent, AudioClip, Vector3>(voiceEventListener);
         EventManager.StartListening<FootstepSoundEvent, int, Vector3>(footstepEventListener);
-        EventManager.StartListening<CountDownEvent, int>(countDownEventListener);
+        EventManager.StartListening<AnnouncementEvent, Announcement>(countDownEventListener);
 
     }
 
@@ -82,19 +92,19 @@ public class AudioEventManager : MonoBehaviour
         EventManager.StopListening<WeaponFiredEvent, GameObject, GameObject, AudioClip, Vector3>(weaponFiredEventListener);
         EventManager.StopListening<VoiceEvent, AudioClip, Vector3>(voiceEventListener);
         EventManager.StopListening<FootstepSoundEvent, int, Vector3>(footstepEventListener);
-        EventManager.StopListening<CountDownEvent, int>(countDownEventListener);
+        EventManager.StopListening<AnnouncementEvent, Announcement>(countDownEventListener);
 
     }
 
-    private void CountDownHandler(int count)
+    private void CountDownHandler(Announcement announcement)
     {
-        if (!countDownAudioDic.ContainsKey(count)) return;
+        if (!countDownAudioDic.ContainsKey(announcement)) return;
         if (!countDownSound)
         {
             countDownSound = Instantiate(eventSound3DPrefab);
         }
         countDownSound.audioSrc.Stop();
-        countDownSound.audioSrc.clip = countDownAudioDic[count];
+        countDownSound.audioSrc.clip = countDownAudioDic[announcement];
         countDownSound.audioSrc.loop = false;
         countDownSound.audioSrc.volume = 1.0f;
         countDownSound.audioSrc.Play();
@@ -141,7 +151,7 @@ public class AudioEventManager : MonoBehaviour
             sound.audioSrc.rolloffMode = AudioRolloffMode.Linear;
             sound.audioSrc.volume = 1f;
             sound.audioSrc.minDistance = 0f;
-            sound.audioSrc.maxDistance = 30f;
+            sound.audioSrc.maxDistance = 25f;
             sound.audioSrc.clip = audioClip;
             sound.audioSrc.Play();
         }
