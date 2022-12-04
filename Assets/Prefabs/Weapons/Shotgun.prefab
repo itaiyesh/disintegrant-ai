@@ -85,11 +85,12 @@ MonoBehaviour:
   AnimationTag: shotgun
   FireRate: 1
   Ammo: 10
-  Damage: 10
+  Damage: 2
   InitialSpeed: 100
   MaxSpeed: 100
   Acceleration: 0
   MaxDuration: 1
+  IsHitScan: 1
   LastShootTime: 0
   RemoveGunOnZeroAmmo: 1
 --- !u!1001 &7778956537929419516
