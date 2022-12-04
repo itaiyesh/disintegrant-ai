@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Events;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     //TODO: Make singleton
@@ -219,6 +220,7 @@ public class GameManager : MonoBehaviour
                 Cursor.visible = true;
                 Time.timeScale = 0f;
                 gameWonMenu.SetActive(true);
+                SceneManager.LoadScene("Final", LoadSceneMode.Single);
                 break;
             case GameState.QUIT:
                 QuitGame();
