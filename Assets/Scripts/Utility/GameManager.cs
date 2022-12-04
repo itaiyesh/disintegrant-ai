@@ -241,7 +241,7 @@ public class GameManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 // Time.timeScale = 0f;
-                gameWonMenu.SetActive(true);
+                // gameWonMenu.SetActive(true);
                 SceneManager.LoadScene("Final", LoadSceneMode.Single);
                 break;
             case GameState.QUIT:

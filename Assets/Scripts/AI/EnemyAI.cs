@@ -14,9 +14,9 @@ public class EnemyAI : MonoBehaviour
     private Animator animator;
 
     //State Machine variables:
-    private float PlayerDist = 17.0f; // value to determine if player is close to agent
+    private float PlayerDist = 20.0f; // value to determine if player is close to agent
     private int goodHealth = 90; // threshold between medium and good agent health
-    private int mediumHealth = 35; // threshold between bad and medium agent health
+    private int mediumHealth = 40; // threshold between bad and medium agent health
     public float chaseAttackRatio = 0.4f;
     private StateParams stateParams;
     public GameObject _target;
