@@ -30,6 +30,9 @@ public class GameManager : MonoBehaviour
     [Range(0.0f, 3.0f)]
     public float AIAimSpread = 0.5f; // 0 means 100% hit rate.
 
+    [Range(1f, 300f)]
+    public float Sensitivity = 150f;
+    private CharacterInputController characterInputController;
     public void SwitchBackgroundMusic(int srcIndex)
     {
         if (fadeCoroutine != null)
@@ -80,6 +83,9 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+
+        characterInputController = FindObjectOfType<CharacterInputController>();
+        characterInputController.Sensitivity = Sensitivity;
         //If no specified spawn positions, generate random positions on map;
         if (PlayerSpawnPositions.Count == 0)
         {
@@ -124,16 +130,9 @@ public class GameManager : MonoBehaviour
         {
             src.Play();
             src.volume = 0;
-            // src.Pause();
         }
+
         RoomMusic[0].volume = defaultVolume;
-        // RoomMusic[0].Play();
-        // if (InitialAudioSrc != null)
-        // {
-        //     SwitchBackgroundMusic(InitialAudioSrc);
-        // }
-
-
     }
 
     // Start is called before the first frame update
