@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
     }
-    
+
     void Awake()
     {
         //If no specified spawn positions, generate random positions on map;
