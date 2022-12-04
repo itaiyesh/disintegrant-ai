@@ -179,6 +179,7 @@ MonoBehaviour:
   boom: 1
   Player: {fileID: 0}
   explosionSound: {fileID: 5137027467593633910}
+  shockwave: {fileID: 6923720668655663091, guid: 19a11e1431a295f40b3380023a008736, type: 3}
 --- !u!65 &6536791505054903092
 BoxCollider:
   m_ObjectHideFlags: 0

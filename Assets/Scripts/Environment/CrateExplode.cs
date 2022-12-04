@@ -10,6 +10,7 @@ public class CrateExplode : MonoBehaviour
     public GameObject Player;
     public AudioSource explosionSound;
 
+    public Shockwave shockwave;
 
     // Start is called before the first frame update
     void Start()
@@ -17,29 +18,31 @@ public class CrateExplode : MonoBehaviour
         if (Explosion.isPlaying)
         { Explosion.Stop(); }
         boom = true;
-        
+
     }
 
-    
+
     void OnMouseDown()
     {
         StartCoroutine(PauseGame(0.0f));
+        Instantiate(shockwave, transform.position, Quaternion.identity);
         if (!Explosion.isPlaying)
-            {
-            Explosion.Play(); }
-            Destroy(ExplodableCrate);
-            BoxCollider boxCollider = ExplodableCrate.GetComponent<BoxCollider>();
-            Destroy(boxCollider);
-            explosionSound.Play();
-            boom = false;
-            if (!Explosion.isPlaying)
-            { 
-                Destroy(gameObject);
-                Destroy(explosionSound);
-                Destroy(Explosion);
-            }
-        
-        
+        {
+            Explosion.Play();
+        }
+        Destroy(ExplodableCrate);
+        BoxCollider boxCollider = ExplodableCrate.GetComponent<BoxCollider>();
+        Destroy(boxCollider);
+        explosionSound.Play();
+        boom = false;
+        if (!Explosion.isPlaying)
+        {
+            Destroy(gameObject);
+            Destroy(explosionSound);
+            Destroy(Explosion);
+        }
+
+
     }
 
     public IEnumerator PauseGame(float pauseTime)
