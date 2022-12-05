@@ -5331,6 +5331,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27309b58e40d4a0e986045d669436189, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerColor: {r: 0.4627451, g: 0.9098039, b: 1, a: 1}
+  EnemyColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &7387957659503381744
 GameObject:
   m_ObjectHideFlags: 0
